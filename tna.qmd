@@ -1,0 +1,312 @@
+---
+title: "Training Needs Assessment Results"
+subtitle: 'Fisheries Stock Assessment Capacity Building in Somalia'
+format: html
+---
+
+
+```{r}
+require(tidyverse)
+require(jsonlite)
+require(tidyplots)
+
+```
+
+
+
+
+```{r}
+tna = readxl::read_excel('TA/Training_Needs_Assessment_Questionnaire_Fisheries_Stock_Assessment_Capacity_Building_-_all_versions_-_labels_-_2025-12-06-00-41-31.xlsx') |> 
+    janitor::remove_empty(which = 'rows') 
+
+tna_var = names(tna)
+tna = tna |> janitor::clean_names()
+```
+
+# A. Participant Profile and Background
+
+```{r}
+tna |> webr::PieDonut(aes(pie = gender, donut = age_group), r0 = .6, labelposition = 1)
+```
+
+
+```{r}
+tna |> webr::PieDonut(aes(pie = gender, donut = your_current_ministry_or_institution), r0 = .6, labelposition = 1)
+```
+
+
+
+```{r}
+#| eval: false
+#| 
+tna |> 
+    group_by(what_is_your_highest_academic_qualification) |> 
+    tally() |> 
+    rename(edu = 1) |> 
+    webr::PieDonut(aes(edu, count = n), r0 = .8, explode=0,start=pi/2,labelposition=1)
+```
+
+
+
+```{r}
+tna |> rename(edu = what_is_your_highest_academic_qualification, field = what_is_your_field_of_expert)|> 
+    webr::PieDonut(aes(pie = edu, donut = field), r0 = .5, r1 = .9, labelposition=1)
+```
+
+# B. Current Knowledge and Technical Capacity Assessment: Please rate your knowledge and experience level for the following stock assessment subjects
+
+## *Fundamentals of Fish Stock Assessment*
+
+```{r}
+fundamentals = tna |> 
+    select(understanding_of_basic_stock_assessment_concepts_principles_and_terminology:understanding_indirect_methods_of_data_collection_e_g_commercial_catches) |> 
+    rename(
+        `Basic Stock Assessment Concepts` = 1, 
+        `Importance of stock assessment` = 2, 
+        `Application the stock information` = 3, 
+        `Fisheries Indpendent Approach` = 4, 
+        `Fisheries dependent Approach` = 5,
+    ) |>
+    pivot_longer(cols = 1:5, names_to = 'question', values_to = 'rating') 
+
+my_colors <- c("Expert" = "#009e73",
+               "Good" = "#56b4e9",
+               "Moderate" = "#f5c710",
+               "Basic" = "#888888")
+    
+# fundamentals|> 
+#     ggplot(aes(x = fct_reorder(question, desc(question)), fill = rating)) +
+#     geom_bar(position = 'fill') +
+#     coord_flip() +
+#     labs(x = '', y = 'Proportion', title = 'Fundamentals of Fish Stock Assessment') +
+#     scale_fill_brewer(palette = 'Set3') +
+#     theme_minimal() +
+#     theme(legend.position = 'top')
+
+fundamentals |> 
+    group_by(question, rating) |> 
+    count() |> 
+    ungroup() |> 
+    tidyplot(x = n, y = question, fill = rating) |> 
+    add_barstack_relative() |> 
+    adjust_font(fontsize = 10) |> 
+    adjust_size(width = 5, height = 2.4, unit = 'in') |> 
+    adjust_colors(my_colors) |>
+    reorder_color_labels(names(my_colors)) |>
+    adjust_legend_position(position = 'right') |>
+    adjust_y_axis(labels = scales::label_wrap(40)) |> 
+    adjust_x_axis(labels = scales::percent) |> 
+    remove_legend_title() |> 
+    remove_y_axis_title() |> 
+    remove_x_axis_title() |> 
+    reorder_color_labels(c('Basic', 'Moderate', 'Good', 'Expert') |> rev())
+
+
+
+
+
+fundamentals |> 
+    group_by(question, rating) |> 
+    count() |> 
+    ungroup() |> 
+  tidyplot(y = n, color = rating) |> 
+  add_donut() |> 
+  adjust_colors(my_colors) |>
+#   adjust_font(fontsize = 10) |>
+  reorder_color_labels(names(my_colors)) |> 
+  remove_legend_title() |> 
+#   adjust_size(width = 35, height = 35) |> 
+  split_plot(by = question, ncol = 3) &
+  patchwork::plot_annotation(
+    title = "Fundamentals of Fish Stock Assessment",
+    # caption = "Data source: energy-charts.info",
+    theme = theme(plot.title = element_text(hjust = 0.5, size = 18),
+                  plot.caption = element_text(size = 6))
+    )
+```
+
+
+## Data Collection and Analysis Techniques
+
+
+```{r}
+collection = tna |> 
+    select(implementing_sampling_design_and_biological_sampling_protocols:accessing_and_utilizing_existing_regional_data_sources_and_available_tools) |> 
+    rename(
+        `Data collection & Analysis` = 1, 
+        `Biological Sampling Protocals` = 2, 
+        `Catch and Effort Data` = 3, 
+        `Data Quality Control` = 4
+        
+    ) |>
+    pivot_longer(cols = 1:4, names_to = 'question', values_to = 'rating') 
+
+collection |> 
+    group_by(question, rating) |> 
+    count() |> 
+    ungroup() |> 
+    tidyplot(x = n, y = question, fill = rating) |> 
+    add_barstack_relative() |> 
+    adjust_font(fontsize = 10) |> 
+    adjust_size(width = 5, height = 2.4, unit = 'in') |> 
+    adjust_colors(my_colors) |>
+    reorder_color_labels(names(my_colors)) |>
+    adjust_legend_position(position = 'right') |>
+    adjust_y_axis(labels = scales::label_wrap(40)) |> 
+    adjust_x_axis(labels = scales::percent) |> 
+    remove_legend_title() |> 
+    remove_y_axis_title() |> 
+    remove_x_axis_title() |> 
+    reorder_color_labels(c('Basic', 'Moderate', 'Good', 'Expert') |> rev())
+
+collection |> 
+    group_by(question, rating) |> 
+    count() |> 
+    ungroup() |> 
+  tidyplot(y = n, color = rating) |> 
+  add_donut() |> 
+  adjust_colors(my_colors) |>
+#   adjust_font(fontsize = 10) |>
+  reorder_color_labels(names(my_colors)) |> 
+  remove_legend_title() |> 
+#   adjust_size(width = 35, height = 35) |> 
+  split_plot(by = question, ncol = 2) &
+  patchwork::plot_annotation(
+    title = "Data Collection and Analysis Techniques",
+    # caption = "Data source: energy-charts.info",
+    theme = theme(plot.title = element_text(hjust = 0.5, size = 18),
+                  plot.caption = element_text(size = 6))
+    )
+```
+
+
+## Modeling and Assessment for Data-Poor Contexts
+
+
+```{r}
+modelling = tna |> 
+    select(practical_use_of_analytical_software_e_g_r_spss_excel_based_models_for_fisheries_analysis:integrating_ecosystem_based_fisheries_management_ebfm_considerations_into_assessment_results) |> 
+    rename(
+        `Use of analytical software` = 1, 
+        `Applying stock assessment methods` = 2, 
+        `Using Length-based or empirical models` = 3, 
+        `Integrate Ecosystem-Based Fisheries Management` = 4
+        
+    ) |>
+    pivot_longer(cols = 1:4, names_to = 'question', values_to = 'rating') 
+
+modelling |> 
+    group_by(question, rating) |> 
+    count() |> 
+    ungroup() |> 
+    tidyplot(x = n, y = question, fill = rating) |> 
+    add_barstack_relative() |> 
+    adjust_font(fontsize = 10) |> 
+    adjust_size(width = 5, height = 2.4, unit = 'in') |> 
+    adjust_colors(my_colors) |>
+    reorder_color_labels(names(my_colors)) |>
+    adjust_legend_position(position = 'right') |>
+    adjust_y_axis(labels = scales::label_wrap(30)) |> 
+    adjust_x_axis(labels = scales::percent) |> 
+    remove_legend_title() |> 
+    remove_y_axis_title() |> 
+    remove_x_axis_title() |> 
+    reorder_color_labels(c('Basic', 'Moderate', 'Good', 'Expert') |> rev())
+
+modelling |> 
+    group_by(question, rating) |> 
+    count() |> 
+    ungroup() |> 
+  tidyplot(y = n, color = rating) |> 
+  add_donut() |> 
+  adjust_colors(my_colors) |>
+#   adjust_font(fontsize = 10) |>
+  reorder_color_labels(names(my_colors)) |> 
+  remove_legend_title() |> 
+#   adjust_size(width = 35, height = 35) |> 
+  split_plot(by = question, ncol = 2) &
+  patchwork::plot_annotation(
+    title = "Modeling and Assessment for Data-Poor Contexts",
+    # caption = "Data source: energy-charts.info",
+    theme = theme(plot.title = element_text(hjust = 0.5, size = 18),
+                  plot.caption = element_text(size = 6))
+    )
+```
+
+
+# C. Specific Needs and Training Priorities
+
+*C2. Which specific training component do you believe is most essential for ensuring sustainable management and responsible utilization of marine resources in Somalia? *
+
+```{r wordcloud-priorities, fig.cap="Word cloud of most essential training components."}
+#| message: false
+require(ggwordcloud)
+
+priorities_text <- tna |>
+  pull(c2_which_specific_training_component_do_you_believe_is_most_essential_for_ensuring_sustainable_management_and_responsible_utilization_of_marine_resources_in_somalia) 
+
+phrases_to_count <- c("Data-Limited Methods", "Data Collection Protocols", "Fundamentals/Concepts")
+
+# Create a regex pattern to find any of the phrases
+pattern <- str_c(phrases_to_count, collapse = "|")
+
+word_counts <- tibble(text = priorities_text) |>
+  # For each response, find all occurrences of the phrases
+  mutate(phrases = str_extract_all(text, pattern)) |>
+  # Create a new row for each phrase found
+  unnest(phrases) |>
+  # Count the frequency of each phrase
+  count(phrases, name = "n") |>
+  rename(word = phrases)
+
+
+# ggplot(word_counts, aes(label = word, size = n, color = n)) +
+#   geom_text_wordcloud_area(area_corr_power = 1) +
+#   scale_size_area(max_size = 20) +
+#   scale_color_viridis_c() +
+#   theme_minimal()
+
+word_counts |> 
+    webr::PieDonut(aes(word, count = n), r0 = .8, explode=0,start=pi/2,labelposition=1)&
+  patchwork::plot_annotation(
+    title = "Training module for sustainable management and utilization",
+    # caption = "Data source: energy-charts.info",
+    theme = theme(plot.title = element_text(hjust = 0.5, size = 18),
+                  plot.caption = element_text(size = 6))
+    )
+    
+```
+
+*What is the level of technical expertise and availability of fisheries data currently available in your region/state?*
+
+```{r}
+tna |> 
+    select(level = what_is_the_level_of_technical_expertise_and_availability_of_fisheries_data_currently_available_in_your_region_state) |> 
+    group_by(level) |> 
+    tally()|> 
+    webr::PieDonut(aes(level, count = n), r0 = .8, explode=0,start=pi/2,labelposition=1)&
+  patchwork::plot_annotation(
+    title = "Level of technical expertise and availability of fisheries data",
+    # caption = "Data source: energy-charts.info",
+    theme = theme(plot.title = element_text(hjust = 0.5, size = 18),
+                  plot.caption = element_text(size = 6))
+    )
+```
+
+
+*Please list any specific Somali fish stocks for which you need immediate capacity building on assessment techniques.*
+
+
+```{r}
+tna |> 
+    select(stock = please_list_any_specific_somali_fish_stocks_for_which_you_need_immediate_capacity_building_on_assessment_techniques) |> 
+    group_by(stock) |> 
+    tally()|> 
+    webr::PieDonut(aes(stock, count = n), r0 = .8, explode=0,start=pi/2,labelposition=1)&
+  patchwork::plot_annotation(
+    title = "Prioritized Somali fish stocks for capacity building",
+    # caption = "Data source: energy-charts.info",
+    theme = theme(plot.title = element_text(hjust = 0.5, size = 18),
+                  plot.caption = element_text(size = 6))
+    )
+```
