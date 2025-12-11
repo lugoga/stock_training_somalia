@@ -17,10 +17,12 @@ require(gt)
 require(tidyplots)
 require(patchwork)
 require(leaflet)
+require(plotly)
+require(crosstalk)
 ```
 
 ```{r}
-lw = readxl::read_excel('../data_shared/ProjKalluun_master_data_entry.xlsx', sheet = 'Section 3', skip= 4) |> 
+lw = readxl::read_excel('data_shared/ProjKalluun_master_data_entry.xlsx', sheet = 'Section 3', skip= 4) |> 
     janitor::clean_names() |> 
     filter(!is.na(landing_site))
 

@@ -84,3 +84,4 @@ format:
     toc-depth: 3
     code-fold: true
     code-tools: false
+bibliography: references.bib
