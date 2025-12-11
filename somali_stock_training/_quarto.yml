@@ -26,26 +26,30 @@ website:
           - text: "Module 6: Practical Field Exercises at Landing Sites"
             href: modules/module6.qmd
       - text: "Presentations"
-        menu: 
-          - text: "Stock Assessment Fundamentals & Concepts"
-            href: presentations/module_1_presentation.qmd
-          - text: "Data Collection Protocols & Sampling Design"
-            href: presentations/module_2_presentation.qmd
-          - text: "Data-Limited Stock Assessment Methods"
-            href: presentations/module_3_presentation.qmd
-          - text: "Data Processing and Storage"
-            href: presentations/module_4_presentation.qmd
-          - text: "Data Analysis Methods for Stock Assessment"
-            href: presentations/module_5_presentation.qmd
-          - text: "Practical Field Exercises at Landing Sites"
-            href: presentations/module_6_presentation.qmd
-          - text: "Training Need Assessment"
-            href: presentations/tna_presentation.qmd
+        # menu: 
+        #   - text: "Stock Assessment Fundamentals & Concepts"
+        #     href: presentations/module_1_presentation.qmd
+        #   - text: "Data Collection Protocols & Sampling Design"
+        #     href: presentations/module_2_presentation.qmd
+        #   - text: "Data-Limited Stock Assessment Methods"
+        #     href: presentations/module_3_presentation.qmd
+        #   - text: "Data Processing and Storage"
+        #     href: presentations/module_4_presentation.qmd
+        #   - text: "Data Analysis Methods for Stock Assessment"
+        #     href: presentations/module_5_presentation.qmd
+        #   - text: "Practical Field Exercises at Landing Sites"
+        #     href: presentations/module_6_presentation.qmd
+        #   - text: "Training Need Assessment"
+        #     href: presentations/tna_presentation.qmd
+      - text: "Resources"
+        menu:
+          - text: "Resources1: The Giant Fishery Report"
+            href: resources/resource1.qmd
 
 
     right:
       - icon: github
-        href: https://github.com/yourusername/stock-trading-course
+        href: https://github.com/lugoga/stock_training_somalia
 
   sidebar:
     style: "floating"
@@ -79,4 +83,4 @@ format:
     toc: true
     toc-depth: 3
     code-fold: true
-    code-tools: true
+    code-tools: false
