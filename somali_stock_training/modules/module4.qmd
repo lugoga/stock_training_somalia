@@ -1,0 +1,145 @@
+---
+title: "Module 4: Data Processing and Storage"
+date: "2025-12-05"
+date-modified: today
+author: 
+    - name: "Masumbuko Semba"
+      affiliation: "Nelson Mandela African Institution of Science and Technology"
+      email: "lugosemba@gmail.com"
+    - name: "Dr. Rushingisha George"
+      affiliation: "Tangania Fisheries Research Institute"
+      email: "george.rushingisha@tafiri.go.tz"
+    - name: "Dr. Mary Kishe"
+      affiliation: "Tanzania Fisheries Research Institute"
+      email: "mary.kishe@tafiri.go.tz"
+    - name: "Dr. Ismael Kimirei"
+      affiliation: "Tanzania Fisheries Research Institute"
+      email: "ismael.kimirei@tafiri.go.tz"
+---
+
+## Overview
+
+Effective data management ensures quality, security, and accessibility of fisheries monitoring data. This module covers practical database design and data governance.
+
+## Learning Objectives
+
+By the end of this module, participants will:
+
+- [ ] Design a functional fisheries database
+- [ ] Implement data validation procedures
+- [ ] Maintain data security and backups
+- [ ] Create data documentation
+- [ ] Ensure data standardization across regions
+
+## Data Processing Workflow
+
+```
+Raw Data → Validation → Cleaning → Integration → Storage
+    ↓          ↓           ↓          ↓           ↓
+  Forms    Range checks  Outliers  Consolidate  Archive
+           Duplicates    Errors    De-conflict  Backup
+           Logic         Missing   Harmonize    Access
+```
+
+## Data Validation
+
+### Automated Checks
+- Range validation (e.g., length > 0)
+- Type validation (numeric, text, date)
+- Duplicate detection
+- Consistency rules (e.g., length increases with age)
+
+### Manual Review
+- Outlier investigation
+- Biologically implausible values
+- Data entry errors
+- Missing values assessment
+
+## Database Design
+
+### Relational Database Structure
+- Vessels table
+- Landings table
+- Species catch table
+- Individual fish measurements
+- Metadata and documentation
+
+### Key Features
+- Unique identifiers for all records
+- Referential integrity
+- Audit trails
+- User access controls
+
+## Tools and Platforms
+
+### Options for Somali Implementation
+- **PostgreSQL** - Robust, open-source, scalable
+- **SQLite** - Lightweight, portable
+- **Excel with validation** - Simple, limited capacity
+- **Microsoft Access** - Medium complexity, Windows-based
+
+### Cloud Solutions
+- Secure data hosting
+- Centralized access
+- Automated backups
+- Remote collaboration
+
+## Data Documentation
+
+### Essential Documentation
+- Data dictionary (field definitions)
+- Collection protocols (how data was gathered)
+- Quality flags (data issues noted)
+- Metadata (who, when, where, how)
+
+## Data Security
+
+### Backup Strategy
+- Daily backups (local)
+- Weekly backups (external)
+- Monthly backups (archival)
+- Redundant storage
+
+### Access Control
+- User authentication
+- Role-based permissions
+- Audit logging
+- Confidentiality safeguards
+
+## Data Sharing & Integration
+
+### Regional System
+- Standardized formats
+- Regular submissions
+- Quality checks
+- Centralized repository
+
+### National Integration
+- Single database for all regions
+- Harmonized definitions
+- Real-time dashboards
+- Annual reports
+
+## Practical Activities
+
+- [ ] Design a database schema for your region
+- [ ] Set up data validation rules
+- [ ] Create documentation templates
+- [ ] Plan backup procedures
+
+## Resources
+
+- **Templates:** Database design files
+- **Guide:** Data management standard operating procedures
+- **Tools:** Open-source database software
+
+## Assessment
+
+- Database design exercise
+- Validation rule implementation
+- Documentation completeness
+- Security audit plan
+
+---
+
+**Next Module:** Data Analysis Methods (December 18)

@@ -1,0 +1,138 @@
+---
+title: "Module 6: Practical Field Exercises at Landing Sites"
+---
+
+## Overview
+
+Hands-on training at operational landing sites brings modules 1-5 into practice. This day-long exercise demonstrates real-world fisheries monitoring.
+
+## Learning Objectives
+
+By the end of this module, participants will:
+
+- [ ] Execute landing site monitoring protocols
+- [ ] Collect and record fisheries data
+- [ ] Identify species in operational settings
+- [ ] Solve real-world monitoring challenges
+- [ ] Coordinate multi-site activities
+
+## Morning Activities (08:00-12:30)
+
+### Setup and Brief
+- Venue introduction
+- Equipment check
+- Safety briefing
+- Role assignments
+
+### Live Data Collection
+- Monitor actual landings
+- Take measurements
+- Record catch composition
+- Collect biological samples
+
+### Hands-On Learning
+- Practice species identification
+- Learn measurement techniques
+- Observe data entry
+- Ask real-time questions
+
+## Afternoon Activities (13:30-16:45)
+
+### Data Review
+- Check data quality
+- Identify errors
+- Discuss solutions
+- Practice corrections
+
+### Analysis Exercise
+- Summarize collected data
+- Calculate indicators
+- Create visualizations
+- Interpret results
+
+### Regional Coordination
+- Meet colleagues from other sites
+- Share experiences
+- Discuss local challenges
+- Coordinate best practices
+
+## Troubleshooting Exercise
+
+### Common Field Challenges
+
+**Challenge 1:** Species Identification
+- Solution: Use identification guide
+- Reference: Trained species expert
+- Practice: Unknown specimens brought by fishers
+
+**Challenge 2:** Missing Data
+- Solution: Reconstruction from vessel records
+- Backup: Recall from fisher interviews
+- Documentation: Record what's missing and why
+
+**Challenge 3:** Uncooperative Vessels
+- Solution: Explain value of monitoring
+- Alternative: Sample from market
+- Relationships: Build trust over time
+
+**Challenge 4:** Equipment Issues
+- Solution: Backup scales, rulers
+- Planning: Preventive maintenance
+- Contingency: Manual measurements
+
+## Regional Coordination Meeting
+
+### Topics Covered
+- Landing site challenges specific to region
+- Coordination between sites
+- Training follow-up plans
+- Resource needs
+- Implementation timeline
+
+### Outcomes
+- Regional protocols agreed
+- Coordinator roles clarified
+- Support mechanisms established
+- Next steps planned
+
+## Practical Activities
+
+- [ ] Collect at least 50 fish measurements
+- [ ] Record 20+ catch composition records
+- [ ] Identify 15+ species
+- [ ] Complete one full data entry form
+
+## Safety Considerations
+
+- Footwear (slip-resistant, water-proof)
+- Clothing (appropriate for weather)
+- Hand protection (when handling fish)
+- Sun protection (hat, sunscreen)
+- First aid knowledge
+
+## Resources
+
+- **Guide:** Field monitoring manual
+- **Forms:** Waterproof data sheets
+- **Tools:** Measurement boards, digital scales
+- **Reference:** Laminated species identification chart
+
+## Assessment
+
+- Practical measurement accuracy
+- Species identification test
+- Data recording quality
+- Problem-solving discussion
+- Participation and engagement
+
+## Reflections
+
+Participants should consider:
+- What worked well at this landing site?
+- What challenges did you encounter?
+- How will you apply this training?
+- What support do you need for implementation?
+
+---
+
+**Next Module:** Strategy Development (December 20)

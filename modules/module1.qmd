@@ -1,0 +1,81 @@
+---
+title: "Module 1: Fundamentals of Fish Stock Assessment"
+---
+
+## Overview
+
+This foundational module introduces core concepts in fisheries stock assessment, establishing the scientific basis for all subsequent training.
+
+## Learning Objectives
+
+By the end of this module, participants will:
+
+- [ ] Understand the purpose and scope of stock assessment
+- [ ] Explain key biological parameters (growth, mortality, recruitment)
+- [ ] Describe population dynamics fundamentals
+- [ ] Identify appropriate data types for different assessment scenarios
+- [ ] Apply best practices in fisheries science
+
+## Content Areas
+
+### 1. Stock Assessment Fundamentals
+- Definition and objectives
+- Why stock assessment matters for management
+- Assessment approaches (data-rich vs. data-limited)
+- Success factors in assessment
+
+### 2. Key Biological Parameters
+- **Growth:** von Bertalanffy growth curves, length-weight relationships
+- **Mortality:** Natural mortality, fishing mortality
+- **Recruitment:** Recruitment variations, stock-recruitment relationships
+- **Maturity:** Age/size at maturity, fecundity
+
+### 3. Population Dynamics
+- Population models
+- Surplus production models
+- Age-structured population models
+- Equilibrium versus dynamic concepts
+
+### 4. Data Requirements
+- What data is needed?
+- Data quality considerations
+- Data limitations in the Indian Ocean
+- Working with incomplete data
+
+### 5. Assessment Approaches
+- Catch-MSY methods
+- Length-based approaches
+- Simple empirical indicators
+- Integrated stock assessment models
+
+## Key Concepts
+
+:::{.callout-tip}
+**Stock:** A group of individuals of one species, occupying a defined area and showing independent population dynamics
+:::
+
+:::{.callout-note}
+**Assessment:** The process of evaluating the status of a stock using available data and scientific methods
+:::
+
+## Practical Activities
+
+- [ ] Review case studies from Indian Ocean fisheries
+- [ ] Identify data needs for Somali fisheries
+- [ ] Discuss assessment priorities by region
+
+## Resources
+
+- **Reading:** Costello et al. (2012) - Status and Solutions
+- **Reference:** FAO Technical Guidelines for Stock Assessment
+- **Software:** Introduction to R and TropFishR package
+
+## Assessment
+
+- Class participation
+- Case study group discussion
+- Short quiz on biological parameters
+
+---
+
+**Next Module:** Fisheries Data Types (December 15)

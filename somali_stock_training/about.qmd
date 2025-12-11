@@ -1,0 +1,151 @@
+---
+title: "About This Training Program"
+date: "2025-12-05"
+date-modified: today
+author: 
+    - name: "Masumbuko Semba"
+      affiliation: "Nelson Mandela African Institution of Science and Technology"
+      email: "lugosemba@gmail.com"
+    - name: "Dr. Rushingisha George"
+      affiliation: "Tangania Fisheries Research Institute"
+      email: "george.rushingisha@tafiri.go.tz"
+    - name: "Dr. Mary Kishe"
+      affiliation: "Tanzania Fisheries Research Institute"
+      email: "mary.kishe@tafiri.go.tz"
+    - name: "Dr. Ismael Kimirei"
+      affiliation: "Tanzania Fisheries Research Institute"
+      email: "ismael.kimirei@tafiri.go.tz"
+execute: 
+  warning: false
+  message: false
+  comment: ""
+---
+
+## Overview
+
+This training program in fisheries stock assessment has been developed through a partnership focused on building capacity for sustainable fisheries management in the Indian Ocean region, with particular emphasis on Somali fisheries.
+
+## About TAFIRI
+
+The **Tanzania Fisheries Research Institute (TAFIRI)** is the premier fisheries research institution in East Africa, established to advance scientific knowledge and provide technical guidance for sustainable fisheries development across the region.
+
+:::{.callout-note}
+TAFIRI operates under the Ministry of Livestock and Fisheries and maintains collaborative relationships with international research institutions and regional fisheries organizations.
+:::
+
+### Why TAFIRI Leads This Training
+
+TAFIRI's leadership in this initiative is grounded in:
+
+| Dimension | Strength |
+|-----------|----------|
+| **Regional Expertise** | Decades of experience conducting stock assessments in Indian Ocean fisheries |
+| **Scientific Excellence** | Recognized experts in length-based methods, surplus production models, and data-limited approaches |
+| **Research Infrastructure** | Modern facilities, comprehensive databases, and professional networks across East Africa |
+| **Practical Experience** | Direct engagement with data-poor fisheries and context-specific assessment solutions |
+| **Capacity Development** | Institutional commitment to training future fisheries scientists and managers |
+
+## Course Development Philosophy
+
+This program draws on TAFIRI's extensive research portfolio and reflects:
+
+- **Real-world relevance**: Case studies from East African and Indian Ocean fisheries
+- **Proven methods**: Assessment approaches tested in similar data-limited contexts
+- **International standards**: Alignment with FAO Technical Guidelines and best practices
+- **Regional solutions**: Practical approaches to challenges specific to Somali and regional fisheries
+
+## Learning Outcomes
+
+Upon completing this training, participants will:
+
+- ✓ Conduct stock assessments using limited and available data
+- ✓ Interpret assessment results and communicate findings to decision-makers
+- ✓ Support evidence-based fisheries management at regional and national levels
+- ✓ Apply international assessment standards in East African contexts
+
+## Somali Fisheries Landings Overview
+
+```{r}
+require(sf)
+require(tidyverse)
+require(sizeMat)
+require(gt)
+require(tidyplots)
+require(patchwork)
+require(leaflet)
+
+lw = readxl::read_excel('data_shared/ProjKalluun_master_data_entry.xlsx', sheet = 'Section 3', skip= 4) |> 
+    janitor::clean_names() |> 
+    filter(!is.na(landing_site))
+
+lw = lw |> 
+ mutate(
+    year = year(date_dd_mm_yy),
+    month = month(date_dd_mm_yy, label = TRUE),
+    day = day(date_dd_mm_yy), 
+    .after = date_dd_mm_yy
+ ) |> 
+    mutate(
+    weight_kg = as.numeric(weight_kg),
+    length_cm = as.numeric(length_cm)
+    )
+
+# Define approximate coordinates for Somali coastal regions
+region_coords <- tibble(
+    region = c('Berbera', 'Borama', 'Mogadishu', 'Kismayo', 'Baidoa', 'Galkacyo'),
+    latitude = c(10.4145, 9.5283, 2.0469, -0.3604, 3.4314, 6.7719),
+    longitude = c(45.3682, 43.6333, 46.1996, 42.5521, 43.6635, 46.9250),
+    landings = c(NA, NA, NA, NA, NA, NA)
+)
+
+# Get landing counts by region
+landing_counts <- lw |> 
+    filter(!is.na(region)) |> 
+    group_by(region) |> 
+    tally() |> 
+    rename(landings = n)
+
+# Merge coordinates with landing counts
+region_map_data <- region_coords |> 
+    left_join(landing_counts, by = 'region') |> 
+    mutate(landings = coalesce(landings.y, landings.x),
+           landings = coalesce(landings, 0)) |> 
+    select(region, latitude, longitude, landings)
+
+# Create color palette based on landing counts
+pal <- leaflet::colorNumeric(palette = 'YlOrRd', domain = region_map_data$landings)
+
+# Create leaflet map
+leaflet(region_map_data) |> 
+    addTiles() |> 
+    addCircleMarkers(
+        lng = ~longitude, 
+        lat = ~latitude,
+        radius = ~sqrt(landings) / 2,
+        popup = ~paste0('<b>', region, '</b><br/>Landings: ', landings),
+        color = ~pal(landings),
+        fillColor = ~pal(landings),
+        fillOpacity = 0.7,
+        weight = 2,
+        opacity = 0.8
+    ) |> 
+    addLegend(
+        pal = pal, 
+        values = ~landings,
+        title = 'Number of Landings',
+        position = 'bottomright'
+    ) |>
+    setView(lng = 46, lat = 5, zoom = 6)
+```
+
+## Contact & Further Information
+
+:::{.callout-info}
+**Tanzania Fisheries Research Institute (TAFIRI)**
+
+📍 P.O. Box 9750, Dar es Salaam, Tanzania  
+🌐 Website: [www.tafiri.go.tz](https://www.tafiri.go.tz)  
+📧 Email: info@tafiri.go.tz
+
+Visit TAFIRI's website for research programs, publications, and additional training opportunities.
+:::

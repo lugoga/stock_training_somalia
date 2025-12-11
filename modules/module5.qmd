@@ -1,0 +1,136 @@
+---
+title: "Module 5: Data Analysis Methods"
+---
+
+## Overview
+
+Statistical analysis transforms raw data into insights for stock assessment and management. This module introduces practical analytical approaches.
+
+## Learning Objectives
+
+By the end of this module, participants will:
+
+- [ ] Apply descriptive statistics to fisheries data
+- [ ] Conduct time series analysis
+- [ ] Calculate stock indicators
+- [ ] Create effective visualizations
+- [ ] Interpret results and communicate findings
+
+## Descriptive Statistics
+
+### Summary Metrics
+- Mean, median, standard deviation
+- Distribution of catch
+- Size composition trends
+- Species diversity indices
+
+### By-Group Analysis
+- Temporal trends (yearly, seasonal)
+- Spatial patterns (by region, site)
+- Gear comparisons
+- Species dynamics
+
+## Time Series Analysis
+
+### Methods
+- Trend analysis (increasing/decreasing?)
+- Seasonality (predictable patterns?)
+- Anomaly detection (unusual events?)
+- Forecasting (what's next?)
+
+### Applications
+- Catch trends over years
+- Seasonal landing patterns
+- Fleet dynamics
+- Early warning signals
+
+## Stock Indicators
+
+### Key Indicators
+- **Mean Length:** Population structure indicator
+- **Length at Maturity:** Recruitment to fishing
+- **Catch Per Unit Effort (CPUE):** Abundance proxy
+- **Composition Changes:** Exploitation signals
+
+### Calculation & Interpretation
+- Data requirements
+- Calculation procedures
+- Confidence intervals
+- Threshold values
+
+## Visualization Techniques
+
+### Essential Charts
+- Time series plots (trends)
+- Bar charts (comparisons)
+- Box plots (distributions)
+- Scatter plots (relationships)
+- Maps (spatial patterns)
+
+### Best Practices
+- Clear titles and labels
+- Appropriate scales
+- Color-blind friendly palettes
+- Publication-ready quality
+
+## Statistical Testing
+
+### Hypothesis Testing
+- Is there a significant trend?
+- Are regions significantly different?
+- Is CPUE declining?
+- Which factor matters most?
+
+### Methods
+- T-tests, ANOVA
+- Regression analysis
+- Non-parametric tests
+- Model comparison
+
+## Introduction to R
+
+### Why R?
+- Free and open-source
+- Powerful statistical capabilities
+- Publication-quality graphics
+- Reproducible analysis
+
+### Basic Workflow
+```r
+# Load data
+data <- read.csv("landings.csv")
+
+# Summarize
+summary(data)
+
+# Visualize
+plot(data$year, data$catch)
+
+# Analyze
+model <- lm(catch ~ year, data = data)
+```
+
+## Practical Activities
+
+- [ ] Calculate descriptive statistics from sample data
+- [ ] Create time series visualizations
+- [ ] Calculate stock indicators
+- [ ] Write brief analysis report
+
+## Resources
+
+- **R Scripts:** Analysis templates and examples
+- **Data:** Sample Somali fisheries datasets
+- **Guides:** R tutorials and documentation
+- **References:** Recommended statistics texts
+
+## Assessment
+
+- Statistical calculation exercises
+- Data visualization project
+- Brief written interpretation
+- R code review
+
+---
+
+**Next Module:** Practical Field Exercises (December 19)

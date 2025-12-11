@@ -1,0 +1,80 @@
+---
+title: "Somali Fisheries Stock Assessment Training"
+subtitle: "Capacity Building for Sustainable Fisheries Management"
+date: "2025-12-05"
+date-modified: today
+author: 
+    - name: "Masumbuko Semba"
+      affiliation: "Nelson Mandela African Institution of Science and Technology"
+      email: "lugosemba@gmail.com"
+    - name: "Dr. Rushingisha George"
+      affiliation: "Tangania Fisheries Research Institute"
+      email: "george.rushingisha@tafiri.go.tz"
+    - name: "Dr. Mary Kishe"
+      affiliation: "Tanzania Fisheries Research Institute"
+      email: "mary.kishe@tafiri.go.tz"
+    - name: "Dr. Ismael Kimirei"
+      affiliation: "Tanzania Fisheries Research Institute"
+      email: "ismael.kimirei@tafiri.go.tz"
+---
+
+
+
+## About This Program
+
+This training program equips fisheries professionals with essential knowledge and practical skills for conducting stock assessments. Designed specifically for the Somali context, the course bridges scientific principles with real-world applications in data-limited environments.
+
+:::{.callout-important}
+**Target Audience:** Fisheries scientists, managers, and policy makers seeking to improve stock assessment capacity in East African fisheries.
+:::
+
+## Course Modules
+
+::: {.grid}
+
+::: {.g-col-12 .g-col-md-6}
+### [Module 1: Fundamentals of Fish Stock Assessment](modules/module1.qmd)
+Core concepts in fisheries science, biological parameters, and population dynamics. Establish the scientific foundation for all assessment work.
+:::
+
+::: {.g-col-12 .g-col-md-6}
+### Module 2: Fisheries Data Types
+Essential data collection methods, quality assurance, and working with incomplete datasets common in the Indian Ocean.
+:::
+
+::: {.g-col-12 .g-col-md-6}
+### Module 3: Length-Based Assessment Methods
+Practical approaches for stocks with limited age data, using length frequency distributions and simple indicators.
+:::
+
+::: {.g-col-12 .g-col-md-6}
+### Module 4: Catch-MSY and Empirical Methods
+Data-limited approaches suitable for data-poor fisheries, with applications to Somali stocks.
+:::
+
+::: {.g-col-12 .g-col-md-6}
+### Module 5: Integrated Stock Assessment Models
+Introduction to age-structured models and integrated assessment frameworks for well-studied stocks.
+:::
+
+::: {.g-col-12 .g-col-md-6}
+### Module 6: Assessment Communication & Management Strategy Evaluation
+Presenting results to decision-makers and evaluating management options using assessment outputs.
+:::
+
+:::
+
+## Learning Approach
+
+- **Evidence-Based**: Grounded in FAO guidelines and international best practices
+- **Hands-On**: Practical activities using R and specialist fisheries software
+- **Context-Specific**: Case studies from Indian Ocean fisheries
+- **Flexible**: Modules designed for self-paced or group learning
+
+## Getting Started
+
+[Begin with Module 1: Fundamentals](modules/module1.qmd){.btn .btn-primary .btn-lg}
+
+---
+
+**Course Duration:** 6 weeks | **Format:** Self-paced with group discussions | **Language:** English

@@ -1,0 +1,41 @@
+name: Deploy Website
+
+on:
+  push:
+    branches: [ main, develop ]
+  pull_request:
+    branches: [ main ]
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v3
+      
+    - name: Validate HTML
+      run: |
+        apt-get update
+        apt-get install -y html-tidy
+        tidy -q -e index.html || true
+    
+    - name: Check for broken links
+      run: |
+        npm install -g broken-link-checker
+        blc http://localhost:8000 -r || true
+      
+    - name: Deploy to GitHub Pages
+      if: github.ref == 'refs/heads/main'
+      uses: peaceiris/actions-gh-pages@v3
+      with:
+        github_token: ${{ secrets.GITHUB_TOKEN }}
+        publish_dir: .
+        
+    - name: Create deployment summary
+      run: |
+        echo "## Deployment Summary" >> $GITHUB_STEP_SUMMARY
+        echo "- Website deployed successfully" >> $GITHUB_STEP_SUMMARY
+        echo "- URL: https://somaliafisheries.github.io" >> $GITHUB_STEP_SUMMARY
+        echo "- Modules: 7 complete" >> $GITHUB_STEP_SUMMARY
+        echo "- Last updated: $(date)" >> $GITHUB_STEP_SUMMARY

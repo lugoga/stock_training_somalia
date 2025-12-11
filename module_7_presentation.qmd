@@ -1,0 +1,1351 @@
+---
+title: "Module 7: Strategy Development & Regional Coordination"
+subtitle: "Somali Fish Stock Training - Led by TAFIRI"
+author: "Tanzania Fisheries Research Institute & Somali Partners"
+date: today
+format: revealjs
+theme: default
+transition: slide
+background-transition: fade
+highlight-style: github
+embed-resources: true
+---
+
+```{r}
+require(sf)
+require(tidyverse)
+require(sizeMat)
+require(gt)
+require(tidyplots)
+require(patchwork)
+require(leaflet)
+```
+
+## Welcome to Module 7
+
+**Strategy Development & Regional Coordination**
+
+:::: {.columns}
+::: {.column width="50%"}
+### Learning Objectives
+- Develop long-term monitoring strategy
+- Build regional coordination mechanisms
+- Integrate across all 6 regions
+- Engage policy makers
+- Create sustainable systems
+:::
+
+::: {.column width="50%"}
+### Led By: TAFIRI
+- Tanzania Fisheries Research Institute
+- 30+ years experience
+- Regional expertise
+- Capacity building focus
+- Sustainable solutions
+:::
+::::
+
+---
+
+## TAFIRI Expertise & Role
+
+### Tanzania Fisheries Research Institute:
+
+::: {.incremental}
+- **Founded**: 1980s
+- **Mission**: Fisheries research for sustainable development
+- **Experience**: Lake Victoria, Indian Ocean, coastal fisheries
+- **Expertise**: Stock assessment, data systems, training
+- **Regional Role**: Supporting East African fisheries capacity
+- **Best Practice**: Lessons from Tanzania applied to Somalia
+:::
+
+---
+
+## Why Regional Coordination Matters
+
+### The Challenge:
+
+```{r}
+#| echo: false
+#| fig-align: center
+
+tibble(
+  issue = c("Scattered Data", "Inconsistent Methods", "No Communication", "Weak Capacity", "Lost Knowledge"),
+  consequence = c("Can't see trends", "Results unreliable", "Duplication", "Unsustainable", "Repeat mistakes"),
+  solution = c("Central database", "Standardized protocols", "Regular meetings", "Joint training", "Documentation")
+) |>
+  ggplot(aes(x = issue, y = 1, fill = issue)) +
+  geom_col(alpha = 0.8) +
+  scale_fill_brewer(palette = 'Set2', guide = 'none') +
+  geom_text(aes(label = consequence), nudge_y = 0.3, size = 3, fontface = 'bold') +
+  geom_text(aes(label = solution), nudge_y = -0.3, size = 2.5, color = 'white') +
+  ylim(0, 1.5) +
+  theme_minimal() +
+  theme(
+    axis.text.y = element_blank(),
+    axis.title = element_blank(),
+    panel.grid = element_blank(),
+    axis.text.x = element_text(angle = 45, hjust = 1)
+  )
+```
+
+---
+
+## Vision: A Unified Somali Fisheries System
+
+### By 2027:
+
+::: {.callout-success}
+**Somalia has:**
+- Coordinated monitoring at all 6 regions
+- Standardized data collection protocols
+- Real-time data sharing system
+- Monthly regional assessments
+- Quarterly national reports
+- Active policy integration
+- Trained workforce of 30+ analysts
+- Sustainable funding mechanism
+:::
+
+---
+
+## Current State Assessment
+
+### Regional Capacity Snapshot:
+
+```{r}
+#| echo: false
+
+tibble(
+  Region = c("Berbera", "Borama", "Mogadishu", "Kismayo", "Baidoa", "Galkacyo"),
+  `Data Collection` = c("Good", "Moderate", "Good", "Limited", "Limited", "Minimal"),
+  `Analysis Capacity` = c("Moderate", "Limited", "Good", "Limited", "Limited", "Minimal"),
+  `Infrastructure` = c("Adequate", "Poor", "Good", "Poor", "Poor", "Very Poor"),
+  Status = c("Operational", "Starting", "Operational", "Needs Support", "Needs Support", "Needs Support")
+) |>
+  gt() |>
+  tab_header(
+    title = "Current Regional Fisheries Monitoring Status",
+    subtitle = "Baseline for coordination planning"
+  ) |>
+  opt_stylize(style = 6, color = 'gray')
+```
+
+---
+
+## Regional Coordination Structure
+
+### Proposed Governance Model:
+
+```{r}
+#| echo: false
+#| fig-align: center
+
+tibble(
+  level = c("National", "Regional", "Site", "Community"),
+  role = c(
+    "Policy & Strategy",
+    "Coordination & QC",
+    "Data Collection",
+    "Engagement"
+  ),
+  x = c(1, 2, 3, 4),
+  y = c(4, 3, 2, 1)
+) |>
+  ggplot(aes(x = x, y = y)) +
+  geom_point(size = 12, color = '#1976D2', alpha = 0.8) +
+  geom_path(color = '#666666', size = 1.2, arrow = arrow(type = 'closed')) +
+  geom_text(aes(label = level), nudge_y = 0.3, size = 4, fontface = 'bold') +
+  geom_text(aes(label = role), nudge_y = -0.3, size = 3) +
+  ylim(0, 4.5) +
+  xlim(0.5, 4.5) +
+  theme_minimal() +
+  theme(axis.text = element_blank(), axis.title = element_blank(), panel.grid = element_blank())
+```
+
+---
+
+## National Fisheries Monitoring Committee
+
+### Proposed Structure:
+
+**Members:**
+- Ministry of Fisheries (Chair)
+- TAFIRI representative
+- Regional coordinators (6)
+- Community representatives (3)
+- Academic institutions (2)
+- International partners (2)
+
+**Functions:**
+- Set national strategy
+- Approve protocols
+- Review quarterly reports
+- Coordinate funding
+- Recommend policies
+
+---
+
+## National Committee: Responsibilities
+
+### Strategic Functions:
+
+::: {.columns}
+::: {.column width="50%"}
+**Policy Integration**
+- Link data to regulations
+- Advise on catch limits
+- Support management decisions
+- Report to government
+
+**Quality Assurance**
+- Approve protocols
+- Review data quality
+- Recommend improvements
+- Audit processes
+:::
+
+::: {.column width="50%"}
+**Resource Mobilization**
+- Identify funding sources
+- Manage budget
+- Coordinate donors
+- Plan sustainability
+
+**Capacity Building**
+- Approve training programs
+- Support professional development
+- Share best practices
+- Build regional networks
+:::
+::::
+
+---
+
+## Regional Coordination Teams
+
+### Six Regional Teams (One per Landing Site Hub):
+
+**Composition:**
+- Regional Coordinator (FTE)
+- Data Manager (50%)
+- Community Liaison (50%)
+- Technical support from TAFIRI
+
+**Responsibilities:**
+- Monthly data collection
+- Quality control checks
+- Database management
+- Quarterly reporting
+- Community engagement
+
+---
+
+## Regional Coordinator Role
+
+### Job Description:
+
+```r
+# POSITION: Regional Fisheries Monitoring Coordinator
+# 
+# QUALIFICATIONS:
+# - Diploma/degree in fisheries, biology, or related field
+# - Experience in data collection preferred
+# - Fluent in Somali and English
+# - Computer literacy
+# - Strong communication skills
+#
+# KEY RESPONSIBILITIES:
+# 1. Oversee monthly data collection at landing sites
+# 2. Maintain database and backup systems
+# 3. Conduct monthly data analysis
+# 4. Prepare quarterly reports
+# 5. Lead community engagement activities
+# 6. Implement quality assurance procedures
+# 7. Support TAFIRI training activities
+# 8. Attend quarterly national meetings
+#
+# PERFORMANCE METRICS:
+# - Data quality: >95% complete, <2% error rate
+# - Timeliness: All reports on schedule
+# - Coverage: All sites monitored monthly
+# - Stakeholder satisfaction: >80% positive feedback
+```
+
+---
+
+## Standardized Protocols Across Regions
+
+### Universal Data Collection Standard:
+
+```r
+# File structure all regions must follow
+standardized_template <- list(
+  data = list(
+    landing_date = "YYYY-MM-DD",
+    region = "One of 6 regions",
+    landing_site = "Specific site name",
+    fish_group = "Standard taxonomy",
+    length_cm = "Numeric, ±0.1cm",
+    weight_kg = "Numeric, ±0.1kg",
+    metadata = list(
+      observer = "Name",
+      sampler_id = "Unique ID",
+      effort = "Landing count",
+      notes = "Any issues"
+    )
+  ),
+  quality_checks = list(
+    range_validation = "Length 5-200cm, Weight 0.1-500kg",
+    completeness = "No missing critical fields",
+    timeliness = "Entered within 24 hours",
+    duplication = "No exact duplicates"
+  ),
+  reporting = list(
+    monthly = "By 5th of following month",
+    quarterly = "By 15th of quarter start",
+    annual = "By end of Q1 next year"
+  )
+)
+```
+
+---
+
+## Central Database System
+
+### National Data Repository:
+
+**Architecture:**
+```
+┌─────────────────────────────────┐
+│   National Database (Cloud)      │
+│   - PostgreSQL backend           │
+│   - Real-time sync               │
+│   - Backup & disaster recovery   │
+└────────┬────────────────────────┘
+         │
+    ┌────┴────┬────────┬────────┬────────┬─────────┐
+    │          │        │        │        │         │
+  Berbera   Borama  Mogadishu Kismayo Baidoa  Galkacyo
+  (Local)   (Local)  (Local)  (Local) (Local)  (Local)
+```
+
+**Features:**
+- Regional databases sync to national
+- Real-time dashboards
+- Automated quality checks
+- Role-based access control
+- Audit trails & versioning
+
+---
+
+## Data Sharing & Access Protocols
+
+### Information Governance:
+
+::: {.columns}
+::: {.column width="50%"}
+**Public Access**
+- Aggregated data
+- Annual reports
+- Policy briefs
+- General statistics
+
+**Restricted Access**
+- Individual fisher data
+- Site-specific reports
+- Quality audit details
+- Sensitive locations
+:::
+
+::: {.column width="50%"}
+**Professional Access**
+- Raw data (authorized)
+- Monthly reports
+- Analysis tools
+- Training materials
+
+**Policy Maker Access**
+- Management briefings
+- Stock status summaries
+- Recommendation documents
+- Regular reporting
+:::
+::::
+
+---
+
+## Monthly Regional Assessment Process
+
+### Standardized Workflow:
+
+```{r}
+#| echo: false
+
+tibble(
+  week = c("Week 1", "Week 2", "Week 3", "Week 4"),
+  activity = c(
+    "Data collection at sites",
+    "Data entry & cleaning",
+    "Analysis & visualization",
+    "Regional report & review"
+  ),
+  lead = c(
+    "Field team",
+    "Data manager",
+    "Coordinator",
+    "Coordinator + TAFIRI"
+  )
+) |>
+  gt() |>
+  tab_header(
+    title = "Monthly Assessment Calendar",
+    subtitle = "Standardized timing across all regions"
+  ) |>
+  opt_stylize(style = 6, color = 'gray')
+```
+
+---
+
+## Quarterly National Coordination Meeting
+
+### Face-to-Face Regional Reporting:
+
+**Participants:**
+- 6 Regional Coordinators
+- National Committee members
+- TAFIRI representatives
+- 2-3 policy advisors
+
+**Agenda (2 days):**
+
+**Day 1:**
+- Morning: Regional presentations (40 min each)
+- Afternoon: Data quality review
+- Evening: Strategy discussion
+
+**Day 2:**
+- Morning: Problem-solving workshops
+- Afternoon: Capacity building session
+- Closing: Action items & planning
+
+---
+
+## Quarterly Reporting Format
+
+### Standardized National Report:
+
+**Contents:**
+
+::: {.callout-note}
+1. **Executive Summary** (2 pages)
+   - Key findings
+   - Regional highlights
+   - Recommendations
+
+2. **Regional Status** (3-4 pages)
+   - One-page summary per region
+   - Trends & changes
+   - Issues & successes
+
+3. **National Synthesis** (2-3 pages)
+   - Cross-regional patterns
+   - Ecosystem status
+   - Policy implications
+
+4. **Data Quality Report** (1 page)
+   - Completeness metrics
+   - Error rates
+   - Improvements made
+
+5. **Appendices**
+   - Statistical tables
+   - Detailed figures
+   - Methodological notes
+:::
+
+---
+
+## Integration with Policy Makers
+
+### Translating Data to Policy:
+
+```r
+# Example: How data informs management decisions
+
+# Data insight
+mean_length_declining <- data |>
+  group_by(year) |>
+  summarise(mean_L = mean(length_cm)) |>
+  pull(mean_L) |>
+  diff() < 0  # Negative trend
+
+# Policy implications
+if (mean_length_declining) {
+  
+  recommendations <- c(
+    "Consider reducing catch limits by 10%",
+    "Implement minimum size regulations",
+    "Restrict access to juvenile habitat",
+    "Monitor recruitment closely",
+    "Engage fishers in co-management"
+  )
+  
+  return(recommendations)
+}
+```
+
+---
+
+## Policy Integration Workshops
+
+### Quarterly Engagement Sessions:
+
+**Participants:**
+- Ministry of Fisheries officials
+- Regional administrators
+- Fishing community leaders
+- International advisors
+
+**Format:**
+- Morning: Data presentations
+- Afternoon: Facilitated discussion
+- Output: Policy recommendations
+
+**Topics Cycle:**
+- Q1: Stock status & catch limits
+- Q2: Regional equity & access
+- Q3: Community concerns
+- Q4: Annual strategy review
+
+---
+
+## Capacity Building Strategy
+
+### Three-Year Development Plan:
+
+**Year 1 (Foundational):**
+- All 6 regional coordinators trained (this program)
+- Establish protocols & databases
+- First 12 months baseline data
+- Build management committee
+
+**Year 2 (Expansion):**
+- Train 18-24 field technicians
+- Implement full regional monitoring
+- Establish data management systems
+- Link to policy processes
+
+**Year 3 (Sustainability):**
+- Local training by coordinators
+- Full regional independence
+- Secure funding mechanisms
+- Regional networks established
+
+---
+
+## Training Cascade Model
+
+### Who Trains Whom:
+
+```
+┌──────────────────────────────────┐
+│  TAFIRI (International experts)  │
+│  Trains:                         │
+├──────────────────────────────────┤
+│  6 Regional Coordinators         │
+│  (This program)                  │
+│  Train:                          │
+├──────────────────────────────────┤
+│  18-24 Field Technicians         │
+│  (Year 2 training)               │
+│  Train/Support:                  │
+├──────────────────────────────────┤
+│  Community Monitors              │
+│  (Ongoing capacity)              │
+└──────────────────────────────────┘
+```
+
+---
+
+## Funding Strategy & Sustainability
+
+### Multi-Source Funding Model:
+
+::: {.columns}
+::: {.column width="50%"}
+**Government Budget**
+- Core staff (coordinators)
+- National office operations
+- Equipment maintenance
+
+**International Donors**
+- Training programs
+- Database development
+- Regional workshops
+:::
+
+::: {.column width="50%"}
+**Private Sector**
+- Fishing company sponsorship
+- Equipment suppliers
+- Service providers
+
+**Community Contributions**
+- Landing fee allocation
+- Volunteer support
+- Local resources
+:::
+::::
+
+---
+
+## Financial Projections
+
+### Annual Budget Estimate:
+
+```r
+# Rough annual budget (USD) for complete system
+
+budget <- tibble(
+  Category = c(
+    "Staff (6 regional coordinators @ $12k/yr)",
+    "National coordinator & office",
+    "Training & workshops",
+    "Database & IT systems",
+    "Equipment & supplies",
+    "Travel & meetings",
+    "Contingency (10%)"
+  ),
+  Amount = c(72000, 25000, 15000, 20000, 10000, 8000, 15000)
+)
+
+budget |>
+  mutate(
+    Total = sum(Amount),
+    `% of Budget` = round(Amount / Total * 100, 1)
+  ) |>
+  gt() |>
+  fmt_currency(columns = Amount, currency = "USD") |>
+  opt_stylize(style = 6, color = 'gray')
+```
+
+---
+
+## Sustainability Beyond Funding
+
+### Building Independence:
+
+**By Year 3:**
+- Regional coordinators run programs
+- Local training capacity developed
+- Systems operate with minimal external support
+- Donor funds transition to catalytic role
+- National government assumes core funding
+
+**Key Success Factors:**
+- Strong local ownership
+- Demonstrated policy impact
+- Community support
+- Trained successor generation
+- Documented procedures
+
+---
+
+## Risk Management & Contingency
+
+### Potential Challenges:
+
+::: {.columns}
+::: {.column width="50%"}
+**Political Risk**
+- Solution: Multi-stakeholder governance
+- Backup: International support
+
+**Technical Risk**
+- Solution: Redundant systems
+- Backup: Manual procedures
+
+**Staff Turnover**
+- Solution: Training pipeline
+- Backup: Documentation
+:::
+
+::: {.column width="50%"}
+**Funding Gaps**
+- Solution: Diversified sources
+- Backup: Scaled-down operations
+
+**Data Quality Issues**
+- Solution: QC procedures
+- Backup: External audits
+
+**Infrastructure Failures**
+- Solution: Cloud backup
+- Backup: Offline capability
+:::
+::::
+
+---
+
+## Monitoring & Evaluation Framework
+
+### Track Progress Toward Goals:
+
+```r
+# KPIs to monitor system health
+
+kpis <- tibble(
+  KPI = c(
+    "Data completeness",
+    "Reporting timeliness",
+    "Regional participation",
+    "Committee meetings",
+    "Policy integration",
+    "Staff retention",
+    "Stakeholder satisfaction"
+  ),
+  Target = c("95%", "100%", "100%", "100%", "High", ">90%", ">80%"),
+  Measurement = c(
+    "Monthly audit",
+    "Check dates",
+    "Regional reports",
+    "Meeting records",
+    "Policy actions",
+    "Annual review",
+    "Annual survey"
+  ),
+  Frequency = c(
+    "Monthly",
+    "Monthly",
+    "Monthly",
+    "Quarterly",
+    "Annual",
+    "Annual",
+    "Annual"
+  )
+)
+```
+
+---
+
+## Communication & Outreach Strategy
+
+### Multi-Level Messaging:
+
+**For Policy Makers:**
+- Stock status updates
+- Management recommendations
+- Risk assessments
+- Quarterly briefings
+
+**For Fishing Communities:**
+- Local monitoring results
+- Seasonal updates
+- Management implications
+- Feedback opportunities
+
+**For International Partners:**
+- Technical reports
+- Progress updates
+- Success stories
+- Lessons learned
+
+---
+
+## Regional Success Stories
+
+### Model Sites to Highlight:
+
+**Berbera Region:**
+- Mature monitoring program
+- Strong commercial interest
+- Good data quality
+- Policy linkages developing
+
+**Mogadishu Region:**
+- Urban fisheries focus
+- High landing volumes
+- Growing capacity
+- Research partnerships
+
+**Emerging Successes:**
+- Community engagement improving
+- Data quality consistent
+- Staff retention stable
+- Policy interest growing
+
+---
+
+## Lessons from TAFIRI Experience
+
+### Applied to Somalia:
+
+::: {.incremental}
+1. **Start with committed partners** - Not every region ready simultaneously
+2. **Build incrementally** - Small successes lead to bigger support
+3. **Invest in people** - Staff development > equipment spending
+4. **Document everything** - Procedures survive staff turnover
+5. **Maintain data integrity** - QC is continuous, not final
+6. **Link to policy** - Data only valuable if used
+7. **Engage communities** - Fishers are essential partners
+8. **Plan for sustainability** - Think beyond project duration
+:::
+
+---
+
+## Technology Considerations
+
+### Which Tools for Which Purpose:
+
+**Data Collection:**
+- ✓ Mobile apps with offline capability
+- ✓ Paper forms (backup)
+- ✗ Complex systems (infrastructure limited)
+
+**Data Management:**
+- ✓ Cloud database (PostgreSQL)
+- ✓ Automated backups
+- ✗ Complex local servers
+
+**Analysis:**
+- ✓ R & RMarkdown (free, powerful)
+- ✓ Simple tools (Excel acceptable)
+- ✗ Expensive licensed software
+
+**Reporting:**
+- ✓ Interactive dashboards (Shiny)
+- ✓ Static reports (PDF/HTML)
+- ✓ Paper reports (where needed)
+
+---
+
+## Implementation Timeline
+
+### Year-by-Year Roadmap:
+
+**2024 (Current) - Foundation:**
+- Complete Module 1-6 training (6 coordinators)
+- Establish national committee
+- Develop protocols & database structure
+- Begin baseline data collection
+
+**2025 - Expansion:**
+- Train field technicians
+- Full monitoring at 6 regional hubs
+- Launch central database
+- Monthly regional assessments
+
+**2026 - Integration:**
+- Policy integration accelerates
+- Community programs mature
+- Quarterly national reports
+- Adaptive management cycle
+
+---
+
+## Year-by-Year Roadmap (continued)
+
+**2027 - Sustainability:**
+- Regional independence established
+- Local training capacity proven
+- Secure funding mechanisms
+- System operates smoothly
+
+**2028+ - Growth:**
+- Additional monitoring sites
+- Expanded species coverage
+- Regional network development
+- International partnerships
+
+---
+
+## Stakeholder Engagement Plan
+
+### Who to Engage When:
+
+**Immediate (Month 1-3):**
+- National government
+- Regional administrations
+- Training participants
+
+**Short-term (Month 3-12):**
+- Fishing communities
+- Landing site managers
+- Academic institutions
+
+**Medium-term (Year 2):**
+- International NGOs
+- Donor organizations
+- Policy forums
+
+**Long-term (Year 3+):**
+- Regional networks
+- IOTC coordination
+- Conservation organizations
+
+---
+
+## Advocacy & Policy Influence
+
+### How Data Informs Policy:
+
+```
+Data Collection
+      ↓
+Regional Assessment
+      ↓
+National Synthesis
+      ↓
+Policy Briefing
+      ↓
+Management Decision
+      ↓
+Implementation
+      ↓
+Effectiveness Monitoring
+      ↓ (feedback loop)
+```
+
+---
+
+## International Coordination
+
+### Regional Context - East African Fisheries:
+
+**IOTC (Indian Ocean Tuna Commission):**
+- Somalia is member state
+- Stock assessment requirements
+- Data submission deadlines
+- Capacity building support
+
+**SWIOFC (Southwest Indian Ocean Fisheries Commission):**
+- Regional coordination
+- Best practices sharing
+- Joint research initiatives
+
+**Bilateral Partnerships:**
+- Kenya, Tanzania, Mozambique
+- Experience exchange
+- Coordinated monitoring
+
+---
+
+## Research Partnerships
+
+### Leveraging Scientific Capacity:
+
+**With Universities:**
+- Student training opportunities
+- Research collaborations
+- Thesis supervision
+- Technology transfer
+
+**With Research Institutions:**
+- TAFIRI (ongoing support)
+- Other African institutes
+- International centers
+- Joint projects
+
+**With NGOs:**
+- Capacity building support
+- Conservation initiatives
+- Community programs
+- Resource support
+
+---
+
+## Adaptive Management Cycle
+
+### Using Data to Improve Fisheries:
+
+```
+Year 1-2: Establish baseline
+      ↓
+Year 2-3: Identify trends
+      ↓
+Year 3-4: Propose management changes
+      ↓
+Year 4-5: Implement & monitor effectiveness
+      ↓
+Year 5+: Refine & optimize
+      ↓ (continuous loop)
+```
+
+---
+
+## Strategic Challenges & Solutions
+
+### Key Issues to Address:
+
+**Political Will:**
+- Challenge: Competing priorities
+- Solution: Demonstrate data value
+
+**Funding Security:**
+- Challenge: Limited national budget
+- Solution: Diversify funding sources
+
+**Technical Capacity:**
+- Challenge: Limited expertise
+- Solution: Sustained training & mentoring
+
+**Community Buy-in:**
+- Challenge: Skepticism about benefits
+- Solution: Early results & transparent sharing
+
+---
+
+## Success Metrics - How We'll Know
+
+### Quantitative Indicators:
+
+- 95%+ data completeness
+- <2% measurement error
+- 100% regional participation
+- 12 quarterly reports annually
+- 3+ policy decisions using our data
+- >90% stakeholder satisfaction
+- 100% annual funding secured
+
+### Qualitative Indicators:
+
+- Strong regional team cohesion
+- Visible community support
+- Growing policy integration
+- Improved data quality
+- Documented lessons learned
+- Mentor-mentee relationships
+
+---
+
+## Conclusion: Transformation Vision
+
+### Somalia's Fisheries Future:
+
+::: {.callout-success}
+By 2027, Somalia will have:
+
+✓ Evidence-based fisheries management
+✓ Coordinated regional monitoring
+✓ Sustainable research capacity
+✓ Community-engaged governance
+✓ Data-driven policy decisions
+✓ International recognition
+✓ Regional network leadership
+:::
+
+---
+
+## Key Takeaways
+
+### Module 7 Summary:
+
+::: {.incremental}
+1. Regional coordination essential for scale
+2. Standardized protocols enable comparison
+3. Central database serves all stakeholders
+4. Clear governance structure needed
+5. Sustainability requires diverse funding
+6. Capacity building is long-term investment
+7. Policy integration is critical success factor
+8. Community engagement builds support
+9. TAFIRI experience informs best practices
+10. Success is achievable with commitment
+:::
+
+---
+
+## Your Role in Strategy Implementation
+
+### As Trained Coordinators, You Will:
+
+- [ ] Lead regional monitoring programs
+- [ ] Implement standardized protocols
+- [ ] Manage regional databases
+- [ ] Conduct quarterly assessments
+- [ ] Engage fishing communities
+- [ ] Present policy recommendations
+- [ ] Train field technicians
+- [ ] Mentor junior staff
+- [ ] Contribute to national strategy
+- [ ] Build professional networks
+
+---
+
+## Next Steps After Module 7
+
+### The Journey Forward:
+
+**Immediate (Next 3 months):**
+1. Establish national committee
+2. Finalize protocols
+3. Set up database infrastructure
+4. Assign regional coordinators
+5. Plan first monitoring cycle
+
+**Short-term (Next 12 months):**
+6. Begin baseline data collection
+7. Conduct first quarterly meeting
+8. Train field technicians
+9. Establish database operations
+10. Generate first regional reports
+
+---
+
+## Commitment & Accountability
+
+### Personal Action Plans:
+
+Each participant should develop:
+
+1. **Your Regional Vision** (2027)
+   - What does success look like?
+   - What's your role?
+   - What resources needed?
+
+2. **Your First Year Goals**
+   - What will you accomplish?
+   - Who will you work with?
+   - How will you measure success?
+
+3. **Your Support Needs**
+   - What training do you need?
+   - What equipment?
+   - What partnerships?
+
+---
+
+## Questions & Regional Discussions
+
+### Group Reflections:
+
+- What excites you about this vision?
+- What concerns do you have?
+- What barriers exist in your region?
+- How will you build support?
+- What's your first priority?
+- Who are your key partners?
+
+---
+
+## Closing Remarks from TAFIRI
+
+### The Path Forward:
+
+::: {.callout-success}
+**"Building sustainable fisheries monitoring systems requires:**
+
+- Patience and persistence
+- Strong partnerships
+- Commitment to quality
+- Community engagement
+- Data integrity
+- Realistic timelines
+- Local ownership
+
+**The work is challenging, but the impact is profound.**
+
+**You have the knowledge, support, and motivation to succeed.**
+
+**Tanzania's experience shows it's possible. Somalia can do it too."**
+
+— TAFIRI Leadership
+:::
+
+---
+
+## Final Certification
+
+### Participants Who Complete All 7 Modules:
+
+**Receive Certificate of Competency in:**
+- Fisheries Stock Assessment
+- Data Collection & Management
+- Regional Coordination
+- Evidence-Based Fisheries Management
+
+**Qualified to:**
+- Lead monitoring programs
+- Manage fisheries data systems
+- Conduct stock assessments
+- Advise on management policies
+- Train other staff members
+
+---
+
+## Resource Materials Provided
+
+### You Take Away:
+
+- [ ] Complete training manual (all 7 modules)
+- [ ] Standardized data collection forms
+- [ ] R scripts for analysis
+- [ ] Database setup templates
+- [ ] Communication templates
+- [ ] Safety & field protocols
+- [ ] Reference materials & contacts
+- [ ] Digital copies of all presentations
+
+---
+
+## Ongoing Support Commitment
+
+### TAFIRI Support Available:
+
+- **Quarterly consultations** via video conference
+- **Annual in-person visit** per region
+- **Email support** for technical questions
+- **Peer networking** with other East African programs
+- **Advanced training** on demand
+- **Joint research opportunities**
+- **Publication support**
+
+**Long-term partnership, not a one-time project**
+
+---
+
+## Contact & Continuation
+
+### Key Contacts:
+
+**TAFIRI Coordination:**
+📧 Email: [tafiri.contact@example.com]
+📱 Phone: [Phone number]
+🌐 Website: www.tafiri.go.tz
+
+**National Coordinator (Somalia):**
+📧 Email: [national.coordinator@somaliafisheries.so]
+📱 Phone: [Phone number]
+
+**Regional Coordinators:**
+Contact list by region (provided separately)
+
+---
+
+## Congratulations!
+
+### You Have Completed:
+
+- ✓ **Module 1**: Fundamentals & Concepts
+- ✓ **Module 2**: Data Collection Protocols
+- ✓ **Module 3**: Data-Limited Methods
+- ✓ **Module 4**: Data Processing & Storage
+- ✓ **Module 5**: Data Analysis Methods
+- ✓ **Module 6**: Field Exercises
+- ✓ **Module 7**: Strategy Development
+
+## What Comes Next:
+
+### Transition to Implementation:
+
+**Weeks 1-4:** Establish national committee & begin coordination
+**Months 2-6:** Set up infrastructure & train technicians
+**Months 6-12:** Launch full regional monitoring
+**Year 2+:** Integrate into policy & expand coverage
+
+---
+
+## Thank You
+
+**Somali Fish Stock Training Program**
+
+**Module 7: Strategy Development & Regional Coordination**
+
+**Led By: Tanzania Fisheries Research Institute (TAFIRI)**
+
+*Building sustainable evidence-based fisheries management*
+
+*For the people and waters of Somalia*
+
+---
+
+## Final Reflection
+
+### Your Impact:
+
+::: {.callout-success}
+The data you collect
+The analyses you conduct
+The decisions you influence
+The communities you engage
+
+Will determine the future of fisheries in Somalia.
+
+**This is important work.**
+
+**You are ready.**
+
+**Go make a difference.**
+:::
+
+---
+
+## Session Evaluation
+
+### Please Complete:
+
+Feedback survey covering:
+- Learning effectiveness
+- Relevance to your work
+- Trainer quality
+- Facilities & logistics
+- Materials & resources
+- Confidence to implement
+- Support needs going forward
+- Overall satisfaction
+
+Your feedback helps us improve the program.
+
+---
+
+## Certification Handover
+
+### Official Ceremony:
+
+Each participant receives:
+- Certificate of Competency
+- Regional assignment letter
+- Contact directory
+- Resource package
+- Support commitment letter
+
+**Signed by:**
+- TAFIRI Director
+- Somali Fisheries Ministry
+- Training Program Lead
+
+---
+
+## One More Thing...
+
+### The Journey Doesn't End Here
+
+::: {.callout-note}
+This training is the beginning, not the end.
+
+Real learning happens in the field, in your communities, in your data.
+
+The skills you've learned need to be applied, adapted, and improved continuously.
+
+The network you've built is your strongest asset.
+
+The commitment you make today will shape fisheries management in Somalia for decades.
+
+**Stay connected. Keep learning. Lead boldly.**
+:::
+
+---
+
+## Thank You for Your Commitment
+
+**Somali Fish Stock Training Program**
+
+*Empowering Evidence-Based Fisheries Management*
+
+**October 2024 - January 2025**
+
+Questions? Contact TAFIRI or your regional coordinator.
+
+**Welcome to the team.**

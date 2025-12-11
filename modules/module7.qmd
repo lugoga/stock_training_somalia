@@ -1,0 +1,237 @@
+---
+title: "Module 7: Strategy Development (Led by TAFIRI)"
+---
+
+## Overview
+
+This final module integrates all training into a coherent national strategy for evidence-based fisheries management. Led by TAFIRI experts, it bridges monitoring to policy.
+
+## Learning Objectives
+
+By the end of this module, participants will:
+
+- [ ] Develop national monitoring framework
+- [ ] Design regional coordination mechanisms
+- [ ] Establish data sharing protocols
+- [ ] Create policy integration pathways
+- [ ] Plan implementation with realistic timelines
+
+## National Monitoring Framework
+
+### Components
+
+#### 1. Governance Structure
+- National Steering Committee
+- Regional Coordinator Networks
+- Technical Working Groups
+- International Partners
+
+#### 2. Standardization
+- Common protocols across regions
+- Unified data forms
+- Consistent definitions
+- Quality assurance procedures
+
+#### 3. Central Database
+- Location and access
+- Data hosting solutions
+- Backup and security
+- User management
+
+#### 4. Capacity Building
+- Initial training completed (this program)
+- Ongoing professional development
+- New staff recruitment and training
+- Advanced training opportunities
+
+## Regional Coordination Mechanisms
+
+### Information Sharing
+- Monthly regional meetings
+- Quarterly national meetings
+- Annual strategy review
+- Ad-hoc problem-solving
+
+### Data Flow
+```
+Landing Sites → Regional Database → National System
+                       ↓
+                    Analysis
+                       ↓
+                   Management
+```
+
+### Coordination Roles
+- **Regional Coordinator:** Data management, quality assurance
+- **National Manager:** Overall coordination, policy liaison
+- **Technical Advisors:** Assessment, data analysis
+- **TAFIRI Support:** Mentoring, advanced training
+
+## Data Sharing Protocols
+
+### Within Regions
+- Weekly reporting from landing sites
+- Quality checks by regional coordinator
+- Monthly summary reports
+- Immediate alert if issues arise
+
+### National Level
+- Monthly regional submissions
+- Consolidation into national database
+- Quarterly analysis and reporting
+- Annual comprehensive assessment
+
+### External Sharing
+- IOTC reporting compliance
+- International publication
+- Academic partnerships
+- NGO collaborations
+
+### Confidentiality
+- Vessel-level data restricted
+- Aggregate reporting public
+- Research access agreements
+- Intellectual property protections
+
+## Policy Integration Pathways
+
+### Data to Decisions
+```
+Monitoring → Analysis → Assessment → Recommendations → Policy
+   ↓          ↓          ↓             ↓               ↓
+Landing     Statistics  Stock       Management      Regulations
+Sites       & Trends    Status       Options         & Measures
+```
+
+### Policy Areas
+- Catch limits (TACs)
+- Seasonal closures
+- Gear restrictions
+- Spatial management
+- Industrial vs. artisanal balance
+
+### Communication Strategy
+- Regular briefings to Ministry
+- Annual policy workshops
+- Evidence summaries for decision-makers
+- Stakeholder engagement forums
+
+## Implementation Roadmap
+
+### Immediate (2025)
+- [ ] Complete this training program
+- [ ] Establish national steering committee
+- [ ] Design final database system
+- [ ] Select national database platform
+
+### Short-term (2025-2026)
+- [ ] Deploy regional monitoring at 6 hubs
+- [ ] Begin daily landing site monitoring
+- [ ] Establish data submission procedures
+- [ ] Train first cohort of analysts
+
+### Medium-term (2026-2027)
+- [ ] Expand to all major landing sites
+- [ ] Integrate historical data
+- [ ] Conduct first national stock assessments
+- [ ] Link assessments to policy changes
+
+### Long-term (2027+)
+- [ ] Sustain monitoring indefinitely
+- [ ] Regular stock assessments
+- [ ] International data contributions
+- [ ] Research vessel surveys
+
+## Sustainability Planning
+
+### Funding Mechanisms
+- Government budget allocation
+- International development partnerships
+- Private sector contributions
+- Regional cooperation funding
+
+### Staffing
+- Permanent regional coordinators
+- National program manager
+- Data analysts
+- Field technicians
+
+### Technology
+- Hardware and software maintenance
+- Regular system updates
+- Data security investments
+- Internet infrastructure
+
+## Challenges and Solutions
+
+### Challenge: Budget Constraints
+- Solutions: Phased implementation, cost-sharing, innovative funding
+
+### Challenge: Staff Retention
+- Solutions: Competitive salaries, career development, incentives
+
+### Challenge: Data Quality
+- Solutions: Continuing training, supervision, incentives
+
+### Challenge: Policy Uptake
+- Solutions: Regular briefings, stakeholder engagement, evidence synthesis
+
+## Practical Activities
+
+- [ ] Draft national monitoring framework outline
+- [ ] Design regional coordination meeting agenda
+- [ ] Create data flow diagram for your region
+- [ ] Identify policy windows for integration
+
+## Resources
+
+- **Documents:** Implementation roadmap (detailed 3-year plan)
+- **Templates:** Coordination meeting agendas
+- **Guides:** Policy briefing templates
+- **Network:** TAFIRI mentor contacts
+
+## Group Work: Implementation Planning
+
+### By Region
+- Review local context
+- Identify key partners
+- Assess resource availability
+- Develop first-year action plan
+- Present to group
+
+### Expected Outputs
+- Regional implementation roadmap
+- Key milestone timeline
+- Resource requirements
+- Success indicators
+
+## Assessment
+
+- Strategic plan draft quality
+- Group presentation clarity
+- Feasibility assessment
+- Commitment to next steps
+
+## Next Steps After Training
+
+1. **Immediate (Next Week)**
+   - Debrief with regional leadership
+   - Plan implementation logistics
+   - Identify quick wins
+
+2. **Short-term (January-March)**
+   - Deploy monitoring at initial sites
+   - Begin data collection
+   - Establish regional databases
+
+3. **Ongoing**
+   - Monthly regional coordination calls
+   - TAFIRI mentoring support
+   - Advanced training opportunities
+   - Joint research collaborations
+
+---
+
+**Congratulations on Completing the Core Training!**
+
+You now have the knowledge and skills to lead evidence-based fisheries management in Somalia. The practical exercises and research vessel training follow, along with your Graduation Ceremony on December 24.

@@ -1,0 +1,182 @@
+---
+title: "Module 2: Fisheries Data Types"
+date: "2025-12-05"
+date-modified: today
+author: 
+    - name: "Masumbuko Semba"
+      affiliation: "Nelson Mandela African Institution of Science and Technology"
+      email: "lugosemba@gmail.com"
+    - name: "Dr. Rushingisha George"
+      affiliation: "Tangania Fisheries Research Institute"
+      email: "george.rushingisha@tafiri.go.tz"
+    - name: "Dr. Mary Kishe"
+      affiliation: "Tanzania Fisheries Research Institute"
+      email: "mary.kishe@tafiri.go.tz"
+    - name: "Dr. Ismael Kimirei"
+      affiliation: "Tanzania Fisheries Research Institute"
+      email: "ismael.kimirei@tafiri.go.tz"
+execute: 
+  warning: false
+  message: false
+  comment: ""
+---
+
+## Overview
+
+Fisheries stock assessment relies on diverse data types. This module explores what data is available, how it's collected, and how it's used.
+
+
+
+```{r}
+#| echo: false
+#| 
+require(sf)
+require(tidyverse)
+require(sizeMat)
+require(gt)
+require(tidyplots)
+require(patchwork)
+require(leaflet)
+```
+
+
+```{r}
+#| echo: false
+
+
+lw = readxl::read_excel('../data_shared/ProjKalluun_master_data_entry.xlsx', sheet = 'Section 3', skip= 4) |> 
+    janitor::clean_names() |> 
+    filter(!is.na(landing_site))
+
+lw = lw |> 
+ mutate(
+    year = year(date_dd_mm_yy),
+    month = month(date_dd_mm_yy, label = TRUE),
+    day = day(date_dd_mm_yy), 
+    .after = date_dd_mm_yy
+ ) |> 
+    mutate(
+    weight_kg = as.numeric(weight_kg),
+    length_cm = as.numeric(length_cm)
+    )
+```
+
+```{r}
+lw |> 
+  # glimpse()
+  select(year, month, region,landing_site, fish_group, length_cm, weight_kg) |>
+  sample_n(30)  |> 
+  gt() |>
+  cols_label(
+    year = 'Year',
+    month = 'Month',
+    region = 'Region',
+    landing_site = 'Landing Site',
+    fish_group = 'Fish Group',
+    length_cm = 'Length (cm)',
+    weight_kg = 'Weight (kg)'
+  ) |>
+    tab_options(
+        table.width = px(700), 
+        table.font.size = '12px', 
+        heading.title.font.size = '16px',
+        heading.subtitle.font.size = '14px',
+        heading.subtitle.font.weight = 'bold',
+        latex.use_longtable = TRUE,
+        data_row.padding = px(8),
+        column_labels.padding = px(8)
+    ) |>
+    opt_stylize(style = 6, color = 'gray')
+```
+
+
+
+## Learning Objectives
+
+By the end of this module, participants will:
+
+- [ ] Classify different fisheries data types
+- [ ] Understand advantages and limitations of each data type
+- [ ] Explain how different data types serve assessment needs
+- [ ] Recognize data quality indicators
+- [ ] Assess data availability for Somali stocks
+
+## Data Types Covered
+
+### 1. Catch Data
+- Landings by species
+- Temporal trends
+- Spatial information
+- Data sources and quality
+
+### 2. Effort Data
+- Fishing effort metrics
+- Fleet characteristics
+- Seasonality
+- Regional variations
+
+### 3. Catch Composition Data
+- Species composition
+- Size composition
+- Discard data
+- Bycatch information
+
+### 4. Biological Sampling Data
+- Length measurements
+- Age data
+- Maturity observations
+- Condition factors
+
+### 5. Environmental Data
+- Sea surface temperature
+- Oceanographic conditions
+- Seasonal patterns
+- Climate impacts
+
+## Somali Fisheries Context
+
+### Typical Data Available
+- Landing site monitoring (partial)
+- Market surveys (limited)
+- Observer programs (developing)
+- Research surveys (sparse)
+
+### Gaps and Challenges
+- Limited historical data
+- Spatial and temporal gaps
+- Quality inconsistencies
+- Limited biological sampling
+
+## Data Quality Framework
+
+```
+Data Quality Assessment:
+├── Completeness (% of data collected)
+├── Accuracy (measurement error)
+├── Consistency (within and across regions)
+├── Timeliness (how current is the data)
+└── Validity (plausibility of values)
+```
+
+## Practical Activities
+
+- [ ] Review actual Somali landing site data
+- [ ] Identify data gaps for your region
+- [ ] Assess data quality issues
+- [ ] Propose data improvements
+
+## Resources
+
+- **Reference Data:** Example datasets from IOTC
+- **Standards:** FAO Guidelines on Data Collection
+- **Tools:** Excel templates for data entry
+
+## Assessment
+
+- Data type identification quiz
+- Quality assessment exercise
+- Group discussion on Somali data needs
+
+---
+
+**Next Module:** Data Collection Methods (December 16)

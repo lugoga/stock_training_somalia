@@ -1,0 +1,141 @@
+---
+title: "About This Program"
+---
+
+## Program Overview
+
+The **Somali Fish Stock Training Program** is a comprehensive capacity-building initiative to establish evidence-based fisheries management across Somalia's 6 coastal regions.
+
+## Why This Program?
+
+Somalia faces critical challenges in fisheries:
+
+- Limited scientific capacity for stock assessment
+- Inconsistent data collection across regions
+- Weak policy-science linkages
+- Unsustainable fishing practices
+- Food security concerns
+
+This program directly addresses these gaps through practical, science-based training.
+
+## Partnership with TAFIRI
+
+**Tanzania Fisheries Research Institute (TAFIRI)** brings:
+
+- 10+ years of Indian Ocean fisheries expertise
+- Proven training and mentoring approaches
+- Regional experience with similar programs
+- Long-term commitment to sustainability
+
+## Learning Approach
+
+### Theory + Practice
+
+- Classroom modules establish scientific foundations
+- Field exercises connect theory to real-world monitoring
+- Research vessel training demonstrates advanced techniques
+- Strategy development ensures practical implementation
+
+### Participatory Learning
+
+- Participants from all 6 regions
+- Exchange of regional experiences
+- Peer learning and networking
+- Local solutions to local challenges
+
+### Evidence-Based
+
+- Training grounded in best international practices
+- Use of real Somali fisheries data
+- Attention to local context and constraints
+- Realistic, implementable approaches
+
+## Training Team
+
+### TAFIRI Leadership
+
+- Dr. [Director] - Overall supervision
+- [Assessment Specialist] - Module 1-2
+- [Data Management Expert] - Module 3-4
+- [Analysis Specialist] - Module 5
+- [Strategy Advisor] - Module 7
+
+### Somalia Partners
+
+- Regional fisheries coordinators
+- Landing site monitors
+- Ministry of Fisheries representatives
+- International technical advisors
+
+## Expected Outcomes
+
+### For Participants
+
+- Certificate of competency
+- Practical monitoring skills
+- Network of regional colleagues
+- Career advancement opportunities
+
+### For Somalia
+
+- Coordinated monitoring system
+- Standardized data collection
+- National database
+- Evidence-based policies
+- Sustainable fisheries
+
+## 3-Year Implementation Plan
+
+**2024-2025:** Training, capacity building, system design  
+**2025-2026:** Deploy monitoring, begin data collection  
+**2026-2027:** Scale up, integrate data, conduct assessments  
+**2027+:** Sustain, expand, advance to research
+
+## Funding
+
+This program is supported by:
+- [International development partners]
+- [Conservation organizations]
+- [Government contributions]
+- [Private sector partnerships]
+
+## Vision 2027
+
+> By 2027, Somalia will have coordinated monitoring at all 6 regions, 
+> standardized protocols, real-time data sharing, monthly assessments, 
+> and demonstrated policy integration - supporting sustainable fisheries 
+> and food security for the Somali people.
+
+## Contact Information
+
+- **Email:** [contact@tafiri.go.tz](mailto:contact@tafiri.go.tz)
+- **Program Manager:** [Name and contact]
+- **Regional Coordinators:** Listed by region below
+
+### Regional Contacts
+
+| Region | Coordinator | Email | Phone |
+|--------|-----------|-------|-------|
+| Berbera | [Name] | berbera@fisheries.so | [Phone] |
+| Borama | [Name] | borama@fisheries.so | [Phone] |
+| Mogadishu | [Name] | mogadishu@fisheries.so | [Phone] |
+| Kismayo | [Name] | kismayo@fisheries.so | [Phone] |
+| Baidoa | [Name] | baidoa@fisheries.so | [Phone] |
+| Galkacyo | [Name] | galkacyo@fisheries.so | [Phone] |
+
+## Program Documents
+
+- [3-Year Implementation Roadmap](documents/implementation_roadmap.pdf)
+- [Training Manual](materials/training_manual.pdf)
+- [Data Collection Standards](materials/data_standards.pdf)
+- [Database User Guide](materials/database_guide.pdf)
+
+## Acknowledgments
+
+This program builds on decades of fisheries research and is made possible by the dedication of:
+- TAFIRI scientists and trainers
+- Somalia Fisheries Ministry
+- Regional fisheries authorities
+- Fishing communities
+- International conservation partners
+- Program participants and supporters

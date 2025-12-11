@@ -1,0 +1,217 @@
+---
+title: "Module 3: Data Collection Methods"
+date: "2025-12-05"
+date-modified: today
+author: 
+    - name: "Masumbuko Semba"
+      affiliation: "Nelson Mandela African Institution of Science and Technology"
+      email: "lugosemba@gmail.com"
+    - name: "Dr. Rushingisha George"
+      affiliation: "Tangania Fisheries Research Institute"
+      email: "george.rushingisha@tafiri.go.tz"
+    - name: "Dr. Mary Kishe"
+      affiliation: "Tanzania Fisheries Research Institute"
+      email: "mary.kishe@tafiri.go.tz"
+    - name: "Dr. Ismael Kimirei"
+      affiliation: "Tanzania Fisheries Research Institute"
+      email: "ismael.kimirei@tafiri.go.tz"
+execute: 
+  warning: false
+  message: false
+  comment: ""
+---
+
+## Overview
+
+Standardized, high-quality data collection is essential for effective stock assessment. This module covers practical protocols for monitoring fisheries.
+
+
+
+```{r}
+#| echo: false
+#| 
+require(sf)
+require(tidyverse)
+require(sizeMat)
+require(gt)
+require(tidyplots)
+require(patchwork)
+require(leaflet)
+require(janitor)
+```
+
+
+```{r}
+#| echo: false
+
+
+lw = readxl::read_excel('../data_shared/ProjKalluun_master_data_entry.xlsx', sheet = 'Section 3', skip= 4) |> 
+    janitor::clean_names() |> 
+    filter(!is.na(landing_site))
+
+lw = lw |> 
+ mutate(
+    year = year(date_dd_mm_yy),
+    month = month(date_dd_mm_yy, label = TRUE),
+    day = day(date_dd_mm_yy), 
+    .after = date_dd_mm_yy
+ ) |> 
+    mutate(
+    weight_kg = as.numeric(weight_kg),
+    length_cm = as.numeric(length_cm)
+    )
+```
+
+
+```{r}
+#| label: tbl-summary
+#| tbl-cap: Fish Landings by Month and Region (Summary)
+
+
+lw |> 
+    janitor::tabyl(month, region) |> 
+    janitor::adorn_totals(where = c('col',"row")) |> 
+    as_tibble()  |>
+    gt() |> 
+    # tab_header(
+    #     title = "Fish Landings by Month and Region (Summary)",
+    #     subtitle = "Crosstab with row and column totals"
+    # ) |>
+    tab_options(
+        table.width = px(600), 
+        table.font.size = '12px', 
+        heading.title.font.size = '16px',
+        heading.subtitle.font.size = '12px',
+        heading.subtitle.font.weight = 'bold',
+        latex.use_longtable = TRUE, 
+        data_row.padding = px(6),
+        column_labels.padding = px(8)
+    ) |>
+    data_color(
+        columns = Berbera:Mogadishu,
+        rows = 1:12,
+        method = 'quantile',
+        quantiles = 8,
+        colors = scales::col_numeric(
+            palette = 'YlOrRd',
+            domain = NULL
+        )
+    ) |>
+    opt_stylize(style = 6, color = 'gray')
+```
+
+## Learning Objectives
+
+By the end of this module, participants will:
+
+- [ ] Design sampling schemes for landing sites
+- [ ] Implement quality assurance procedures
+- [ ] Train data collectors
+- [ ] Handle common field challenges
+- [ ] Coordinate regional monitoring
+
+## Sampling Design Principles
+
+### Key Concepts
+- **Population:** Target of inference (all landings in a region)
+- **Sampling:** Efficient way to estimate population characteristics
+- **Stratification:** Dividing population into meaningful groups
+- **Random selection:** Reducing bias in sampling
+
+### Sampling Types
+- Systematic sampling (every nth landing)
+- Stratified sampling (by vessel type, season, species)
+- Purposive sampling (typical vessels)
+- Adaptive sampling (responsive to conditions)
+
+## Landing Site Monitoring
+
+### Standard Protocol
+1. **Pre-landing observation** - vessel and crew info
+2. **Catch landing** - species and weight recording
+3. **Length sampling** - take random sample for measurement
+4. **Biological sampling** - collect specimens for analysis
+5. **Data recording** - digital or paper forms
+
+### Quality Assurance Checks
+- Duplicate measurements
+- Data validation rules
+- Supervisor verification
+- Regular audits
+
+## Observer Programs
+
+### Onboard Observation
+- Vessel selection
+- Observer training
+- Data collection at sea
+- Safety protocols
+
+### Challenges
+- Cost and logistics
+- Safety at sea
+- Language barriers
+- Data transmission
+
+## Data Collection Forms
+
+### Essential Information
+- Date, time, location
+- Vessel characteristics
+- Fishing gear details
+- Species and quantities
+- Individual fish measurements
+- Environmental conditions
+
+## Training Data Collectors
+
+### Key Topics
+- Species identification
+- Measurement techniques
+- Form completion
+- Data quality
+- Safety procedures
+
+### Certification
+- Written exam
+- Practical demonstration
+- Supervised practice
+- Ongoing evaluation
+
+## Regional Coordination
+
+### Standardization
+- Common forms across regions
+- Consistent protocols
+- Regular training
+- Quality monitoring
+
+### Communication
+- Data flow procedures
+- Reporting schedules
+- Feedback mechanisms
+- Issue resolution
+
+## Practical Activities
+
+- [ ] Practice species identification with specimens
+- [ ] Complete data entry exercises
+- [ ] Role-play landing site scenarios
+- [ ] Develop regional protocols
+
+## Resources
+
+- **Forms:** Standardized data collection templates
+- **Guide:** Landing site monitoring manual
+- **Tools:** Measurement boards, scales, specimen jars
+
+## Assessment
+
+- Practical identification test
+- Form completion exercise
+- Protocol design project
+- Regional coordination plan
+
+---
+
+**Next Module:** Data Processing and Storage (December 17)

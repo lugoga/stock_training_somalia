@@ -1,0 +1,82 @@
+project:
+  type: website
+  output-dir: docs
+
+website:
+  # title: "Fishery Stock-SOMALIA"
+  navbar:
+    background: secondary
+    left:
+      - text: "Training"
+        href: index.qmd
+      - text: "About"
+        href: about.qmd
+      - text: "Modules"
+        menu:         
+          - text: "Module 1: Stock Assessment Fundamentals & Concepts"
+            href: modules/module1.qmd
+          - text: "Module 2: Data Collection Protocols & Sampling Design"
+            href: modules/module2.qmd
+          - text: "Module 3: Data-Limited Stock Assessment Methods"
+            href: modules/module3.qmd
+          - text: "Module 4: Data Processing and Storage"
+            href: modules/module4.qmd
+          - text: "Module 5: Data Analysis Methods for Stock Assessment"
+            href: modules/module5.qmd
+          - text: "Module 6: Practical Field Exercises at Landing Sites"
+            href: modules/module6.qmd
+      - text: "Presentations"
+        menu: 
+          - text: "Stock Assessment Fundamentals & Concepts"
+            href: presentations/module_1_presentation.qmd
+          - text: "Data Collection Protocols & Sampling Design"
+            href: presentations/module_2_presentation.qmd
+          - text: "Data-Limited Stock Assessment Methods"
+            href: presentations/module_3_presentation.qmd
+          - text: "Data Processing and Storage"
+            href: presentations/module_4_presentation.qmd
+          - text: "Data Analysis Methods for Stock Assessment"
+            href: presentations/module_5_presentation.qmd
+          - text: "Practical Field Exercises at Landing Sites"
+            href: presentations/module_6_presentation.qmd
+          - text: "Training Need Assessment"
+            href: presentations/tna_presentation.qmd
+
+
+    right:
+      - icon: github
+        href: https://github.com/yourusername/stock-trading-course
+
+  sidebar:
+    style: "floating"
+    search: true
+    contents:
+      - section: "Getting Started"
+        contents:
+          - index.qmd
+      - section: "Course Modules"
+        contents:
+          - modules/module1.qmd
+          - modules/module2.qmd
+          - modules/module3.qmd
+          - modules/module4.qmd
+          - modules/module5.qmd
+          - modules/module6.qmd
+
+  page-footer:
+    background: secondary
+    # left: |
+    #   © 2025 Semba      
+    center: |
+      © 2025 Semba | Developed in partnership with [TAFIRI](https://www.tafiri.go.tz). | [Contact Us](mailto:info@tafiri.go.tz)
+    # right: |
+    #   [Contact Us](mailto:info@tafiri.go.tz) | [GitHub]({{< var website.navbar.right.1.href >}})
+
+format:
+  html:
+    theme: cosmo
+    css: styles.css
+    toc: true
+    toc-depth: 3
+    code-fold: true
+    code-tools: true

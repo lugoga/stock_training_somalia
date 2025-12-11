@@ -1,0 +1,97 @@
+---
+title: "Module 2: Fisheries Data Types"
+---
+
+## Overview
+
+Fisheries stock assessment relies on diverse data types. This module explores what data is available, how it's collected, and how it's used.
+
+## Learning Objectives
+
+By the end of this module, participants will:
+
+- [ ] Classify different fisheries data types
+- [ ] Understand advantages and limitations of each data type
+- [ ] Explain how different data types serve assessment needs
+- [ ] Recognize data quality indicators
+- [ ] Assess data availability for Somali stocks
+
+## Data Types Covered
+
+### 1. Catch Data
+- Landings by species
+- Temporal trends
+- Spatial information
+- Data sources and quality
+
+### 2. Effort Data
+- Fishing effort metrics
+- Fleet characteristics
+- Seasonality
+- Regional variations
+
+### 3. Catch Composition Data
+- Species composition
+- Size composition
+- Discard data
+- Bycatch information
+
+### 4. Biological Sampling Data
+- Length measurements
+- Age data
+- Maturity observations
+- Condition factors
+
+### 5. Environmental Data
+- Sea surface temperature
+- Oceanographic conditions
+- Seasonal patterns
+- Climate impacts
+
+## Somali Fisheries Context
+
+### Typical Data Available
+- Landing site monitoring (partial)
+- Market surveys (limited)
+- Observer programs (developing)
+- Research surveys (sparse)
+
+### Gaps and Challenges
+- Limited historical data
+- Spatial and temporal gaps
+- Quality inconsistencies
+- Limited biological sampling
+
+## Data Quality Framework
+
+```
+Data Quality Assessment:
+├── Completeness (% of data collected)
+├── Accuracy (measurement error)
+├── Consistency (within and across regions)
+├── Timeliness (how current is the data)
+└── Validity (plausibility of values)
+```
+
+## Practical Activities
+
+- [ ] Review actual Somali landing site data
+- [ ] Identify data gaps for your region
+- [ ] Assess data quality issues
+- [ ] Propose data improvements
+
+## Resources
+
+- **Reference Data:** Example datasets from IOTC
+- **Standards:** FAO Guidelines on Data Collection
+- **Tools:** Excel templates for data entry
+
+## Assessment
+
+- Data type identification quiz
+- Quality assessment exercise
+- Group discussion on Somali data needs
+
+---
+
+**Next Module:** Data Collection Methods (December 16)

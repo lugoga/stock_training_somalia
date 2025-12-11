@@ -1,0 +1,219 @@
+---
+title: "Somali Fish Stock Training Program"
+subtitle: "Evidence-Based Fisheries Management for Sustainable Development"
+description: "A comprehensive 7-module training program in partnership with TAFIRI"
+image: assets/banner.jpg
+toc: false
+---
+
+:::{.callout-note}
+**Training Program:** December 6-24, 2025 | **Location:** Multiple Venues Across Somalia
+:::
+
+## Welcome
+
+This comprehensive training program builds capacity for evidence-based fisheries management across Somalia's 6 coastal regions. Developed in partnership with the **Tanzania Fisheries Research Institute (TAFIRI)**, it combines theory and practical field experience.
+
+::: {.grid}
+
+::: {.g-col-12 .g-col-md-4}
+### 📚 7 Modules
+Complete curriculum covering assessment fundamentals to policy integration
+:::
+
+::: {.g-col-12 .g-col-md-4}
+### 🎯 Hands-On Training
+Practical field exercises and real data analysis
+:::
+
+::: {.g-col-12 .g-col-md-4}
+### 🌍 Regional Coordination
+Standardized protocols across 6 coastal regions
+:::
+
+:::
+
+---
+
+## Training Modules
+
+::: {.panel-tabset}
+
+### Module 1: Fundamentals
+**Fundamentals of Fish Stock Assessment**
+
+**Date:** 14 December 2025
+
+Core concepts and principles of fisheries stock assessment:
+- Stock assessment objectives and approaches
+- Key biological parameters (growth, mortality, recruitment)
+- Population dynamics fundamentals
+- Data types and their uses
+- Best practices in fisheries science
+
+{{< include modules/module1.qmd >}}
+
+### Module 2: Data Types
+**Fisheries Data Types**
+
+**Date:** 15 December 2025
+
+Understanding different fisheries data categories:
+- Catch and effort data
+- Biological sampling data
+- Catch composition
+- Length and age data
+- Environmental data
+
+{{< include modules/module2.qmd >}}
+
+### Module 3: Data Collection
+**Data Collection Methods**
+
+**Date:** 16 December 2025
+
+Practical protocols for standardized data collection:
+- Sampling design principles
+- Landing site monitoring
+- Onboard observer programs
+- Quality assurance and control
+- Common challenges and solutions
+
+{{< include modules/module3.qmd >}}
+
+### Module 4: Data Processing
+**Data Processing and Storage**
+
+**Date:** 17 December 2025
+
+Managing and storing fisheries data effectively:
+- Data cleaning and validation
+- Database design for fisheries data
+- Data entry protocols
+- Security and backup
+- Integration with national system
+
+{{< include modules/module4.qmd >}}
+
+### Module 5: Data Analysis
+**Data Analysis Methods**
+
+**Date:** 18 December 2025
+
+Statistical methods and visualization:
+- Descriptive statistics for fisheries data
+- Time series analysis
+- Stock indicators and indices
+- Visualization techniques
+- Interpretation and reporting
+
+{{< include modules/module5.qmd >}}
+
+### Module 6: Field Exercises
+**Practical Field Exercises at Landing Sites**
+
+**Date:** 19 December 2025
+
+Hands-on training at operational landing sites:
+- Field sampling protocols
+- Data collection practice
+- Observer training
+- Real-world problem solving
+- Regional coordination
+
+{{< include modules/module6.qmd >}}
+
+### Module 7: Strategy
+**Strategy Development (Led by TAFIRI)**
+
+**Date:** 20 December 2025
+
+Developing regional and national strategy:
+- National monitoring framework
+- Regional coordination mechanisms
+- Data sharing protocols
+- Policy integration pathways
+- Implementation roadmap
+
+{{< include modules/module7.qmd >}}
+
+:::
+
+---
+
+## Program Highlights
+
+### 🚢 Research Vessel Exercises
+**Dates:** 21-23 December 2025
+
+Three-day intensive practical training aboard research vessels:
+- Onboard data collection
+- Trawl survey methods
+- Fish species identification
+- Stock assessment in practice
+- Advanced field techniques
+
+### 🎓 Graduation
+**Date:** 24 December 2025
+
+Closing ceremony and certificate awards for all participants completing the program.
+
+---
+
+## Quick Links
+
+| Resource | Link |
+|----------|------|
+| **Full Schedule** | [View Calendar](schedule.qmd) |
+| **Data Templates** | [Download Forms](resources/templates.qmd) |
+| **Reference Materials** | [Scientific Literature](resources/references.qmd) |
+| **Tools & Software** | [Required Software](resources/tools.qmd) |
+| **Implementation Guide** | [3-Year Plan](documents/implementation_roadmap.pdf) |
+
+---
+
+## Learning Outcomes
+
+Upon completion, participants will be able to:
+
+✓ Understand stock assessment principles and data requirements  
+✓ Design and implement standardized data collection  
+✓ Process and validate fisheries data  
+✓ Conduct basic data analysis and visualization  
+✓ Lead monitoring programs at regional level  
+✓ Integrate evidence into management decisions  
+✓ Train other staff in best practices  
+
+---
+
+## Key Information
+
+### 📍 Regional Hubs
+- Berbera, Borama, Mogadishu, Kismayo, Baidoa, Galkacyo
+
+### 🤝 Partnership
+**Tanzania Fisheries Research Institute (TAFIRI)**  
+Providing mentoring, training delivery, and long-term support
+
+### 📋 Requirements
+- Basic computer literacy (for data analysis modules)
+- Field experience preferred but not required
+- Commitment to complete all 7 modules
+
+### 🎖️ Certification
+Participants completing all modules receive a **Certificate of Competency** in Evidence-Based Fisheries Management
+
+---
+
+## Get Started
+
+1. **Review the Schedule** - [Full Program Timeline](schedule.qmd)
+2. **Explore Modules** - Use tabs above to browse each training module
+3. **Download Materials** - [Data templates and guides](resources/templates.qmd)
+4. **Contact Coordinator** - Reach out to your regional hub
+
+---
+
+**Ready to build sustainable fisheries management in Somalia?**
+
+[Contact Us](mailto:contact@tafiri.go.tz) | [GitHub Repository](https://github.com/somaliafisheries/training-program)
