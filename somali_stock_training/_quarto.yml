@@ -28,6 +28,8 @@ website:
             href: modules/module5.qmd
           - text: "Module 6: Practical Field Exercises at Landing Sites"
             href: modules/module6.qmd
+      - text: "Blog"
+        href: blog.qmd
       # - text: "Presentations"
       #   menu: 
       #     - text: "Stock Assessment Fundamentals & Concepts"
