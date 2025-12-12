@@ -79,11 +79,6 @@ By the end of this module, participants will:
 - [ ] Identify data needs for Somali fisheries
 - [ ] Discuss assessment priorities by region
 
-## Resources
-
-- **Reading:** Costello et al. (2012) - Status and Solutions
-- **Reference:** FAO Technical Guidelines for Stock Assessment
-- **Software:** Introduction to R and TropFishR package
 
 ## Assessment
 
@@ -93,4 +88,3 @@ By the end of this module, participants will:
 
 ---
 
-**Next Module:** Fisheries Data Types (December 15)
