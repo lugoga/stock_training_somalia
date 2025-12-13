@@ -15,7 +15,7 @@ toc: false
 **Venue**: White Sands Hotel
 
 | Time | Activity | Facilitator(s) |
-|----------------|----------------------------------------|----------------|
+|-----------------|--------------------------------------|-----------------|
 | 8:30 – 9:00 | Registration of the participants and other arrangements | Secretariat |
 | 9:00– 9:10 | Round table introduction | Dr Rushingisha |
 | 9:10 -9:20 | Remarks from TAFIRI Director General | Dr Rushingisha |
@@ -42,4 +42,14 @@ toc: false
 **Date**: 14 December 2025\
 **Venue**: White Sands Hotel
 
-*Agenda to be added.*
+| Time | Activity | Facilitator(s) |
+|:--------------|:-------------------------------------------|:------------|
+| 8:00 – 8:30 | Registration | Secretariat |
+| 8:30 – 9:30 | **Presentation 6**: Overview of Fisheries Data (Catch, Effort, Biological) | Semba |
+| 9:30 – 9:45 | Discussion | All |
+| 9:45 – 10:30 | **Presentation 7**: Abundance Indices and Environmental Data | Semba |
+| 10:30 – 11:00 | **Coffee/Tea Break** | All |
+| 11:00 – 11:45 | **Presentation 8**: Data Quality, Limitations, and Challenges in Somalia | Semba |
+| 11:45 – 12:00 | Discussion | All |
+| 12:00 – 12:45 | **Presentation 9**: Strategies for Data-Limited Situations & Opportunities | Semba |
+| 12:45 – 13:00 | Wrap-up and Q&A | Semba |
