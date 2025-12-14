@@ -67,6 +67,8 @@ lw = lw |>
     weight_kg = as.numeric(weight_kg),
     length_cm = as.numeric(length_cm)
     )
+
+# lw |> write_csv('../data_shared/lw2.csv')
 ```
 
 ---
@@ -280,7 +282,7 @@ Spatial variation of fishing effort for longline and purse seine fisheries {.scr
 lw |> 
     mutate(date = as.Date(date_dd_mm_yy)) |>
     select(date, region, landing_site, fish_group, fishCode = fish_type_code, length_cm, weight_kg) |> 
-    sample_n(200) |> 
+    # sample_n(200) |> 
     gt() |> 
     fmt_number(columns = c(length_cm, weight_kg), decimals = 1) |> 
     tab_options(
