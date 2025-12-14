@@ -1,5 +1,7 @@
 project:
   type: website
+  resources:
+    - data_shared/*.csv
   output-dir: docs
 
 website:
