@@ -30,8 +30,8 @@ website:
             href: modules/module6.qmd
       - text: "Blog"
         href: blog.qmd
-      # - text: "Presentations"
-      #   menu: 
+      - text: "Presentations"
+        menu: 
       #     - text: "Stock Assessment Fundamentals & Concepts"
       #       href: presentations/module_1_presentation.qmd
       #     - text: "Data Collection Protocols & Sampling Design"
@@ -44,8 +44,10 @@ website:
       #       href: presentations/module_5_presentation.qmd
       #     - text: "Practical Field Exercises at Landing Sites"
       #       href: presentations/module_6_presentation.qmd
-      #     - text: "Training Need Assessment"
-      #       href: presentations/tna_presentation.qmd
+          - text: "Training Need Assessment"
+            href: presentations/tna_presentation.qmd
+          - text: "Data type"
+            href: presentations/module1_data_req_slides.qmd
       - text: "Resources"
         menu:
           - text: "Resources1: The Giant Fishery Report"

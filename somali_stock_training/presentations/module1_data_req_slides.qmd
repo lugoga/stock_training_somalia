@@ -1,7 +1,18 @@
 ---
-title: "Module 1: Data Requirements for Stock Assessment"
+title: "Module 1: Data for Stock Assessment"
 subtitle: "Fundamentals of Fish Stock Assessment"
-author: "Masumbuko Semba"
+date: "2025-12-05"
+date-modified: today
+author: 
+    - name: "Masumbuko Semba"
+      affiliation: "Nelson Mandela African Institution of Science and Technology"
+      email: "lugosemba@gmail.com"
+    - name: "Mathew Silas"
+      affiliation: "Deep Sea Fishing Authority"
+      email: "mathewsilas28@gmail.com "
+    - name: "Rushingisha George"
+      affiliation: "Tanzania Fisheries Research Institute"
+      email: "george.rushingisha@tafiri.go.tz"
 format: revealjs
 transition: slide
 background-transition: fade
@@ -32,17 +43,15 @@ require(crosstalk)
 
 
 
-## Data: The Foundation of Assessment
+# Data: The Foundation of Assessment {background-color="#447099"}
 
 > "In God we trust. All others must bring data." - W. Edwards Deming
 
-This presentation covers the critical role of data in fisheries stock assessment.
 
 
 
 ```{r}
 #| echo: true
-#| 
 lw = readxl::read_excel('../data_shared/ProjKalluun_master_data_entry.xlsx', sheet = 'Section 3', skip= 4) |> 
     janitor::clean_names() |> 
     filter(!is.na(landing_site))
@@ -62,7 +71,11 @@ lw = lw |>
 
 ---
 
-## What Data Do We Need? {background-color="#447099"}
+## The Concept
+
+![](figures/fig21-01.png)
+
+## What Data Do We Need?
 
 We generally categorize fisheries data into four main types:
 
@@ -70,6 +83,9 @@ We generally categorize fisheries data into four main types:
 2.  **Effort Data:** How hard are we fishing?
 3.  **Biological Data:** What are the characteristics of the fish?
 4.  **Abundance Indices:** How is the population size changing?
+5.  **Environmental Data:** What external factors influence the fish?
+
+
 
 ---
 
@@ -220,6 +236,7 @@ catch_data |>
 
 ---
 
+
 ## 2. Effort Data
 
 -   **Measure of the resources used to catch fish.**
@@ -229,6 +246,13 @@ catch_data |>
     -   Number of vessels
     -   Number of hooks, nets, or traps
     -   Engine horsepower
+
+
+## 2. Effort Data...
+
+Spatial variation of fishing effort for longline and purse seine fisheries {.scrollable}
+
+![](figures/density_ll_ps-01.png)
 
 ---
 
@@ -311,8 +335,114 @@ lw |>
     adjust_x_axis(title = 'Length (cm)', limits = c(0, NA), breaks = scales::pretty_breaks(n = 5)) |> 
     adjust_y_axis(title = 'Frequency', breaks = scales::pretty_breaks(n = 5)) |>
     adjust_title('Length Distribution by Fish Group', fontsize = 12, fontweight = 'bold') |>
-    adjust_font(fontsize = 10) |> 
+    adjust_font(fontsize = 14) |> 
     split_plot(by = fish_group)
+```
+
+
+
+## Summary Statistics - Length Distribution by Fish Group and Region {.scrollable}
+
+```{r}
+lw |> 
+    # filter(!fish_group == 'Rays and Skates') |> 
+    select(region, length_cm, fish_group) |>
+    group_by(region, fish_group) |>
+    rstatix::get_summary_stats() |> 
+    ungroup() |> 
+    select(fish_group, region, n, min, q1, median, mean, q3, max, sd) |> 
+    arrange(fish_group, region) |>
+    gt(groupname_col = 'fish_group')  |> 
+    tab_header(
+        title = "Length Distribution Summary Statistics by Fish Group and Region"
+        # subtitle = "Measurements in centimeters, excluding Rays and Skates"
+    ) |>
+    cols_label(
+        region = "Region",
+        n = "N",
+        min = "Min",
+        q1 = "Q1",
+        median = "Median",
+        mean = "Mean",
+        q3 = "Q3",
+        max = "Max",
+        sd = "SD"
+    ) |>
+    fmt_number(columns = c(min, q1, median, mean, q3, max, sd), decimals = 1) |>
+    tab_options(
+        table.width = px(1000), 
+        table.font.size = '16px', 
+        heading.title.font.size = '20px',
+        heading.subtitle.font.size = '18px', 
+        heading.subtitle.font.weight = 'bold',
+        latex.use_longtable = TRUE,
+        data_row.padding = px(5),
+        column_labels.padding = px(6)
+    ) |>
+    data_color(
+        columns = n:sd,
+        rows = everything(),
+        method = 'quantile',
+        quantiles = 8,
+        colors = scales::col_numeric(
+            palette = 'YlOrRd',
+            domain = NULL
+        )
+    ) |>
+    opt_stylize(style = 6, color = 'gray')
+```
+
+
+## Summary Statistics - Length Distribution by Fish Group and years {.scrollable}
+
+```{r}
+lw |> 
+    # filter(!fish_group == 'Rays and Skates') |> 
+    select(region, length_cm, fish_group, year) |>
+    group_by(fish_group, year) |>
+    rstatix::get_summary_stats() |> 
+    ungroup() |> 
+    select(year, fish_group, n, min, q1, median, mean, q3, max, sd) |> 
+    arrange(fish_group, year) |>
+    gt(groupname_col = 'fish_group')  |> 
+    tab_header(
+        title = "Length Distribution Summary Statistics by Fish Group and year"
+        # subtitle = "Measurements in centimeters, excluding Rays and Skates"
+    ) |>
+    cols_label(
+        year = "Year",
+        # region = "Region",
+        n = "N",
+        min = "Min",
+        q1 = "Q1",
+        median = "Median",
+        mean = "Mean",
+        q3 = "Q3",
+        max = "Max",
+        sd = "SD"
+    ) |>
+    fmt_number(columns = c(min, q1, median, mean, q3, max, sd), decimals = 1) |>
+    tab_options(
+        table.width = px(1000), 
+        table.font.size = '16px', 
+        heading.title.font.size = '20px',
+        heading.subtitle.font.size = '18px', 
+        heading.subtitle.font.weight = 'bold',
+        latex.use_longtable = TRUE,
+        data_row.padding = px(5),
+        column_labels.padding = px(6)
+    ) |>
+    data_color(
+        columns = n:sd,
+        rows = everything(),
+        method = 'quantile',
+        quantiles = 8,
+        colors = scales::col_numeric(
+            palette = 'YlOrRd',
+            domain = NULL
+        )
+    ) |>
+    opt_stylize(style = 6, color = 'gray')
 ```
 
 
@@ -329,10 +459,28 @@ lw |>
     adjust_x_axis(title = 'Weight (kg)', limits = c(0, NA), breaks = scales::pretty_breaks(n = 5)) |> 
     adjust_y_axis(title = 'Frequency', breaks = scales::pretty_breaks(n = 5)) |>
     adjust_title('Weight Distribution by Fish Group', fontsize = 12, fontweight = 'bold') |>
-    adjust_font(fontsize = 10) |> 
+    adjust_font(fontsize = 14) |> 
     split_plot(by = fish_group)
 
 
+```
+
+
+## Length-Weight Relationships
+
+
+```{r}
+lw |> 
+    filter(!fish_group == 'Rays and Skates') |> 
+    tidyplot(x = length_cm, y = weight_kg) |>
+    add_data_points(alpha = 0.6, size = 2) |> 
+    add_curve_fit(method = 'auto', color = '#D32F2F', linewidth = 1.2) |>
+    adjust_size(width = 2.5, height = 1.5, unit = 'in') |> 
+    adjust_font(fontsize = 14) |> 
+    adjust_x_axis(title = 'Length (cm)', limits = c(0, NA), breaks = scales::pretty_breaks(n = 4)) |> 
+    adjust_y_axis(title = 'Weight (kg)', limits = c(0, NA), breaks = scales::pretty_breaks(n = 4)) |>
+    adjust_title('Length-Weight Relationship by Fish Group', fontsize = 13, fontweight = 'bold') |>
+    split_plot(by = fish_group)
 ```
 
 
@@ -343,19 +491,50 @@ lw |>
 -   **Fishery-dependent:** Catch-Per-Unit-Effort (CPUE).
 -   **Fishery-independent:** Scientific surveys (trawls, acoustic, visual).
 
+
+## Abundance Indices...
+
+Yellowfin Tuna Catch Per Unit Effort (CPUE)
+
+![](figures/density_ll_ps-01.png)
+
+
+## Upwelling in TANGA-PEMBA
+
+Seasonal upwelling influenced by EACC and the monsoon winds. Key characteristics include:
+
+::: columns
+::: {.column width="40%"}
++ Seasonality
++ Nutrient enrichment
++ Ecological impact
++ Economic importance
+:::
+
+::: {.column width="60%"}
+
+![](figures/tanga_wete_map_upwelling_indices-01.png)
+
+:::
+:::
+
+
 ---
+
+# Environmental Variables {background-color="#447099"}
+Fish populations are heavily influenced by their environment. Understanding these links is crucial for modern stock assessment.
 
 ## 5. Environmental Data {background-color="#447099"}
 
-Fish populations are heavily influenced by their environment. Understanding these links is crucial for modern stock assessment.
+  Environmental factors affect fish:
 
--   Environmental factors affect fish:
-    -   Distribution & Migration
-    -   Growth rates
-    -   Reproduction (spawning timing & success)
-    -   Mortality (survival rates)
+-   Distribution & Migration
+-   Growth rates
+-   Reproduction (spawning timing & success)
+-   Mortality (survival rates)
 
 ---
+
 
 ## Key Environmental Variables
 
@@ -383,7 +562,34 @@ These variables help explain changes in fish populations that catch and effort d
 :::
 :::
 
+
+## Seasonal Surface Ocean Circulation
+
+::: {.columns}
+::: {.column width="50%"}
+![](figures/fig14-01.png)
+
+:::
+::: {.column width="50%"}
+![](figures/fig13-01.png)
+:::
+:::
+
+## Seasonal Wind Circulation {.scrollable}
+
+![](figures/wind_season-01.png)
+
+
+## Seasonal Sea Surface Temperature {.scrollable}
+
+![](figures/sst_ne_se.png)
+
+
+
+
 ---
+
+# Data Integration {background-color="#447099"}
 
 ## Sources & Integration
 
@@ -397,7 +603,7 @@ These variables help explain changes in fish populations that catch and effort d
 
 ---
 
-## Data Quality Considerations {background-color="#447099"}
+## Data Quality Considerations
 
 The "GIGO" principle: **Garbage In, Garbage Out**.
 
@@ -567,7 +773,7 @@ Use robust methods like Catch-MSY or length-based indicators that require less d
 
 ---
 
-## Summary
+# Summary {background-color="#447099"}
 
 -   Good data is the cornerstone of reliable stock assessment.
 -   We need catch, effort, biological, and abundance index data.
@@ -576,4 +782,29 @@ Use robust methods like Catch-MSY or length-based indicators that require less d
 
 ---
 
-## Questions?
+# TOOLS FOR INNOVATIONS
+
+
+## Coding with Programming languages (Python & R) {transition="slide"}
+
+![](figures/positron.png)
+
+
+# Exercise {background-color="#447099"}
+
+## Somali Landing Site Data
+
+Using the provided `lw` dataset from Somali landing sites:
+
+1.  **Review the Data:** Explore the length, weight, and catch data available for your assigned region. What are the main species? What are the temporal and spatial trends?
+
+2.  **Identify Data Gaps:** What information is missing? Are there gaps in time? Are certain species or gear types underrepresented?
+
+3.  **Assess Data Quality:** Look for potential issues like outliers, missing values, or inconsistent entries. How might these affect an assessment?
+
+4.  **Propose Improvements:** Based on your review, suggest 2-3 practical steps to improve data collection for stock assessment in your region.
+
+
+---
+
+

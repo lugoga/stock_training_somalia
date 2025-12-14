@@ -15,7 +15,7 @@ toc: false
 **Venue**: White Sands Hotel
 
 | Time | Activity | Facilitator(s) |
-|-----------------|--------------------------------------|-----------------|
+|------------------|-------------------------------------|------------------|
 | 8:30 – 9:00 | Registration of the participants and other arrangements | Secretariat |
 | 9:00– 9:10 | Round table introduction | Dr Rushingisha |
 | 9:10 -9:20 | Remarks from TAFIRI Director General | Dr Rushingisha |
@@ -43,7 +43,7 @@ toc: false
 **Venue**: White Sands Hotel
 
 | Time | Activity | Facilitator(s) |
-|:--------------|:-------------------------------------------|:------------|
+|:---------------|:----------------------------------------|:---------------|
 | 8:00 – 8:30 | Registration | Secretariat |
 | 8:30 – 9:30 | **Presentation 6**: Overview of Fisheries Data (Catch, Effort, Biological) | Semba |
 | 9:30 – 9:45 | Discussion | All |
@@ -52,4 +52,6 @@ toc: false
 | 11:00 – 11:45 | **Presentation 8**: Data Quality, Limitations, and Challenges in Somalia | Semba |
 | 11:45 – 12:00 | Discussion | All |
 | 12:00 – 12:45 | **Presentation 9**: Strategies for Data-Limited Situations & Opportunities | Semba |
-| 12:45 – 13:00 | Wrap-up and Q&A | Semba |
+| 12:45 – 13:00 | DIscussion | Semba |
+| 13:00  –  14:00 | Lunch | All |
+| 14:00  –  16:00 | Data Exploration & Visualization | All |
