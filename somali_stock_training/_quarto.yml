@@ -3,6 +3,10 @@ project:
   resources:
     - data_shared/*.csv
   output-dir: docs
+  render:
+    - "*.qmd"
+    # - "modules/*.qmd"
+    - "!presentations/lbspr.qmd" # Exclude this specific file
 
 website:
   # title: "Fishery Stock-SOMALIA"
@@ -48,12 +52,16 @@ website:
       #       href: presentations/module_6_presentation.qmd
           - text: "Training Need Assessment"
             href: presentations/tna_presentation.qmd
+          - text: "Stock fundamentals"
+            href: presentations/module1_stock_fundamentals.qmd
           - text: "Data type"
             href: presentations/module1_data_req_slides.qmd
       - text: "Resources"
         menu:
           - text: "Resources1: The Giant Fishery Report"
             href: resources/resource1.qmd
+
+
 
 
     right:

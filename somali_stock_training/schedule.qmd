@@ -15,7 +15,7 @@ toc: false
 **Venue**: White Sands Hotel
 
 | Time | Activity | Facilitator(s) |
-|------------------|------------------------------------|------------------|
+|-------------------|----------------------------------|-------------------|
 | 8:30 – 9:00 | Registration of the participants and other arrangements | Secretariat |
 | 9:00– 9:10 | Round table introduction | Dr Rushingisha |
 | 9:10 -9:20 | Remarks from TAFIRI Director General | Dr Rushingisha |
@@ -43,7 +43,7 @@ toc: false
 **Venue**: White Sands Hotel
 
 | Time | Activity | Facilitator(s) |
-|:-----------------|:------------------------------------|:-----------------|
+|:------------------|:---------------------------------|:------------------|
 | 8:00 – 8:30 | Registration | Secretariat |
 | 8:30 – 9:30 | **Presentation 6**: Overview of Fisheries Data (Catch, Effort, Biological) | Semba |
 | 9:30 – 9:45 | Discussion | All |
@@ -52,6 +52,42 @@ toc: false
 | 11:00 – 11:45 | **Presentation 8**: Data Quality, Limitations, and Challenges in Somalia | Semba |
 | 11:45 – 12:00 | Discussion | All |
 | 12:00 – 12:45 | **Presentation 9**: Strategies for Data-Limited Situations & Opportunities | Semba |
-| 12:45 – 13:00 | DIscussion | Semba |
+| 12:45 – 13:00 | Discussion | Semba |
 | 13:00 – 14:00 | Lunch | All |
 | 14:00 – 16:00 | Data Exploration & Visualization | All |
+
+### Day 3: Module 3 - Stock Assessment Models
+
+**Date**: 15 December 2025\
+**Venue**: White Sands Hotel
+
+| Time | Activity | Facilitator(s) |
+|:------------------|:---------------------------------|:------------------|
+| 8:30 – 9:00 | Recap of Day 2 | Dr Rushingisha |
+| 9:00 – 9:45 | **Presentation 10**: Trophic Level | Mwijage |
+| 9:45 – 10:00 | Discussion | All |
+| 10:00 – 10:45 | **Presentation 11**: Fecundity and Maturity Analysis | Mwakosya |
+| 10:45 – 11:00 | **Coffee/Tea Break** | All |
+| 11:00 – 11:45 | Discussion | All |
+| 11:45 – 12:30 | **Presentation 12**: Introduction to Length-based Stock Assessment Models | Semba |
+| 12:30 – 12:45 | Discussion | All |
+| 12:45 – 14:00 | **Lunch and Prayer** | All |
+| 14:00 – 15:30 | **Practical Session**: Applying Length-based models | All |
+| 15:30 – 16:00 | **Coffee Break** | All |
+| 16:00 – 16:30 | Day 3 Wrap-up | Dr Rushingisha |
+
+### Day 4: Module 4 - Practical Exercises with R
+
+**Date**: 16 December 2025\
+**Venue**: White Sands Hotel
+
+| Time | Activity | Facilitator(s) |
+|:--------------|:-----------------------------------------|:--------------|
+| 8:30 – 9:00 | Recap of Day 3 & Introduction to R for Fisheries | TBD |
+| 9:00 – 10:30 | **Practical Session 1**: Introduction to R and `TropFishR` package | Semba |
+| 10:30 – 11:00 | **Coffee/Tea Break** | All |
+| 11:00 – 12:30 | **Practical Session 2**: Length-Based Spawning Potential Ratio (`LBSPR`) | Semba |
+| 12:30 – 14:00 | **Lunch and Prayer** | All |
+| 14:00 – 15:30 | **Group Work**: Applying R packages to Somalia case studies | All |
+| 15:30 – 16:00 | Presentation of Group Work | Group Leads |
+| 16:00 – 16:30 | Day 4 Wrap-up and Next Steps | Rushingisha |

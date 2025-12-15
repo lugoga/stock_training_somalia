@@ -1,5 +1,5 @@
 ---
-title: "Module 1: Data for Stock Assessment"
+title: "Data for Stock Assessment"
 subtitle: "Fundamentals of Fish Stock Assessment"
 date: "2025-12-05"
 date-modified: today
@@ -309,7 +309,7 @@ lw |>
     ) |>  
     gt::opt_interactive(
     use_search = TRUE,
-    # use_filters = TRUE,
+    use_filters = TRUE,
     use_resizers = TRUE,
     use_highlight = TRUE,
     use_compact_mode = TRUE,
