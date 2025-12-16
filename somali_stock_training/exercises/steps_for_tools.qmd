@@ -1,0 +1,138 @@
+---
+title: "Setup Guide: R and RStudio for Stock Assessment Training"
+subtitle: "Somali Fish Stock Training"
+author: 
+    - name: "Masumbuko Semba"
+      affiliation: "Nelson Mandela African Institution of Science and Technology"
+      email: "lugosemba@gmail.com"
+    - name: "Rushingisha George"
+      affiliation: "Tanzania Fisheries Research Institute"
+      email: "george.rushingisha@tafiri.go.tz"
+    - name: "Mathew Silas"
+      affiliation: "Deep Sea Fishing Authority"
+      email: "mathewsilas28@gmail.com"
+date: today
+format: html
+theme: cosmo
+toc: true
+embed-resources: true
+---
+
+# Introduction
+
+This guide provides step-by-step instructions for installing the necessary software for our training session on length-based stock assessment. We will install:
+
+1.  **R**: The programming language for statistical computing.
+2.  **RStudio**: An Integrated Development Environment (IDE) that makes working with R much easier.
+3.  **R Packages**: Specific add-ons for R that we will use for data manipulation, plotting, and the LBSPR analysis.
+
+Please follow these steps *before* the training session begins.
+
+------------------------------------------------------------------------
+
+## Step 1: Install R
+
+R is the core programming language we will be using. You must install R before you can install RStudio.
+
+1.  Go to the **Comprehensive R Archive Network (CRAN)** website: <https://cran.r-project.org/>
+
+2.  Click on the download link for your operating system:
+
+    -   **Download R for Windows**
+    -   **Download R for macOS**
+    -   **Download R for Linux**
+
+3.  Select the **"base"** distribution (or the latest recommended version for your OS).
+
+4.  Run the downloaded installer file and follow the on-screen instructions. It is safe to accept all the default settings.
+
+------------------------------------------------------------------------
+
+## Step 2: Install an IDE (Choose One)
+
+An Integrated Development Environment (IDE) makes writing and running code much easier. For this training, we recommend RStudio, but advanced users may prefer Positron. You only need to install **one** of them.
+
+### Option A: RStudio Desktop (Recommended)
+
+RStudio is the classic, widely-used IDE for R.
+
+1.  Go to the Posit website to download RStudio: <https://posit.co/download/rstudio-desktop/>
+
+2.  The website should automatically detect your operating system. Click the **"DOWNLOAD RSTUDIO DESKTOP"** button for the free version.
+
+3.  Run the downloaded installer file and follow the on-screen instructions. The default settings are fine.
+
+### Option B: Positron (Alternative for VS Code Users)
+
+Positron is a modern IDE from the creators of RStudio that runs as an extension inside Visual Studio Code (VS Code).
+
+1.  **Install VS Code**: If you don't already have it, download and install Visual Studio Code from <https://code.visualstudio.com/>.
+
+2.  **Install the Positron Extension**:
+
+    -   Open VS Code.
+    -   Click on the Extensions icon in the activity bar on the left (it looks like four squares).
+    -   Search for `Positron - R IDE` in the marketplace search bar.
+    -   Find the extension published by **Posit** and click **Install**. This will also automatically install the required "R" extension.
+
+> After installation, you can open R files and use the R console directly within VS Code, similar to how you would in RStudio.
+
+#### First Steps in Positron (for Beginners)
+
+If you are new to VS Code and Positron, here is a quick guide to get you started:
+
+1.  **Open Your Project Folder**:
+    -   In VS Code, go to `File > Open Folder...` and select the main folder for this training (e.g., `somali_stock_training`). This will show all your files in the **Explorer** panel on the left.
+2.  **Find the R Console**:
+    -   Once you open an R script (a file ending in `.R` or `.qmd`), Positron's R tools will become active.
+    -   You can open the R console by going to the main menu `View > Terminal` and ensuring the "R" tab is selected in the bottom panel. You can also use the command palette (`Ctrl+Shift+P`) and search for `R: Create R Terminal`.
+3.  **Arrange Your Workspace**:
+    -   The VS Code interface is flexible. A common layout is:
+        -   **Editor** (top-center) for your R scripts.
+        -   **R Console** (bottom-center) to see command output.
+        -   **Positron Panes** (left or right sidebars) for Environment, Plots, Help, and Packages. You can open these from the "R" icon in the activity bar on the far left.
+4.  **Run R Code**:
+    -   Open an R script (e.g., a `.qmd` file from the `presentations` folder).
+    -   Place your cursor on a line of R code inside a code chunk.
+    -   Press **`Ctrl+Enter`** (on Windows/Linux) or **`Cmd+Enter`** (on macOS) to run that single line. The code will execute in the R console.
+
+------------------------------------------------------------------------
+
+## Step 3: Install Required R Packages
+
+Packages are collections of functions and data that extend R's capabilities. We will install them from within your chosen IDE (RStudio or Positron/VS Code).
+
+1.  Open the **RStudio** or **VS Code** application.
+
+2.  Find the panel labeled **"Console"**. This is where you can type commands directly to R.
+
+3.  Copy the following command, paste it into the console, and press **Enter**.
+
+``` r
+#| eval: false
+#| echo: true
+
+install.packages(c("tidyverse", "LBSPR", "readxl", "janitor", "tidyplots"))
+```
+
+4.  R will now download and install these packages from the internet. This may take a few minutes. You might see a lot of text printed in the console, which is normal. If you are asked `Do you want to install from sources the packages which need compilation?`, it is usually safe to type `No` and press Enter.
+
+------------------------------------------------------------------------
+
+## Step 4: Verify Your Installation
+
+Let's make sure everything is working correctly.
+
+1.  In the R console within your IDE, type the following commands one by one, pressing **Enter** after each one.
+
+``` r
+#| eval: false
+#| echo: true
+
+library(tidyverse)
+library(LBSPR)
+```
+
+2.  If the commands run without any `Error:` messages (warnings are okay), then your installation was successful! You are now ready for the training session.
+
+If you encounter any problems during this setup, please don't hesitate to ask for help.

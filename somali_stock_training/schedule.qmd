@@ -37,7 +37,7 @@ toc: false
 | 15:30 – 16:00 | **Coffee Break** | All |
 | 16:00– 16:30 | Closing and other arrangements | Dr Rushingisha |
 
-### Day 2: Module 2 - Fisheries Data Types
+### Day 2: Fisheries Data Types
 
 **Date**: 14 December 2025\
 **Venue**: White Sands Hotel
@@ -56,7 +56,7 @@ toc: false
 | 13:00 – 14:00 | Lunch | All |
 | 14:00 – 16:00 | Data Exploration & Visualization | All |
 
-### Day 3: Module 3 - Stock Assessment Models
+### Day 3: Stock Assessment Models
 
 **Date**: 15 December 2025\
 **Venue**: White Sands Hotel
@@ -76,13 +76,13 @@ toc: false
 | 15:30 – 16:00 | **Coffee Break** | All |
 | 16:00 – 16:30 | Day 3 Wrap-up | Dr Rushingisha |
 
-### Day 4: Module 4 - Practical Exercises with R
+### Day 4: Practical Exercises with R
 
 **Date**: 16 December 2025\
 **Venue**: White Sands Hotel
 
 | Time | Activity | Facilitator(s) |
-|:--------------|:-----------------------------------------|:--------------|
+|:----------------|:--------------------------------------|:----------------|
 | 8:30 – 9:00 | Recap of Day 3 & Introduction to R for Fisheries | TBD |
 | 9:00 – 10:30 | **Practical Session 1**: Introduction to R and `TropFishR` package | Semba |
 | 10:30 – 11:00 | **Coffee/Tea Break** | All |

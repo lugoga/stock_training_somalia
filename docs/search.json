@@ -133,6 +133,230 @@
     "text": "Detect ecosystem shifts and unusual species patterns.\n\n\nCode\ncomposition_shifts &lt;- lw |&gt;\n    filter(!is.na(fish_group), !is.na(year)) |&gt;\n    group_by(year, fish_group) |&gt;\n    summarise(count = n(), .groups = 'drop') |&gt;\n    group_by(year) |&gt;\n    mutate(\n        total = sum(count),\n        proportion = count / total * 100\n    ) |&gt;\n    pivot_wider(names_from = fish_group, values_from = proportion, values_fill = 0)\n\ncomposition_shifts |&gt;\n    gt() |&gt;\n    tab_header(\n        title = \"Catch Composition Changes Over Time\",\n        subtitle = \"Year-over-year shifts in species proportions (%)\"\n    ) |&gt;\n    fmt_number(columns = -year, decimals = 1) |&gt;\n    data_color(\n        columns = -year,\n        method = 'quantile',\n        quantiles = 8,\n        colors = scales::col_numeric(palette = 'YlOrRd', domain = NULL)\n    ) |&gt;\n    tab_options(\n        table.width = px(500),\n        table.font.size = '10px',\n        heading.title.font.size = '14px',\n        heading.subtitle.font.size = '12px',\n        heading.subtitle.font.weight = 'bold',\n        data_row.padding = px(5),\n        column_labels.padding = px(6)\n    ) |&gt;\n    opt_stylize(style = 6, color = 'gray')"
   },
   {
+    "objectID": "presentations/presentation_12_lbspr2.html#introduction-to-length-based-stock-assessment-models",
+    "href": "presentations/presentation_12_lbspr2.html#introduction-to-length-based-stock-assessment-models",
+    "title": "Introduction to Length-Based Models",
+    "section": "Introduction to Length-Based Stock Assessment Models",
+    "text": "Introduction to Length-Based Stock Assessment Models\n\n\nLearning Objectives\n\n Understand why length-based models are used in data-limited fisheries.\n Learn the key inputs for the LBSPR model.\n Run a basic LBSPR analysis in R.\n Interpret the main outputs: SPR and F/M.\n\n\nWhy This Matters\n\n These are the most practical and powerful tools for your data.\n Provides a quantitative estimate of stock status.\n Directly informs management about fishing pressure."
+  },
+  {
+    "objectID": "presentations/presentation_12_lbspr2.html#what-is-a-fish-stock",
+    "href": "presentations/presentation_12_lbspr2.html#what-is-a-fish-stock",
+    "title": "Introduction to Length-Based Models",
+    "section": "What is a “Fish Stock”?",
+    "text": "What is a “Fish Stock”?\nBefore we model, we must understand what we are assessing.\n\n“\n\nA group of fish of the same species that live in a particular geographic area and mix enough to share a common gene pool\n\n”\n\n\nUnderstanding the stock is the first step. The model’s results apply only to the stock we define."
+  },
+  {
+    "objectID": "presentations/presentation_12_lbspr2.html#critical-assumptions",
+    "href": "presentations/presentation_12_lbspr2.html#critical-assumptions",
+    "title": "Introduction to Length-Based Models",
+    "section": "Critical Assumptions",
+    "text": "Critical Assumptions\n\n\n1. Stock Boundaries\nScientific Basis: The assessed population represents a self-sustaining unit with minimal immigration or emigration.\nPractical Implication: Fish movement between regions must be negligible relative to population size.\n2. Fishing as Primary Driver\nScientific Basis: Population dynamics are driven by natural mortality and fishing mortality, not by migration patterns.\nPractical Implication: Changes in stock size reflect fishing pressure, not population shifts.\n\n3. Representative Sampling\nScientific Basis: Length distributions in catches accurately represent the population structure.\nPractical Implication: Sampling must be unbiased and cover the full spatial and temporal range of the fishery.\n\n\n\n\n\n\nFor This Training\n\n\nWe will assess yellowfin tuna caught in Somali waters as a discrete stock, recognizing this is a simplification that may require refinement for formal assessments."
+  },
+  {
+    "objectID": "presentations/presentation_12_lbspr2.html#why-use-length-based-models",
+    "href": "presentations/presentation_12_lbspr2.html#why-use-length-based-models",
+    "title": "Introduction to Length-Based Models",
+    "section": "Why Use Length-Based Models?",
+    "text": "Why Use Length-Based Models?\nMany developing-nation fisheries lack:\n\nAge-reading laboratories and trained personnel\nLong-term catch and effort time series\nComprehensive biological sampling programs\nResources for expensive aging techniques (otolith reading)"
+  },
+  {
+    "objectID": "presentations/presentation_12_lbspr2.html#advantages-length-based-analysis",
+    "href": "presentations/presentation_12_lbspr2.html#advantages-length-based-analysis",
+    "title": "Introduction to Length-Based Models",
+    "section": "Advantages Length-Based Analysis",
+    "text": "Advantages Length-Based Analysis\n\nLength data is relatively easy and inexpensive to collect\nMeasurements can be taken dockside without specialized equipment\nLarge sample sizes are feasible with minimal resources\nWell-established theoretical foundation\n\n\n\n\n\n\n\nCore Assumption\n\n\nThe length distribution in your catch sample must reflect the length distribution in the exploited population. Biased sampling (e.g., only large fish, one gear type) will compromise results."
+  },
+  {
+    "objectID": "presentations/presentation_12_lbspr2.html#what-is-lbspr-model-framework",
+    "href": "presentations/presentation_12_lbspr2.html#what-is-lbspr-model-framework",
+    "title": "Introduction to Length-Based Models",
+    "section": "What is LBSPR Model Framework",
+    "text": "What is LBSPR Model Framework\nLength-Based Spawning Potential Ratio is a stock assessment model that estimates reproductive capacity under current fishing pressure.\n\nDeveloped by Hordyk et al. (2015)\nBased on equilibrium life history theory\nUses size-structured population dynamics\nValidated across multiple species and fisheries"
+  },
+  {
+    "objectID": "presentations/presentation_12_lbspr2.html#lbspr-model-framework-model-outputs",
+    "href": "presentations/presentation_12_lbspr2.html#lbspr-model-framework-model-outputs",
+    "title": "Introduction to Length-Based Models",
+    "section": "LBSPR Model Framework Model Outputs",
+    "text": "LBSPR Model Framework Model Outputs\nPrimary Metric: SPR (Spawning Potential Ratio)\n\nProportion of unfished reproductive potential remaining\nValues range from 0 (collapsed) to 1 (unfished)\nDirectly comparable to management reference points"
+  },
+  {
+    "objectID": "presentations/presentation_12_lbspr2.html#interpreting-spr-values",
+    "href": "presentations/presentation_12_lbspr2.html#interpreting-spr-values",
+    "title": "Introduction to Length-Based Models",
+    "section": "Interpreting SPR Values",
+    "text": "Interpreting SPR Values\n\n\n\n\n\n\n\n\nSPR Range\nStock Status\nManagement Implication\n\n\n\n\n&gt; 0.40\nHealthy\nCurrent fishing sustainable\n\n\n0.20 - 0.40\nModerately exploited\nMonitor closely, consider precautionary measures\n\n\n&lt; 0.20\nOverfished\nUrgent management action required"
+  },
+  {
+    "objectID": "presentations/presentation_12_lbspr2.html#reference-points",
+    "href": "presentations/presentation_12_lbspr2.html#reference-points",
+    "title": "Introduction to Length-Based Models",
+    "section": "Reference Points",
+    "text": "Reference Points\n\nTarget: SPR = 40% (widely used globally)\nLimit: SPR = 20% (conservation threshold)\nThese values may be adjusted based on species-specific characteristics and management objectives"
+  },
+  {
+    "objectID": "presentations/presentation_12_lbspr2.html#key-inputs-for-lbspr",
+    "href": "presentations/presentation_12_lbspr2.html#key-inputs-for-lbspr",
+    "title": "Introduction to Length-Based Models",
+    "section": "Key Inputs for LBSPR",
+    "text": "Key Inputs for LBSPR\nTo run LBSPR, we need two main things:\n\n\n\n📊 Length Frequency Data: A representative sample of the lengths of fish caught from the stock.\n🧬 Life History Parameters:\n\nLinf: Asymptotic length (the theoretical maximum size).\nMK: The ratio of natural mortality (M) to the growth rate (K).\nL50: Length at 50% maturity.\nL95: Length at 95% maturity.\n\n\n\nThese parameters can often be found on FishBase.org for your species or a similar one."
+  },
+  {
+    "objectID": "presentations/presentation_12_lbspr2.html#parameters-needed---1-biology",
+    "href": "presentations/presentation_12_lbspr2.html#parameters-needed---1-biology",
+    "title": "Introduction to Length-Based Models",
+    "section": "Parameters needed - 1 Biology",
+    "text": "Parameters needed - 1 Biology\n\n\n\nvon Bertalanffy asymptotic length (Linf)\nM/K ratio (natural mortality divided by von Bertalanffy K coefficient) (MK)\nLength at 50% maturity (L50)\nLength at 95% maturity (L95)\n\n\n\n\nCode\nMyPars@Linf &lt;- 100 \nMyPars@L50 &lt;- 66 \nMyPars@L95 &lt;- 70\nMyPars@MK &lt;- 1.5"
+  },
+  {
+    "objectID": "presentations/presentation_12_lbspr2.html#parameters-needed---2-exploitation",
+    "href": "presentations/presentation_12_lbspr2.html#parameters-needed---2-exploitation",
+    "title": "Introduction to Length-Based Models",
+    "section": "Parameters needed - 2 Exploitation",
+    "text": "Parameters needed - 2 Exploitation\n\n\n\nLength at 50% selectivity (SL50)\nLength at 95% selectivity (SL95)\nF/M ratio (FM) or SPR (SPR).\n\n\nIf you specify both, the F/M value will be ignored.\n\n\n\n\nCode\nMyPars@SL50 &lt;- 50 \nMyPars@SL95 &lt;- 65\nMyPars@SPR &lt;- 0.4"
+  },
+  {
+    "objectID": "presentations/presentation_12_lbspr2.html#parameters-needed---3-size-classes",
+    "href": "presentations/presentation_12_lbspr2.html#parameters-needed---3-size-classes",
+    "title": "Introduction to Length-Based Models",
+    "section": "Parameters needed - 3 Size Classes",
+    "text": "Parameters needed - 3 Size Classes\n\n\n\nWidth of the length classes (BinWidth)\nMaximum length of the sample (BinMax)\nMinimum length of sample (BinMin)\nUnits for the length parameters\n\n\n\n\nCode\nMyPars@BinWidth &lt;- 5\nMyPars@BinMax &lt;- 150\nMyPars@BinMin &lt;- 0\n\nMyPars@L_units &lt;- \"mm\""
+  },
+  {
+    "objectID": "presentations/presentation_12_lbspr2.html#interpreting-lbspr-output",
+    "href": "presentations/presentation_12_lbspr2.html#interpreting-lbspr-output",
+    "title": "Introduction to Length-Based Models",
+    "section": "Interpreting LBSPR Output",
+    "text": "Interpreting LBSPR Output\nThe model provides three key estimates:\n\nSPR (Spawning Potential Ratio):\n\nThe plot shows an estimated SPR.\nIt inform on the state of the stock.\nA common target is 40% and a limit is 20%.\n\nF/M (Fishing Mortality / Natural Mortality):\n\nThe estimated F/M ratio.\nIt tells us how intense fishing mortality is relative to natural death.\nAn F/M ratio &gt; 1.0 suggests that fishing is causing more deaths than natural causes, a sign of high fishing pressure.\n\nThe fish state-stock:"
+  },
+  {
+    "objectID": "presentations/presentation_12_lbspr2.html#key-takeaways",
+    "href": "presentations/presentation_12_lbspr2.html#key-takeaways",
+    "title": "Introduction to Length-Based Models",
+    "section": "Key Takeaways",
+    "text": "Key Takeaways\n\nLength-based models like LBSPR are powerful tools for assessing data-limited stocks.\nThey require length frequency data and some basic life history parameters.\nThe key outputs, SPR and F/M, provide a quantitative snapshot of stock status and fishing pressure.\nThese results can directly inform management actions, such as deciding whether to increase, decrease, or maintain current fishing effort."
+  },
+  {
+    "objectID": "presentations/presentation_12_lbspr2.html#questions-discussion",
+    "href": "presentations/presentation_12_lbspr2.html#questions-discussion",
+    "title": "Introduction to Length-Based Models",
+    "section": "Questions & Discussion",
+    "text": "Questions & Discussion\nThank You"
+  },
+  {
+    "objectID": "presentations/presentation_12_lbspr2.html#step-1-prepare-the-length-data",
+    "href": "presentations/presentation_12_lbspr2.html#step-1-prepare-the-length-data",
+    "title": "Introduction to Length-Based Models",
+    "section": "Step 1: Prepare the Length Data",
+    "text": "Step 1: Prepare the Length Data\nFirst, we need to process our raw data into the format LBSPR requires: a simple vector of fish lengths. We will filter for our target species group, “Tuna”, and remove any invalid length measurements.\n\n\n\n\nCode\n# Filter for Tuna and select the length column\ntuna_lengths &lt;- lw |&gt; \n  filter(\n    fish_group == \"Tuna\",\n    !is.na(length_cm)\n  ) |&gt; \n  pull(length_cm)\n\n# How many fish do we have?\n\ntuna_lengths |&gt; \nlength()\n\n# Let's look at the first few lengths\ntuna_lengths |&gt; \nhead()\n\ntuna_lengths |&gt; \n  range()\n\n\n\nIt’s always a good idea to visualize your length data with a histogram before running the model. This helps you spot any potential issues with the data.\n\n\nCode\nhist(tuna_lengths, \n     main = \"Length Frequency of Tuna\",\n     xlab = \"Length (cm)\",\n     breaks = 30)"
+  },
+  {
+    "objectID": "presentations/presentation_12_lbspr2.html#step-1-create-lbspr-objects",
+    "href": "presentations/presentation_12_lbspr2.html#step-1-create-lbspr-objects",
+    "title": "Introduction to Length-Based Models",
+    "section": "Step 1 : Create LBSPR Objects",
+    "text": "Step 1 : Create LBSPR Objects\n\n\n\n\nCode\nMyPars &lt;- new(\"LB_pars\")\n\n\n\n\nThe LB_pars object has 25 slots.\nNot all parameters need to be specified for the simulation model.\n\n\n\nCode\nMyPars |&gt; slotNames()"
+  },
+  {
+    "objectID": "presentations/presentation_12_lbspr2.html#step-2-populate",
+    "href": "presentations/presentation_12_lbspr2.html#step-2-populate",
+    "title": "Introduction to Length-Based Models",
+    "section": "Step 2: Populate",
+    "text": "Step 2: Populate\nNow, we populate the LB_pars object with key metric\n\n\nCode\n# Biological\n# MyPars$Species = \"Yellowfin\"\nMyPars@Linf &lt;- 100 \nMyPars@L50 &lt;- 66 \nMyPars@L95 &lt;- 70\nMyPars@MK &lt;- 1.5 \n\n# Exploitation\n\nMyPars@SL50 &lt;- 50 \nMyPars@SL95 &lt;- 65\nMyPars@SPR &lt;- 0.4\n\n# Size Classes\n\nMyPars@BinWidth &lt;- 5\nMyPars@BinMax &lt;- 150\nMyPars@BinMin &lt;- 0\nMyPars@L_units &lt;- \"mm\""
+  },
+  {
+    "objectID": "presentations/presentation_12_lbspr2.html#step-3-run-the-lbspr-model",
+    "href": "presentations/presentation_12_lbspr2.html#step-3-run-the-lbspr-model",
+    "title": "Introduction to Length-Based Models",
+    "section": "Step 3: Run the LBSPR Model",
+    "text": "Step 3: Run the LBSPR Model\nWith our parameters and lengths objects ready, we can now run the LBSPRfit function. This is the core of the analysis, where the model fits the parameters to the length data to estimate the stock status.\n\n\nCode\n# Fit the LBSPR model\nlbspr_fit &lt;- MyPars |&gt; \n  LBSPR::LBSPRsim()\n\n\nThe lbspr_fit object now contains all the results of our analysis."
+  },
+  {
+    "objectID": "presentations/presentation_12_lbspr2.html#step-4-view-and-plot-the-results",
+    "href": "presentations/presentation_12_lbspr2.html#step-4-view-and-plot-the-results",
+    "title": "Introduction to Length-Based Models",
+    "section": "Step 4: View and Plot the Results",
+    "text": "Step 4: View and Plot the Results\nThe model provides estimates for selectivity (SL50, SL95), fishing pressure (F/M), and most importantly, the stock status (SPR).\n\n\nYou can view the key estimated parameters directly from the fitted object.\n\n\nCode\nlbspr_fit@Ests\n\n\n\nThe plotSim function gives a comprehensive visual summary of the fit\n\n\nCode\nlbspr_fit |&gt; \nplotSim()"
+  },
+  {
+    "objectID": "presentations/presentation_12_lbspr2.html#interpreting-the-real-output",
+    "href": "presentations/presentation_12_lbspr2.html#interpreting-the-real-output",
+    "title": "Introduction to Length-Based Models",
+    "section": "Interpreting the Real Output",
+    "text": "Interpreting the Real Output\nLet’s look at the plot from our lbspr_fit object.\n!{fig-align=“center” width=“80%”}\n\nLeft Panel: Shows the fit of the model (red line) to your observed length data (grey bars). A good fit means the line follows the general shape of the bars.\nRight Panel: This is the key result. It shows the estimated SPR (Spawning Potential Ratio). The black dot is the estimate, and the grey area is the uncertainty. You can compare this value directly to your management targets (e.g., 40%) and limits (e.g., 20%).\n\nBased on this output, you can make a clear statement about the stock’s status."
+  },
+  {
+    "objectID": "presentations/presentation_11_fecundity_maturity.html#fecundity-and-maturity-analysis",
+    "href": "presentations/presentation_11_fecundity_maturity.html#fecundity-and-maturity-analysis",
+    "title": "Fecundity and Maturity Analysis",
+    "section": "Fecundity and Maturity Analysis",
+    "text": "Fecundity and Maturity Analysis\n\n\nLearning Objectives\n\nDefine fecundity and maturity.\nUnderstand methods for maturity staging.\nLearn how to estimate Length at 50% Maturity (L50).\nRecognize the importance of these parameters in stock assessment.\n\n\nWhy This Matters\n\nReproductive capacity determines a stock’s ability to replenish itself.\nL50 is a key input for many data-limited models (like LBSPR).\nHelps set size limits to protect spawning stock."
+  },
+  {
+    "objectID": "presentations/presentation_11_fecundity_maturity.html#key-definitions",
+    "href": "presentations/presentation_11_fecundity_maturity.html#key-definitions",
+    "title": "Fecundity and Maturity Analysis",
+    "section": "Key Definitions",
+    "text": "Key Definitions\n\nFecundity\n\nThe number of eggs an individual female can produce in a spawning season. It generally increases with size and age.\n\nMaturity\n\nThe state of being reproductively active. We often classify fish as either “immature” or “mature.”\n\nLength at 50% Maturity (L50)\n\nThe length at which 50% of the individuals in the population are mature. This is a critical biological reference point."
+  },
+  {
+    "objectID": "presentations/presentation_11_fecundity_maturity.html#how-to-determine-maturity",
+    "href": "presentations/presentation_11_fecundity_maturity.html#how-to-determine-maturity",
+    "title": "Fecundity and Maturity Analysis",
+    "section": "How to Determine Maturity",
+    "text": "How to Determine Maturity\nMaturity is determined by visually inspecting the gonads. A common method is a macroscopic staging scale.\nExample 5-Stage Scale:\n\n\n\nStage\nDescription\nStatus\n\n\n\n\n1\nImmature / Virgin\nImmature\n\n\n2\nDeveloping / Resting\nImmature\n\n\n3\nRipe / Spawning\nMature\n\n\n4\nRunning Ripe / Spent\nMature\n\n\n5\nRecovering\nMature\n\n\n\nIn practice, stages 3, 4, and 5 are typically classified as “Mature” for analysis."
+  },
+  {
+    "objectID": "presentations/presentation_11_fecundity_maturity.html#estimating-length-at-50-maturity-l50",
+    "href": "presentations/presentation_11_fecundity_maturity.html#estimating-length-at-50-maturity-l50",
+    "title": "Fecundity and Maturity Analysis",
+    "section": "Estimating Length at 50% Maturity (L50)",
+    "text": "Estimating Length at 50% Maturity (L50)\nWe model the proportion of mature fish at each length class to find the length where that proportion is 0.5 (50%).\nStep 1: Collect Maturity Data For each fish, record its length and maturity stage (e.g., 1-5).\nStep 2: Create a Binary “Mature” Column Code individuals as 0 (immature) or 1 (mature).\nStep 3: Fit a Logistic Regression Model This model describes the S-shaped curve of maturation probability."
+  },
+  {
+    "objectID": "presentations/presentation_11_fecundity_maturity.html#practical-example-estimating-l50",
+    "href": "presentations/presentation_11_fecundity_maturity.html#practical-example-estimating-l50",
+    "title": "Fecundity and Maturity Analysis",
+    "section": "Practical Example: Estimating L50",
+    "text": "Practical Example: Estimating L50\n\n\n\nYellowfin tuna (Thunnus albacares) typically range from 40-180 cm fork length, with peak catches occurring between 80-120 cm"
+  },
+  {
+    "objectID": "presentations/presentation_11_fecundity_maturity.html#length-frequency",
+    "href": "presentations/presentation_11_fecundity_maturity.html#length-frequency",
+    "title": "Fecundity and Maturity Analysis",
+    "section": "Length frequency",
+    "text": "Length frequency"
+  },
+  {
+    "objectID": "presentations/presentation_11_fecundity_maturity.html#partition-yft-into-juvenile-and-adults",
+    "href": "presentations/presentation_11_fecundity_maturity.html#partition-yft-into-juvenile-and-adults",
+    "title": "Fecundity and Maturity Analysis",
+    "section": "Partition YFT into juvenile and adults",
+    "text": "Partition YFT into juvenile and adults\n\n\n\n## partitioning withFrequentist regression \n\nclassified_yft = yft |&gt; \n  classify_mature(\n    varNames = c(\"length_cm\", \"weight_kg\"),\n    varSex = NULL, \n    selectSex = NULL,\n    method = \"ld\"\n  )\n\nall individuals were used in the analysis \n\n# classified_yft |&gt; plot()"
+  },
+  {
+    "objectID": "presentations/presentation_11_fecundity_maturity.html#estimated-l50",
+    "href": "presentations/presentation_11_fecundity_maturity.html#estimated-l50",
+    "title": "Fecundity and Maturity Analysis",
+    "section": "Estimated L50",
+    "text": "Estimated L50\n\n\nformula: Y = 1/1+exp-(A + B*X) \n\n\n\n\n\nThe S-shaped curve is called the “maturity ogive.”\nThe estimated L50 is 94.3 cm.\n\n\n\n\n\n\n\n\n\nVar2\nA\nB\nL50\nR2\n\n\n\n\nOriginal\n−29.37\n0.31\n94.30\n0.89\n\n\nBootstrap (Median)\n−29.94\n0.32\n94.25\nNA"
+  },
+  {
+    "objectID": "presentations/presentation_11_fecundity_maturity.html#key-takeaways",
+    "href": "presentations/presentation_11_fecundity_maturity.html#key-takeaways",
+    "title": "Fecundity and Maturity Analysis",
+    "section": "Key Takeaways",
+    "text": "Key Takeaways\n\nFecundity and Maturity are fundamental to a stock’s reproductive potential.\nL50 is a critical biological reference point that tells us the size at which fish start contributing to the next generation.\nEstimating L50 requires collecting both length, weight and gonad maturity stage data in the field.\nThis parameter is a required input for many length-based stock assessment models you will learn about next."
+  },
+  {
+    "objectID": "presentations/presentation_11_fecundity_maturity.html#questions-discussion",
+    "href": "presentations/presentation_11_fecundity_maturity.html#questions-discussion",
+    "title": "Fecundity and Maturity Analysis",
+    "section": "Questions & Discussion",
+    "text": "Questions & Discussion\nThank You"
+  },
+  {
     "objectID": "presentations/module_6_presentation.html#welcome-to-module-6",
     "href": "presentations/module_6_presentation.html#welcome-to-module-6",
     "title": "Module 6: Practical Field Exercises at Landing Sites",
@@ -1592,7 +1816,7 @@
     "href": "modules/module2.html",
     "title": "Module 2: Fisheries Data Types",
     "section": "",
-    "text": "Fisheries stock assessment relies on diverse data types. This module explores what data is available, how it’s collected, and how it’s used.\n\n\nCode\nlw |&gt; \n  # glimpse()\n  select(year, month, region,landing_site, fish_group, length_cm, weight_kg) |&gt;\n  sample_n(30)  |&gt; \n  gt() |&gt;\n  cols_label(\n    year = 'Year',\n    month = 'Month',\n    region = 'Region',\n    landing_site = 'Landing Site',\n    fish_group = 'Fish Group',\n    length_cm = 'Length (cm)',\n    weight_kg = 'Weight (kg)'\n  ) |&gt;\n    tab_options(\n        table.width = px(700), \n        table.font.size = '12px', \n        heading.title.font.size = '16px',\n        heading.subtitle.font.size = '14px',\n        heading.subtitle.font.weight = 'bold',\n        latex.use_longtable = TRUE,\n        data_row.padding = px(8),\n        column_labels.padding = px(8)\n    ) |&gt;\n    opt_stylize(style = 6, color = 'gray')\n\n\n\n\n\n\n\n\nYear\nMonth\nRegion\nLanding Site\nFish Group\nLength (cm)\nWeight (kg)\n\n\n\n\n2021\nAug\nBosaso\nNec Fish\nOther\n64\n2.9\n\n\n2021\nMay\nBerbera\nNec Fish\nTuna\n53\n3.0\n\n\n2021\nJan\nBosaso\nNeck Fish\nTuna\n62\n5.0\n\n\n2021\nAug\nBosaso\nNec Fish\nOther\n64\n3.0\n\n\n2020\nOct\nBosaso\nneck Fish\nTuna\n80\n9.0\n\n\n2020\nMar\nKismayo\nKibora\nShark\n80\n2.5\n\n\n2021\nSept\nMogadishu\nLido\nTuna\n58\n4.0\n\n\n2021\nOct\nBosaso\nNec Fish\nTuna\n64\n3.2\n\n\n2020\nDec\nBerbera\nneck Fish\nTuna\n55\n3.3\n\n\n2021\nFeb\nBosaso\nNeck Fish\nOther\n92\n10.0\n\n\n2019\nFeb\nMogadishu\nLido Beach\nRays and Skates\n185\n64.0\n\n\n2021\nOct\nBosaso\nNec Fish\nBillfish\n177\nNA\n\n\n2021\nJan\nBosaso\nNeck Fish\nTuna\n66\n4.8\n\n\n2020\nApr\nMogadishu\nLido Beach\nBillfish\n157\nNA\n\n\n2021\nJun\nBerbera\nNeck Fish\nTuna\n84\n5.9\n\n\n2021\nFeb\nBerbera\nNeck Fish\nMackerel\n84\n5.5\n\n\n2020\nSept\nBerbera\nNeck Fish\nTuna\n55\n4.1\n\n\n2019\nJun\nMogadishu\nLido Beach\nOther\n112\n7.2\n\n\n2021\nJun\nKismayo\nKibora\nShark\n80\n2.0\n\n\n2019\nJan\nMogadishu\nLido Beach\nBillfish\n200\nNA\n\n\n2021\nApr\nKismayo\nKibora\nShark\n81\n3.0\n\n\n2021\nMar\nBosaso\nNec Fish\nTuna\n63\n3.5\n\n\n2020\nDec\nKismayo\nKibora\nOther\n63\n3.0\n\n\n2020\nMar\nMogadishu\nLido Beach\nTuna\n61\n5.2\n\n\n2021\nJun\nBerbera\nNeck Fish\nOther\n35\n2.5\n\n\n2020\nMay\nBosaso\nNec Fish\nTuna\n45\n1.0\n\n\n2021\nJan\nBerbera\nneck Fish\nMackerel\n80\n3.7\n\n\n2019\nDec\nMogadishu\nLido Beach\nShark\n259\nNA\n\n\n2020\nJul\nBerbera\nNeck Fish\nTuna\n53\n3.0\n\n\n2020\nSept\nBerbera\nNeck Fish\nTuna\n75\n5.3",
+    "text": "Fisheries stock assessment relies on diverse data types. This module explores what data is available, how it’s collected, and how it’s used.\n\n\nCode\nlw |&gt; \n  # glimpse()\n  select(year, month, region,landing_site, fish_group, length_cm, weight_kg) |&gt;\n  sample_n(30)  |&gt; \n  gt() |&gt;\n  cols_label(\n    year = 'Year',\n    month = 'Month',\n    region = 'Region',\n    landing_site = 'Landing Site',\n    fish_group = 'Fish Group',\n    length_cm = 'Length (cm)',\n    weight_kg = 'Weight (kg)'\n  ) |&gt;\n    tab_options(\n        table.width = px(700), \n        table.font.size = '12px', \n        heading.title.font.size = '16px',\n        heading.subtitle.font.size = '14px',\n        heading.subtitle.font.weight = 'bold',\n        latex.use_longtable = TRUE,\n        data_row.padding = px(8),\n        column_labels.padding = px(8)\n    ) |&gt;\n    opt_stylize(style = 6, color = 'gray')\n\n\n\n\n\n\n\n\nYear\nMonth\nRegion\nLanding Site\nFish Group\nLength (cm)\nWeight (kg)\n\n\n\n\n2021\nAug\nBosaso\nNec Fish\nTuna\n63\n3.00\n\n\n2021\nApr\nBosaso\nNec Fish\nTuna\n68\n4.00\n\n\n2021\nJan\nKismayo\nKibora\nOther\n64\n3.00\n\n\n2020\nNov\nBerbera\nneck Fish\nOther\n30\n0.95\n\n\n2021\nOct\nKismayo\nKibora\nOther\n53\n3.50\n\n\n2021\nApr\nBosaso\nNec Fish\nJacks\n61\n3.00\n\n\n2021\nFeb\nBosaso\nNeck Fish\nTuna\n64\n4.30\n\n\n2021\nJul\nKismayo\nKibora\nOther\n57\n3.00\n\n\n2019\nApr\nMogadishu\nLido Beach\nTuna\n61\n3.00\n\n\n2020\nFeb\nBerbera\nNeck Fish\nTuna\n76\n11.00\n\n\n2021\nMay\nBerbera\nNec Fish\nOther\n48\n2.20\n\n\n2021\nMar\nMogadishu\nLido Beach\nTuna\n50\n2.00\n\n\n2021\nMar\nBosaso\nNec Fish\nTuna\n164\nNA\n\n\n2021\nMay\nBosaso\nNec Fish\nOther\n82\n1.80\n\n\n2019\nJun\nMogadishu\nLido Beach\nJacks\n52\n3.00\n\n\n2021\nJul\nBosaso\nNec Fish\nTuna\n150\nNA\n\n\n2021\nFeb\nBerbera\nNeck Fish\nOther\n31\n1.20\n\n\n2021\nOct\nBosaso\nNec Fish\nTuna\n57\n3.00\n\n\n2021\nMay\nMogadishu\nLido\nTuna\n155\n77.00\n\n\n2021\nMar\nBerbera\nNeck Fish\nJacks\n56\n4.00\n\n\n2020\nOct\nMogadishu\nLido Beach\nBillfish\n165\n50.00\n\n\n2020\nApr\nKismayo\nKibora\nMackerel\n58\n2.00\n\n\n2020\nNov\nBerbera\nneck Fish\nOther\n60\n4.00\n\n\n2019\nJan\nMogadishu\nLido Beach\nTuna\n60\n4.00\n\n\n2021\nMar\nKismayo\nKibora\nShark\n79\n2.40\n\n\n2018\nNov\nMogadishu\nLido Beach\nTuna\n76\n11.00\n\n\n2019\nJul\nMogadishu\nLido Beach\nJacks\n82\n6.80\n\n\n2020\nMar\nBosaso\nNec Fish\nTuna\n61\n4.00\n\n\n2020\nAug\nBerbera\nNeck Fish\nTuna\n46\n1.90\n\n\n2020\nDec\nBerbera\nneck Fish\nTuna\n74\n7.00",
     "crumbs": [
       "Training",
       "Course Modules",
@@ -1604,7 +1828,7 @@
     "href": "modules/module2.html#overview",
     "title": "Module 2: Fisheries Data Types",
     "section": "",
-    "text": "Fisheries stock assessment relies on diverse data types. This module explores what data is available, how it’s collected, and how it’s used.\n\n\nCode\nlw |&gt; \n  # glimpse()\n  select(year, month, region,landing_site, fish_group, length_cm, weight_kg) |&gt;\n  sample_n(30)  |&gt; \n  gt() |&gt;\n  cols_label(\n    year = 'Year',\n    month = 'Month',\n    region = 'Region',\n    landing_site = 'Landing Site',\n    fish_group = 'Fish Group',\n    length_cm = 'Length (cm)',\n    weight_kg = 'Weight (kg)'\n  ) |&gt;\n    tab_options(\n        table.width = px(700), \n        table.font.size = '12px', \n        heading.title.font.size = '16px',\n        heading.subtitle.font.size = '14px',\n        heading.subtitle.font.weight = 'bold',\n        latex.use_longtable = TRUE,\n        data_row.padding = px(8),\n        column_labels.padding = px(8)\n    ) |&gt;\n    opt_stylize(style = 6, color = 'gray')\n\n\n\n\n\n\n\n\nYear\nMonth\nRegion\nLanding Site\nFish Group\nLength (cm)\nWeight (kg)\n\n\n\n\n2021\nAug\nBosaso\nNec Fish\nOther\n64\n2.9\n\n\n2021\nMay\nBerbera\nNec Fish\nTuna\n53\n3.0\n\n\n2021\nJan\nBosaso\nNeck Fish\nTuna\n62\n5.0\n\n\n2021\nAug\nBosaso\nNec Fish\nOther\n64\n3.0\n\n\n2020\nOct\nBosaso\nneck Fish\nTuna\n80\n9.0\n\n\n2020\nMar\nKismayo\nKibora\nShark\n80\n2.5\n\n\n2021\nSept\nMogadishu\nLido\nTuna\n58\n4.0\n\n\n2021\nOct\nBosaso\nNec Fish\nTuna\n64\n3.2\n\n\n2020\nDec\nBerbera\nneck Fish\nTuna\n55\n3.3\n\n\n2021\nFeb\nBosaso\nNeck Fish\nOther\n92\n10.0\n\n\n2019\nFeb\nMogadishu\nLido Beach\nRays and Skates\n185\n64.0\n\n\n2021\nOct\nBosaso\nNec Fish\nBillfish\n177\nNA\n\n\n2021\nJan\nBosaso\nNeck Fish\nTuna\n66\n4.8\n\n\n2020\nApr\nMogadishu\nLido Beach\nBillfish\n157\nNA\n\n\n2021\nJun\nBerbera\nNeck Fish\nTuna\n84\n5.9\n\n\n2021\nFeb\nBerbera\nNeck Fish\nMackerel\n84\n5.5\n\n\n2020\nSept\nBerbera\nNeck Fish\nTuna\n55\n4.1\n\n\n2019\nJun\nMogadishu\nLido Beach\nOther\n112\n7.2\n\n\n2021\nJun\nKismayo\nKibora\nShark\n80\n2.0\n\n\n2019\nJan\nMogadishu\nLido Beach\nBillfish\n200\nNA\n\n\n2021\nApr\nKismayo\nKibora\nShark\n81\n3.0\n\n\n2021\nMar\nBosaso\nNec Fish\nTuna\n63\n3.5\n\n\n2020\nDec\nKismayo\nKibora\nOther\n63\n3.0\n\n\n2020\nMar\nMogadishu\nLido Beach\nTuna\n61\n5.2\n\n\n2021\nJun\nBerbera\nNeck Fish\nOther\n35\n2.5\n\n\n2020\nMay\nBosaso\nNec Fish\nTuna\n45\n1.0\n\n\n2021\nJan\nBerbera\nneck Fish\nMackerel\n80\n3.7\n\n\n2019\nDec\nMogadishu\nLido Beach\nShark\n259\nNA\n\n\n2020\nJul\nBerbera\nNeck Fish\nTuna\n53\n3.0\n\n\n2020\nSept\nBerbera\nNeck Fish\nTuna\n75\n5.3",
+    "text": "Fisheries stock assessment relies on diverse data types. This module explores what data is available, how it’s collected, and how it’s used.\n\n\nCode\nlw |&gt; \n  # glimpse()\n  select(year, month, region,landing_site, fish_group, length_cm, weight_kg) |&gt;\n  sample_n(30)  |&gt; \n  gt() |&gt;\n  cols_label(\n    year = 'Year',\n    month = 'Month',\n    region = 'Region',\n    landing_site = 'Landing Site',\n    fish_group = 'Fish Group',\n    length_cm = 'Length (cm)',\n    weight_kg = 'Weight (kg)'\n  ) |&gt;\n    tab_options(\n        table.width = px(700), \n        table.font.size = '12px', \n        heading.title.font.size = '16px',\n        heading.subtitle.font.size = '14px',\n        heading.subtitle.font.weight = 'bold',\n        latex.use_longtable = TRUE,\n        data_row.padding = px(8),\n        column_labels.padding = px(8)\n    ) |&gt;\n    opt_stylize(style = 6, color = 'gray')\n\n\n\n\n\n\n\n\nYear\nMonth\nRegion\nLanding Site\nFish Group\nLength (cm)\nWeight (kg)\n\n\n\n\n2021\nAug\nBosaso\nNec Fish\nTuna\n63\n3.00\n\n\n2021\nApr\nBosaso\nNec Fish\nTuna\n68\n4.00\n\n\n2021\nJan\nKismayo\nKibora\nOther\n64\n3.00\n\n\n2020\nNov\nBerbera\nneck Fish\nOther\n30\n0.95\n\n\n2021\nOct\nKismayo\nKibora\nOther\n53\n3.50\n\n\n2021\nApr\nBosaso\nNec Fish\nJacks\n61\n3.00\n\n\n2021\nFeb\nBosaso\nNeck Fish\nTuna\n64\n4.30\n\n\n2021\nJul\nKismayo\nKibora\nOther\n57\n3.00\n\n\n2019\nApr\nMogadishu\nLido Beach\nTuna\n61\n3.00\n\n\n2020\nFeb\nBerbera\nNeck Fish\nTuna\n76\n11.00\n\n\n2021\nMay\nBerbera\nNec Fish\nOther\n48\n2.20\n\n\n2021\nMar\nMogadishu\nLido Beach\nTuna\n50\n2.00\n\n\n2021\nMar\nBosaso\nNec Fish\nTuna\n164\nNA\n\n\n2021\nMay\nBosaso\nNec Fish\nOther\n82\n1.80\n\n\n2019\nJun\nMogadishu\nLido Beach\nJacks\n52\n3.00\n\n\n2021\nJul\nBosaso\nNec Fish\nTuna\n150\nNA\n\n\n2021\nFeb\nBerbera\nNeck Fish\nOther\n31\n1.20\n\n\n2021\nOct\nBosaso\nNec Fish\nTuna\n57\n3.00\n\n\n2021\nMay\nMogadishu\nLido\nTuna\n155\n77.00\n\n\n2021\nMar\nBerbera\nNeck Fish\nJacks\n56\n4.00\n\n\n2020\nOct\nMogadishu\nLido Beach\nBillfish\n165\n50.00\n\n\n2020\nApr\nKismayo\nKibora\nMackerel\n58\n2.00\n\n\n2020\nNov\nBerbera\nneck Fish\nOther\n60\n4.00\n\n\n2019\nJan\nMogadishu\nLido Beach\nTuna\n60\n4.00\n\n\n2021\nMar\nKismayo\nKibora\nShark\n79\n2.40\n\n\n2018\nNov\nMogadishu\nLido Beach\nTuna\n76\n11.00\n\n\n2019\nJul\nMogadishu\nLido Beach\nJacks\n82\n6.80\n\n\n2020\nMar\nBosaso\nNec Fish\nTuna\n61\n4.00\n\n\n2020\nAug\nBerbera\nNeck Fish\nTuna\n46\n1.90\n\n\n2020\nDec\nBerbera\nneck Fish\nTuna\n74\n7.00",
     "crumbs": [
       "Training",
       "Course Modules",
@@ -1756,6 +1980,69 @@
     ]
   },
   {
+    "objectID": "exercises/maturity_exercise.html",
+    "href": "exercises/maturity_exercise.html",
+    "title": "Exercise: Estimating Length at 50% Maturity (L50)",
+    "section": "",
+    "text": "This exercise will guide you through the process of estimating the length at 50% maturity (L50) for Yellowfin Tuna (YFT) using data from Somali landing sites. We will use the sizeMat package in R, which provides tools for this type of analysis, especially in data-limited situations where direct gonad staging data is not available.\nThe sizeMat package can infer maturity by identifying different morphometric groups (juveniles and adults) within the length and weight data."
+  },
+  {
+    "objectID": "exercises/maturity_exercise.html#introduction",
+    "href": "exercises/maturity_exercise.html#introduction",
+    "title": "Exercise: Estimating Length at 50% Maturity (L50)",
+    "section": "",
+    "text": "This exercise will guide you through the process of estimating the length at 50% maturity (L50) for Yellowfin Tuna (YFT) using data from Somali landing sites. We will use the sizeMat package in R, which provides tools for this type of analysis, especially in data-limited situations where direct gonad staging data is not available.\nThe sizeMat package can infer maturity by identifying different morphometric groups (juveniles and adults) within the length and weight data."
+  },
+  {
+    "objectID": "exercises/maturity_exercise.html#step-1-setup",
+    "href": "exercises/maturity_exercise.html#step-1-setup",
+    "title": "Exercise: Estimating Length at 50% Maturity (L50)",
+    "section": "Step 1: Setup",
+    "text": "Step 1: Setup\nFirst, we need to load the R packages that we will use for this analysis. We need tidyverse for data manipulation, sizeMat for the maturity analysis, and gt to create well-formatted tables.\n\n# Load required libraries\nlibrary(tidyverse)\nlibrary(sizeMat) # For maturity analysis\nlibrary(gt)      # For nice tables"
+  },
+  {
+    "objectID": "exercises/maturity_exercise.html#step-2-load-and-prepare-data",
+    "href": "exercises/maturity_exercise.html#step-2-load-and-prepare-data",
+    "title": "Exercise: Estimating Length at 50% Maturity (L50)",
+    "section": "Step 2: Load and Prepare Data",
+    "text": "Step 2: Load and Prepare Data\nNext, we will load the fish landing data from the lw2.csv file. This dataset contains length and weight measurements for various species. We will then filter this data to create a dataset that only contains records for Yellowfin Tuna (YFT) and has complete length and weight information.\n\nlw = readxl::read_excel('../data_shared/ProjKalluun_master_data_entry.xlsx', sheet = 'Section 3', skip= 4) |&gt; \n    janitor::clean_names() |&gt; \n    filter(!is.na(landing_site))\n\nlw = lw |&gt; \n mutate(\n    year = year(date_dd_mm_yy),\n    month = month(date_dd_mm_yy, label = TRUE),\n    day = day(date_dd_mm_yy), \n    .after = date_dd_mm_yy\n ) |&gt; \n    mutate(\n    weight_kg = as.numeric(weight_kg),\n    length_cm = as.numeric(length_cm)\n    )\n\n# lw |&gt; write_csv('../data_shared/lw2.csv')\n\nyft = lw |&gt; filter(fish_type_code == 'YFT')"
+  },
+  {
+    "objectID": "exercises/maturity_exercise.html#step-3-classify-maturity-using-morphometrics",
+    "href": "exercises/maturity_exercise.html#step-3-classify-maturity-using-morphometrics",
+    "title": "Exercise: Estimating Length at 50% Maturity (L50)",
+    "section": "Step 3: Classify Maturity using Morphometrics",
+    "text": "Step 3: Classify Maturity using Morphometrics\nSince we don’t have visual gonad staging data, we will use the classify_mature() function from the sizeMat package. This function uses a statistical method (\"ld\" for linear discriminant analysis) to find two groups in the length-weight data, which it classifies as “juvenile” and “adult”.\n\n## Partitioning with Frequentist regression \nclassified_yft &lt;- yft |&gt; \n  classify_mature(\n    varNames = c(\"length_cm\", \"weight_kg\"),\n    varSex = NULL, \n    selectSex = NULL,\n    method = \"ld\"\n  )\n\nall individuals were used in the analysis \n\n\nThe function has now added a maturity column to our dataset. Let’s inspect the result.\nWe can visualize how the function has classified the fish by plotting the length-weight relationship and coloring the points by the new maturity status.\n\nclassified_yft |&gt; \n  plot(\n    main = 'L50 of Yellowfin',\n    xlab = 'Length (cm)', \n    ylab = 'Weight (kg)',\n     cex.main = 1.5,\n     cex.lab = 1.2,\n     cex.axis = 1\n  )\n\n\n\n\nLength-weight relationship of Yellowfin Tuna, colored by maturity status."
+  },
+  {
+    "objectID": "exercises/maturity_exercise.html#step-4-estimate-l50",
+    "href": "exercises/maturity_exercise.html#step-4-estimate-l50",
+    "title": "Exercise: Estimating Length at 50% Maturity (L50)",
+    "section": "Step 4: Estimate L50",
+    "text": "Step 4: Estimate L50\nNow that we have classified each fish as either juvenile (0) or adult (1), we can model the probability of being mature at a given length. The morph_mature() function fits a logistic curve to this binary data and estimates the parameters of the maturity ogive, including L50.\nWe will use the frequentist method (method = \"fq\") and run 1000 bootstrap iterations (niter = 1000) to get confidence intervals for our estimates.\n\nmy_ogive_fq &lt;- morph_mature(\n    data = classified_yft, \n    method = \"fq\", \n    niter = 1000\n)"
+  },
+  {
+    "objectID": "exercises/maturity_exercise.html#step-5-interpret-the-results",
+    "href": "exercises/maturity_exercise.html#step-5-interpret-the-results",
+    "title": "Exercise: Estimating Length at 50% Maturity (L50)",
+    "section": "Step 5: Interpret the Results",
+    "text": "Step 5: Interpret the Results\nThe morph_mature function returns an object containing the estimated parameters. We can print this object to see the results.\n\n# The print() function for this object is a bit verbose, so we capture and reformat it.\nmy_ogive_tb &lt;- my_ogive_fq |&gt; \n    print() |&gt; \n    as.data.frame() |&gt; \n    as_tibble() |&gt; \n    mutate(Freq = as.numeric(Freq)) |&gt; \n    pivot_wider(names_from = Var1, values_from = Freq)\n\nformula: Y = 1/1+exp-(A + B*X) \n\nmy_ogive_tb |&gt; \n  gt() |&gt; \n  fmt_number(columns = everything(), decimals = 2) |&gt;\n  tab_header(title = \"Maturity Ogive Parameters for Yellowfin Tuna\")\n\n\n\n\n\n\n\nMaturity Ogive Parameters for Yellowfin Tuna\n\n\nVar2\nA\nB\nL50\nR2\n\n\n\n\nOriginal\n−29.37\n0.31\n94.30\n0.89\n\n\nBootstrap (Median)\n−29.94\n0.32\n94.25\nNA\n\n\n\n\n\n\n\nInterpretation of the table:\n\nA and B: These are the intercept and slope parameters for the logistic regression model: Y = 1 / (1 + exp(-(A + B*X))).\nL50: This is the estimated length at which 50% of the population is mature. This is our key result.\nR2: The coefficient of determination, indicating how well the model fits the data.\nBootstrap (Median): These are the median values from the 1000 bootstrap runs, which give a more robust estimate of the parameters.\n\nBased on this analysis, the estimated L50 for Yellowfin Tuna is 94.3 cm.\n\nVisualize the Maturity Ogive\nFinally, we can plot the maturity ogive, which is the S-shaped curve showing the proportion of mature fish at each length.\n\nmy_ogive_fq |&gt; \n    plot(\n    main = 'L50 of Yellowfin',\n    xlab = 'Length (cm)', \n    ylab = 'Proportion Mature',\n    cex.main = 1.5,\n    cex.lab = 1.2,\n    cex.axis = 1\n)\n\n\n\n\nMaturity ogive for Yellowfin Tuna, showing the proportion of mature individuals by length.\n\n\n\n\n\n\n\nMaturity ogive for Yellowfin Tuna, showing the proportion of mature individuals by length.\n\n\n\n\n\n\n\nMaturity ogive for Yellowfin Tuna, showing the proportion of mature individuals by length.\n\n\n\n\n\n\n\nMaturity ogive for Yellowfin Tuna, showing the proportion of mature individuals by length.\n\n\n\n\nSize at morphometric maturity = 94.3 \nConfidence intervals = 92.4 - 96.5 \nRsquare = 0.89\n\n\nThe plot shows the observed proportion of mature fish at each length class (black dots) and the fitted logistic curve (solid line). The dashed lines indicate the estimated L50."
+  },
+  {
+    "objectID": "exercises/maturity_exercise.html#exercise-questions",
+    "href": "exercises/maturity_exercise.html#exercise-questions",
+    "title": "Exercise: Estimating Length at 50% Maturity (L50)",
+    "section": "Exercise Questions",
+    "text": "Exercise Questions\n\nWhat does the L50 value of 94.3 cm mean for the management of Yellowfin Tuna in Somalia?\nThe classify_mature function can also use a \"gmm\" (Gaussian Mixture Model) method. Try re-running the analysis with method = \"gmm\". Does the estimated L50 change significantly?\nThis analysis was done on all Yellowfin Tuna data combined. How might you adapt this script to see if L50 differs between regions (e.g., ‘Berbera’ vs. ‘Mogadishu’)?"
+  },
+  {
+    "objectID": "blog.html",
+    "href": "blog.html",
+    "title": "Blog",
+    "section": "",
+    "text": "Day One: Somali Delegates Arrive at TAFIRI\n\n\n\n\n\n\nupdates\n\n\ntraining\n\n\nTAFIRI\n\n\n\nWelcoming the Somali delegation to the Tanzania Fisheries Research Institute (TAFIRI) for the start of the stock assessment training.\n\n\n\n\n\nDec 12, 2025\n\n\nMasumbuko Semba\n\n\n\n\n\n\n\n\n\n\n\n\nWelcome to the Blog\n\n\n\n\n\n\nnews\n\n\nupdates\n\n\n\nOur first post introducing the blog for the Somali Stock Training program.\n\n\n\n\n\nDec 10, 2025\n\n\nMasumbuko Semba\n\n\n\n\n\n\nNo matching items"
+  },
+  {
     "objectID": "about.html",
     "href": "about.html",
     "title": "About This Training Program",
@@ -1805,11 +2092,109 @@
     "text": "Contact & Further Information\n\nTanzania Fisheries Research Institute (TAFIRI)\n📍 P.O. Box 9750, Dar es Salaam, Tanzania\n🌐 Website: www.tafiri.go.tz\n📧 Email: info@tafiri.go.tz\nVisit TAFIRI’s website for research programs, publications, and additional training opportunities."
   },
   {
-    "objectID": "blog.html",
-    "href": "blog.html",
-    "title": "Blog",
+    "objectID": "exercises/maturity.html#fecundity-and-maturity-analysis",
+    "href": "exercises/maturity.html#fecundity-and-maturity-analysis",
+    "title": "Fecundity and Maturity Analysis",
+    "section": "Fecundity and Maturity Analysis",
+    "text": "Fecundity and Maturity Analysis\n\n\nLearning Objectives\n\nDefine fecundity and maturity.\nUnderstand methods for maturity staging.\nLearn how to estimate Length at 50% Maturity (L50).\nRecognize the importance of these parameters in stock assessment.\n\n\nWhy This Matters\n\nReproductive capacity determines a stock’s ability to replenish itself.\nL50 is a key input for many data-limited models (like LBSPR).\nHelps set size limits to protect spawning stock."
+  },
+  {
+    "objectID": "exercises/maturity.html#key-definitions",
+    "href": "exercises/maturity.html#key-definitions",
+    "title": "Fecundity and Maturity Analysis",
+    "section": "Key Definitions",
+    "text": "Key Definitions\n\nFecundity\n\nThe number of eggs an individual female can produce in a spawning season. It generally increases with size and age.\n\nMaturity\n\nThe state of being reproductively active. We often classify fish as either “immature” or “mature.”\n\nLength at 50% Maturity (L50)\n\nThe length at which 50% of the individuals in the population are mature. This is a critical biological reference point."
+  },
+  {
+    "objectID": "exercises/maturity.html#how-to-determine-maturity",
+    "href": "exercises/maturity.html#how-to-determine-maturity",
+    "title": "Fecundity and Maturity Analysis",
+    "section": "How to Determine Maturity",
+    "text": "How to Determine Maturity\nMaturity is determined by visually inspecting the gonads. A common method is a macroscopic staging scale.\nExample 5-Stage Scale:\n\n\n\nStage\nDescription\nStatus\n\n\n\n\n1\nImmature / Virgin\nImmature\n\n\n2\nDeveloping / Resting\nImmature\n\n\n3\nRipe / Spawning\nMature\n\n\n4\nRunning Ripe / Spent\nMature\n\n\n5\nRecovering\nMature\n\n\n\nIn practice, stages 3, 4, and 5 are typically classified as “Mature” for analysis."
+  },
+  {
+    "objectID": "exercises/maturity.html#estimating-length-at-50-maturity-l50",
+    "href": "exercises/maturity.html#estimating-length-at-50-maturity-l50",
+    "title": "Fecundity and Maturity Analysis",
+    "section": "Estimating Length at 50% Maturity (L50)",
+    "text": "Estimating Length at 50% Maturity (L50)\nWe model the proportion of mature fish at each length class to find the length where that proportion is 0.5 (50%).\nStep 1: Collect Maturity Data For each fish, record its length and maturity stage (e.g., 1-5).\nStep 2: Create a Binary “Mature” Column Code individuals as 0 (immature) or 1 (mature).\nStep 3: Fit a Logistic Regression Model This model describes the S-shaped curve of maturation probability."
+  },
+  {
+    "objectID": "exercises/maturity.html#practical-example-estimating-l50",
+    "href": "exercises/maturity.html#practical-example-estimating-l50",
+    "title": "Fecundity and Maturity Analysis",
+    "section": "Practical Example: Estimating L50",
+    "text": "Practical Example: Estimating L50\n\n\n\nYellowfin tuna (Thunnus albacares) typically range from 40-180 cm fork length, with peak catches occurring between 80-120 cm"
+  },
+  {
+    "objectID": "exercises/maturity.html#length-frequency",
+    "href": "exercises/maturity.html#length-frequency",
+    "title": "Fecundity and Maturity Analysis",
+    "section": "Length frequency",
+    "text": "Length frequency"
+  },
+  {
+    "objectID": "exercises/maturity.html#partition-yft-into-juvenile-and-adults",
+    "href": "exercises/maturity.html#partition-yft-into-juvenile-and-adults",
+    "title": "Fecundity and Maturity Analysis",
+    "section": "Partition YFT into juvenile and adults",
+    "text": "Partition YFT into juvenile and adults\n\n\n\n## partitioning withFrequentist regression \n\nclassified_yft = yft |&gt; \n  classify_mature(\n    varNames = c(\"length_cm\", \"weight_kg\"),\n    varSex = NULL, \n    selectSex = NULL,\n    method = \"ld\"\n  )\n\nall individuals were used in the analysis \n\n# classified_yft |&gt; plot()"
+  },
+  {
+    "objectID": "exercises/maturity.html#estimated-l50",
+    "href": "exercises/maturity.html#estimated-l50",
+    "title": "Fecundity and Maturity Analysis",
+    "section": "Estimated L50",
+    "text": "Estimated L50\n\n\nformula: Y = 1/1+exp-(A + B*X) \n\n\n\n\n\nThe S-shaped curve is called the “maturity ogive.”\nThe estimated L50 is 94.3 cm.\n\n\n\n\n\n\n\n\n\nVar2\nA\nB\nL50\nR2\n\n\n\n\nOriginal\n−29.37\n0.31\n94.30\n0.89\n\n\nBootstrap (Median)\n−29.94\n0.32\n94.25\nNA"
+  },
+  {
+    "objectID": "exercises/maturity.html#key-takeaways",
+    "href": "exercises/maturity.html#key-takeaways",
+    "title": "Fecundity and Maturity Analysis",
+    "section": "Key Takeaways",
+    "text": "Key Takeaways\n\nFecundity and Maturity are fundamental to a stock’s reproductive potential.\nL50 is a critical biological reference point that tells us the size at which fish start contributing to the next generation.\nEstimating L50 requires collecting both length, weight and gonad maturity stage data in the field.\nThis parameter is a required input for many length-based stock assessment models you will learn about next."
+  },
+  {
+    "objectID": "exercises/maturity.html#questions-discussion",
+    "href": "exercises/maturity.html#questions-discussion",
+    "title": "Fecundity and Maturity Analysis",
+    "section": "Questions & Discussion",
+    "text": "Questions & Discussion\nThank You"
+  },
+  {
+    "objectID": "exercises/steps_for_tools.html",
+    "href": "exercises/steps_for_tools.html",
+    "title": "Setup Guide: R and RStudio for Stock Assessment Training",
     "section": "",
-    "text": "Day One: Somali Delegates Arrive at TAFIRI\n\n\n\n\n\n\nupdates\n\n\ntraining\n\n\nTAFIRI\n\n\n\nWelcoming the Somali delegation to the Tanzania Fisheries Research Institute (TAFIRI) for the start of the stock assessment training.\n\n\n\n\n\nDec 12, 2025\n\n\nMasumbuko Semba\n\n\n\n\n\n\n\n\n\n\n\n\nWelcome to the Blog\n\n\n\n\n\n\nnews\n\n\nupdates\n\n\n\nOur first post introducing the blog for the Somali Stock Training program.\n\n\n\n\n\nDec 10, 2025\n\n\nMasumbuko Semba\n\n\n\n\n\n\nNo matching items"
+    "text": "This guide provides step-by-step instructions for installing the necessary software for our training session on length-based stock assessment. We will install:\n\nR: The programming language for statistical computing.\nRStudio: An Integrated Development Environment (IDE) that makes working with R much easier.\nR Packages: Specific add-ons for R that we will use for data manipulation, plotting, and the LBSPR analysis.\n\nPlease follow these steps before the training session begins.\n\n\n\nR is the core programming language we will be using. You must install R before you can install RStudio.\n\nGo to the Comprehensive R Archive Network (CRAN) website: https://cran.r-project.org/\nClick on the download link for your operating system:\n\nDownload R for Windows\nDownload R for macOS\nDownload R for Linux\n\nSelect the “base” distribution (or the latest recommended version for your OS).\nRun the downloaded installer file and follow the on-screen instructions. It is safe to accept all the default settings.\n\n\n\n\n\nAn Integrated Development Environment (IDE) makes writing and running code much easier. For this training, we recommend RStudio, but advanced users may prefer Positron. You only need to install one of them.\n\n\nRStudio is the classic, widely-used IDE for R.\n\nGo to the Posit website to download RStudio: https://posit.co/download/rstudio-desktop/\nThe website should automatically detect your operating system. Click the “DOWNLOAD RSTUDIO DESKTOP” button for the free version.\nRun the downloaded installer file and follow the on-screen instructions. The default settings are fine.\n\n\n\n\nPositron is a modern IDE from the creators of RStudio that runs as an extension inside Visual Studio Code (VS Code).\n\nInstall VS Code: If you don’t already have it, download and install Visual Studio Code from https://code.visualstudio.com/.\nInstall the Positron Extension:\n\nOpen VS Code.\nClick on the Extensions icon in the activity bar on the left (it looks like four squares).\nSearch for Positron - R IDE in the marketplace search bar.\nFind the extension published by Posit and click Install. This will also automatically install the required “R” extension.\n\n\n\nAfter installation, you can open R files and use the R console directly within VS Code, similar to how you would in RStudio.\n\n\n\nIf you are new to VS Code and Positron, here is a quick guide to get you started:\n\nOpen Your Project Folder:\n\nIn VS Code, go to File &gt; Open Folder... and select the main folder for this training (e.g., somali_stock_training). This will show all your files in the Explorer panel on the left.\n\nFind the R Console:\n\nOnce you open an R script (a file ending in .R or .qmd), Positron’s R tools will become active.\nYou can open the R console by going to the main menu View &gt; Terminal and ensuring the “R” tab is selected in the bottom panel. You can also use the command palette (Ctrl+Shift+P) and search for R: Create R Terminal.\n\nArrange Your Workspace:\n\nThe VS Code interface is flexible. A common layout is:\n\nEditor (top-center) for your R scripts.\nR Console (bottom-center) to see command output.\nPositron Panes (left or right sidebars) for Environment, Plots, Help, and Packages. You can open these from the “R” icon in the activity bar on the far left.\n\n\nRun R Code:\n\nOpen an R script (e.g., a .qmd file from the presentations folder).\nPlace your cursor on a line of R code inside a code chunk.\nPress Ctrl+Enter (on Windows/Linux) or Cmd+Enter (on macOS) to run that single line. The code will execute in the R console.\n\n\n\n\n\n\n\n\nPackages are collections of functions and data that extend R’s capabilities. We will install them from within your chosen IDE (RStudio or Positron/VS Code).\n\nOpen the RStudio or VS Code application.\nFind the panel labeled “Console”. This is where you can type commands directly to R.\nCopy the following command, paste it into the console, and press Enter.\n\n#| eval: false\n#| echo: true\n\ninstall.packages(c(\"tidyverse\", \"LBSPR\", \"readxl\", \"janitor\", \"tidyplots\"))\n\nR will now download and install these packages from the internet. This may take a few minutes. You might see a lot of text printed in the console, which is normal. If you are asked Do you want to install from sources the packages which need compilation?, it is usually safe to type No and press Enter.\n\n\n\n\n\nLet’s make sure everything is working correctly.\n\nIn the R console within your IDE, type the following commands one by one, pressing Enter after each one.\n\n#| eval: false\n#| echo: true\n\nlibrary(tidyverse)\nlibrary(LBSPR)\n\nIf the commands run without any Error: messages (warnings are okay), then your installation was successful! You are now ready for the training session.\n\nIf you encounter any problems during this setup, please don’t hesitate to ask for help."
+  },
+  {
+    "objectID": "exercises/steps_for_tools.html#step-1-install-r",
+    "href": "exercises/steps_for_tools.html#step-1-install-r",
+    "title": "Setup Guide: R and RStudio for Stock Assessment Training",
+    "section": "",
+    "text": "R is the core programming language we will be using. You must install R before you can install RStudio.\n\nGo to the Comprehensive R Archive Network (CRAN) website: https://cran.r-project.org/\nClick on the download link for your operating system:\n\nDownload R for Windows\nDownload R for macOS\nDownload R for Linux\n\nSelect the “base” distribution (or the latest recommended version for your OS).\nRun the downloaded installer file and follow the on-screen instructions. It is safe to accept all the default settings."
+  },
+  {
+    "objectID": "exercises/steps_for_tools.html#step-2-install-an-ide-choose-one",
+    "href": "exercises/steps_for_tools.html#step-2-install-an-ide-choose-one",
+    "title": "Setup Guide: R and RStudio for Stock Assessment Training",
+    "section": "",
+    "text": "An Integrated Development Environment (IDE) makes writing and running code much easier. For this training, we recommend RStudio, but advanced users may prefer Positron. You only need to install one of them.\n\n\nRStudio is the classic, widely-used IDE for R.\n\nGo to the Posit website to download RStudio: https://posit.co/download/rstudio-desktop/\nThe website should automatically detect your operating system. Click the “DOWNLOAD RSTUDIO DESKTOP” button for the free version.\nRun the downloaded installer file and follow the on-screen instructions. The default settings are fine.\n\n\n\n\nPositron is a modern IDE from the creators of RStudio that runs as an extension inside Visual Studio Code (VS Code).\n\nInstall VS Code: If you don’t already have it, download and install Visual Studio Code from https://code.visualstudio.com/.\nInstall the Positron Extension:\n\nOpen VS Code.\nClick on the Extensions icon in the activity bar on the left (it looks like four squares).\nSearch for Positron - R IDE in the marketplace search bar.\nFind the extension published by Posit and click Install. This will also automatically install the required “R” extension.\n\n\n\nAfter installation, you can open R files and use the R console directly within VS Code, similar to how you would in RStudio.\n\n\n\nIf you are new to VS Code and Positron, here is a quick guide to get you started:\n\nOpen Your Project Folder:\n\nIn VS Code, go to File &gt; Open Folder... and select the main folder for this training (e.g., somali_stock_training). This will show all your files in the Explorer panel on the left.\n\nFind the R Console:\n\nOnce you open an R script (a file ending in .R or .qmd), Positron’s R tools will become active.\nYou can open the R console by going to the main menu View &gt; Terminal and ensuring the “R” tab is selected in the bottom panel. You can also use the command palette (Ctrl+Shift+P) and search for R: Create R Terminal.\n\nArrange Your Workspace:\n\nThe VS Code interface is flexible. A common layout is:\n\nEditor (top-center) for your R scripts.\nR Console (bottom-center) to see command output.\nPositron Panes (left or right sidebars) for Environment, Plots, Help, and Packages. You can open these from the “R” icon in the activity bar on the far left.\n\n\nRun R Code:\n\nOpen an R script (e.g., a .qmd file from the presentations folder).\nPlace your cursor on a line of R code inside a code chunk.\nPress Ctrl+Enter (on Windows/Linux) or Cmd+Enter (on macOS) to run that single line. The code will execute in the R console."
+  },
+  {
+    "objectID": "exercises/steps_for_tools.html#step-3-install-required-r-packages",
+    "href": "exercises/steps_for_tools.html#step-3-install-required-r-packages",
+    "title": "Setup Guide: R and RStudio for Stock Assessment Training",
+    "section": "",
+    "text": "Packages are collections of functions and data that extend R’s capabilities. We will install them from within your chosen IDE (RStudio or Positron/VS Code).\n\nOpen the RStudio or VS Code application.\nFind the panel labeled “Console”. This is where you can type commands directly to R.\nCopy the following command, paste it into the console, and press Enter.\n\n#| eval: false\n#| echo: true\n\ninstall.packages(c(\"tidyverse\", \"LBSPR\", \"readxl\", \"janitor\", \"tidyplots\"))\n\nR will now download and install these packages from the internet. This may take a few minutes. You might see a lot of text printed in the console, which is normal. If you are asked Do you want to install from sources the packages which need compilation?, it is usually safe to type No and press Enter."
+  },
+  {
+    "objectID": "exercises/steps_for_tools.html#step-4-verify-your-installation",
+    "href": "exercises/steps_for_tools.html#step-4-verify-your-installation",
+    "title": "Setup Guide: R and RStudio for Stock Assessment Training",
+    "section": "",
+    "text": "Let’s make sure everything is working correctly.\n\nIn the R console within your IDE, type the following commands one by one, pressing Enter after each one.\n\n#| eval: false\n#| echo: true\n\nlibrary(tidyverse)\nlibrary(LBSPR)\n\nIf the commands run without any Error: messages (warnings are okay), then your installation was successful! You are now ready for the training session.\n\nIf you encounter any problems during this setup, please don’t hesitate to ask for help."
   },
   {
     "objectID": "modules/module1.html",
@@ -3014,7 +3399,7 @@
     "href": "presentations/module_5_presentation.html#creating-analysis-reports",
     "title": "Module 5: Data Analysis Methods",
     "section": "Creating Analysis Reports",
-    "text": "Creating Analysis Reports\nR Markdown Template:\n# file: analysis_report.Rmd\n---\ntitle: \"Stock Assessment Report 2024\"\nauthor: \"Data Analyst\"\ndate: \"2025-12-15\"\noutput: html_document\n---\n\n# Executive Summary\nKey findings and recommendations\n\n# Methods\nData sources, analytical approaches\n\n# Results\nFigures and tables with interpretation\n\n# Discussion\nWhat do results mean?\n\n# Conclusion\nRecommendations for management"
+    "text": "Creating Analysis Reports\nR Markdown Template:\n# file: analysis_report.Rmd\n---\ntitle: \"Stock Assessment Report 2024\"\nauthor: \"Data Analyst\"\ndate: \"2025-12-16\"\noutput: html_document\n---\n\n# Executive Summary\nKey findings and recommendations\n\n# Methods\nData sources, analytical approaches\n\n# Results\nFigures and tables with interpretation\n\n# Discussion\nWhat do results mean?\n\n# Conclusion\nRecommendations for management"
   },
   {
     "objectID": "presentations/module_5_presentation.html#automating-analysis-reports",
@@ -3120,6 +3505,209 @@
     "title": "Module 5: Data Analysis Methods",
     "section": "Thank You",
     "text": "Thank You\nSomali Fish Stock Training\nModule 5: Data Analysis Methods\nTransforming data into evidence-based decisions\nNext: Regional coordination and implementation\nQuestions? Contact the training team."
+  },
+  {
+    "objectID": "presentations/presentation_10_trophic_level.html#welcome-to-presentation-10",
+    "href": "presentations/presentation_10_trophic_level.html#welcome-to-presentation-10",
+    "title": "Presentation 10: Trophic Level",
+    "section": "Welcome to Presentation 10",
+    "text": "Welcome to Presentation 10\nTrophic Level: Understanding the Marine Food Web\n\n\nLearning Objectives\n\nDefine what a trophic level is.\nUnderstand its importance in fisheries management.\nLearn about “fishing down the food web.”\nCalculate the Mean Trophic Index of the catch.\n\n\nWhy This Matters\n\nProvides an ecosystem-level view of fishing impacts.\nA key indicator for Ecosystem-Based Fisheries Management (EBFM).\nHelps detect long-term changes in the marine environment."
+  },
+  {
+    "objectID": "presentations/presentation_10_trophic_level.html#what-is-a-trophic-level",
+    "href": "presentations/presentation_10_trophic_level.html#what-is-a-trophic-level",
+    "title": "Presentation 10: Trophic Level",
+    "section": "What is a Trophic Level?",
+    "text": "What is a Trophic Level?\nA trophic level is the position an organism occupies in a food chain. It represents a “step” in the flow of energy.\n\nLevel 1: Primary Producers (e.g., Phytoplankton) - Create their own food.\nLevel 2: Primary Consumers (Herbivores, e.g., Zooplankton) - Eat producers.\nLevel 3: Secondary Consumers (Carnivores, e.g., Mackerel) - Eat primary consumers.\nLevel 4: Tertiary Consumers (Carnivores, e.g., Tuna) - Eat secondary consumers.\nLevel 5: Apex Predators (e.g., large Sharks) - Top of the food chain."
+  },
+  {
+    "objectID": "presentations/presentation_10_trophic_level.html#the-marine-food-web",
+    "href": "presentations/presentation_10_trophic_level.html#the-marine-food-web",
+    "title": "Presentation 10: Trophic Level",
+    "section": "The Marine Food Web",
+    "text": "The Marine Food Web\nIn reality, it’s a complex web, not a simple chain. A single species can feed at multiple trophic levels.\n\nSource: Arreguín-Sánchez (2014)"
+  },
+  {
+    "objectID": "presentations/presentation_10_trophic_level.html#why-is-trophic-level-important",
+    "href": "presentations/presentation_10_trophic_level.html#why-is-trophic-level-important",
+    "title": "Presentation 10: Trophic Level",
+    "section": "Why is Trophic Level Important?",
+    "text": "Why is Trophic Level Important?\n\nEcosystem Health Indicator: The average trophic level of the catch can signal major shifts in the ecosystem.\n“Fishing Down the Food Web”: This is a classic sign of overfishing. Fisheries first deplete large, high-trophic-level predators and then shift to targeting smaller, lower-trophic-level species.\nManagement Strategy: High-trophic-level species (like sharks) are often long-lived and slow to reproduce, requiring more conservative management than low-trophic-level species (like sardines)."
+  },
+  {
+    "objectID": "presentations/presentation_10_trophic_level.html#calculating-mean-trophic-index-mti-of-the-catch",
+    "href": "presentations/presentation_10_trophic_level.html#calculating-mean-trophic-index-mti-of-the-catch",
+    "title": "Presentation 10: Trophic Level",
+    "section": "Calculating Mean Trophic Index (MTI) of the Catch",
+    "text": "Calculating Mean Trophic Index (MTI) of the Catch\nWe can estimate the health of the fishery by tracking the average trophic level of the fish we catch over time.\nStep 1: Assign Trophic Levels to Fish Groups\nWe use known values from sources like FishBase.\n\ntrophic_levels &lt;- tibble::tribble(\n  ~fish_group,       ~trophic_level,\n  \"Tuna\",            4.4,\n  \"Shark\",           4.5,\n  \"Billfish\",        4.5,\n  \"Jacks\",           3.9,\n  \"Mackerel\",        3.6,\n  \"Rays and Skates\", 3.5,\n  \"Other\",           3.7  # Average assumption\n)"
+  },
+  {
+    "objectID": "presentations/presentation_10_trophic_level.html#calculating-mti-of-the-catch-cont.",
+    "href": "presentations/presentation_10_trophic_level.html#calculating-mti-of-the-catch-cont.",
+    "title": "Presentation 10: Trophic Level",
+    "section": "Calculating MTI of the Catch (cont.)",
+    "text": "Calculating MTI of the Catch (cont.)\nStep 2: Calculate the weighted mean trophic level for each year.\n\nmti_by_year &lt;- lw |&gt;\n  filter(!is.na(fish_group)) |&gt;\n  left_join(trophic_levels, by = \"fish_group\") |&gt;\n  group_by(year) |&gt;\n  summarise(\n    mti = mean(trophic_level, na.rm = TRUE),\n    .groups = 'drop'\n  )\n\nStep 3: Visualize the trend.\n\nInterpretation: A consistent downward trend would be a strong warning sign of “fishing down the food web.” Our data shows some fluctuation but no clear, steep decline yet."
+  },
+  {
+    "objectID": "presentations/presentation_10_trophic_level.html#key-takeaways",
+    "href": "presentations/presentation_10_trophic_level.html#key-takeaways",
+    "title": "Presentation 10: Trophic Level",
+    "section": "Key Takeaways",
+    "text": "Key Takeaways\n\nTrophic level is a fundamental concept for understanding an organism’s role in the ecosystem.\nTracking the Mean Trophic Index (MTI) of the catch is a powerful, simple indicator of ecosystem health.\nA declining MTI is a classic sign of “fishing down the food web,” indicating unsustainable pressure on top predators.\nThis analysis is a core component of Ecosystem-Based Fisheries Management (EBFM)."
+  },
+  {
+    "objectID": "presentations/presentation_10_trophic_level.html#questions-discussion",
+    "href": "presentations/presentation_10_trophic_level.html#questions-discussion",
+    "title": "Presentation 10: Trophic Level",
+    "section": "Questions & Discussion",
+    "text": "Questions & Discussion\nThank You"
+  },
+  {
+    "objectID": "presentations/presentation_12_lbspr.html#introduction-to-length-based-stock-assessment-models",
+    "href": "presentations/presentation_12_lbspr.html#introduction-to-length-based-stock-assessment-models",
+    "title": "Introduction to Length-Based Models",
+    "section": "Introduction to Length-Based Stock Assessment Models",
+    "text": "Introduction to Length-Based Stock Assessment Models\n\n\nLearning Objectives\n\n Understand why length-based models are used in data-limited fisheries.\n Learn the key inputs for the LBSPR model.\n Run a basic LBSPR analysis in R.\n Interpret the main outputs: SPR and F/M.\n\n\nWhy This Matters\n\n These are the most practical and powerful tools for your data.\n Provides a quantitative estimate of stock status.\n Directly informs management about fishing pressure."
+  },
+  {
+    "objectID": "presentations/presentation_12_lbspr.html#what-is-a-fish-stock",
+    "href": "presentations/presentation_12_lbspr.html#what-is-a-fish-stock",
+    "title": "Introduction to Length-Based Models",
+    "section": "What is a “Fish Stock”?",
+    "text": "What is a “Fish Stock”?\nBefore we model, we must understand what we are assessing.\n\n“\n\nA group of fish of the same species that live in a particular geographic area and mix enough to share a common gene pool\n\n”\n\n\nUnderstanding the stock is the first step. The model’s results apply only to the stock we define."
+  },
+  {
+    "objectID": "presentations/presentation_12_lbspr.html#critical-assumptions",
+    "href": "presentations/presentation_12_lbspr.html#critical-assumptions",
+    "title": "Introduction to Length-Based Models",
+    "section": "Critical Assumptions",
+    "text": "Critical Assumptions\n\n\n1. Stock Boundaries\nScientific Basis: The assessed population represents a self-sustaining unit with minimal immigration or emigration.\nPractical Implication: Fish movement between regions must be negligible relative to population size.\n2. Fishing as Primary Driver\nScientific Basis: Population dynamics are driven by natural mortality and fishing mortality, not by migration patterns.\nPractical Implication: Changes in stock size reflect fishing pressure, not population shifts.\n\n3. Representative Sampling\nScientific Basis: Length distributions in catches accurately represent the population structure.\nPractical Implication: Sampling must be unbiased and cover the full spatial and temporal range of the fishery.\n\n\n\n\n\n\nFor This Training\n\n\nWe will assess yellowfin tuna caught in Somali waters as a discrete stock, recognizing this is a simplification that may require refinement for formal assessments."
+  },
+  {
+    "objectID": "presentations/presentation_12_lbspr.html#why-use-length-based-models",
+    "href": "presentations/presentation_12_lbspr.html#why-use-length-based-models",
+    "title": "Introduction to Length-Based Models",
+    "section": "Why Use Length-Based Models?",
+    "text": "Why Use Length-Based Models?\nThe Challenge of Data-Limited Fisheries\nMany developing-nation fisheries lack:\n\nAge-reading laboratories and trained personnel\nLong-term catch and effort time series\nComprehensive biological sampling programs\nResources for expensive aging techniques (otolith reading)\n\nThe Solution: Length-Based Analysis\nAdvantages:\n\nLength data is relatively easy and inexpensive to collect\nMeasurements can be taken dockside without specialized equipment\nLarge sample sizes are feasible with minimal resources\nWell-established theoretical foundation\n\n\n\n\n\n\n\nCore Assumption\n\n\nThe length distribution in your catch sample must reflect the length distribution in the exploited population. Biased sampling (e.g., only large fish, one gear type) will compromise results."
+  },
+  {
+    "objectID": "presentations/presentation_12_lbspr.html#what-is-lbspr-model-framework",
+    "href": "presentations/presentation_12_lbspr.html#what-is-lbspr-model-framework",
+    "title": "Introduction to Length-Based Models",
+    "section": "What is LBSPR Model Framework",
+    "text": "What is LBSPR Model Framework\nLength-Based Spawning Potential Ratio is a stock assessment model that estimates reproductive capacity under current fishing pressure.\n\nDeveloped by Hordyk et al. (2015)\nBased on equilibrium life history theory\nUses size-structured population dynamics\nValidated across multiple species and fisheries"
+  },
+  {
+    "objectID": "presentations/presentation_12_lbspr.html#lbspr-model-framework-model-outputs",
+    "href": "presentations/presentation_12_lbspr.html#lbspr-model-framework-model-outputs",
+    "title": "Introduction to Length-Based Models",
+    "section": "LBSPR Model Framework Model Outputs",
+    "text": "LBSPR Model Framework Model Outputs\nPrimary Metric: SPR (Spawning Potential Ratio)\n\nProportion of unfished reproductive potential remaining\nValues range from 0 (collapsed) to 1 (unfished)\nDirectly comparable to management reference points"
+  },
+  {
+    "objectID": "presentations/presentation_12_lbspr.html#interpreting-spr-values",
+    "href": "presentations/presentation_12_lbspr.html#interpreting-spr-values",
+    "title": "Introduction to Length-Based Models",
+    "section": "Interpreting SPR Values",
+    "text": "Interpreting SPR Values\n\n\n\n\n\n\n\n\nSPR Range\nStock Status\nManagement Implication\n\n\n\n\n&gt; 0.40\nHealthy\nCurrent fishing sustainable\n\n\n0.20 - 0.40\nModerately exploited\nMonitor closely, consider precautionary measures\n\n\n&lt; 0.20\nOverfished\nUrgent management action required"
+  },
+  {
+    "objectID": "presentations/presentation_12_lbspr.html#reference-points",
+    "href": "presentations/presentation_12_lbspr.html#reference-points",
+    "title": "Introduction to Length-Based Models",
+    "section": "Reference Points",
+    "text": "Reference Points\n\nTarget: SPR = 40% (widely used globally)\nLimit: SPR = 20% (conservation threshold)\nThese values may be adjusted based on species-specific characteristics and management objectives"
+  },
+  {
+    "objectID": "presentations/presentation_12_lbspr.html#key-inputs-for-lbspr",
+    "href": "presentations/presentation_12_lbspr.html#key-inputs-for-lbspr",
+    "title": "Introduction to Length-Based Models",
+    "section": "Key Inputs for LBSPR",
+    "text": "Key Inputs for LBSPR\nTo run LBSPR, we need two main things:\n\n\n\n📊 Length Frequency Data: A representative sample of the lengths of fish caught from the stock.\n🧬 Life History Parameters:\n\nLinf: Asymptotic length (the theoretical maximum size).\nMK: The ratio of natural mortality (M) to the growth rate (K).\nL50: Length at 50% maturity.\nL95: Length at 95% maturity.\n\n\n\nThese parameters can often be found on FishBase.org for your species or a similar one."
+  },
+  {
+    "objectID": "presentations/presentation_12_lbspr.html#parameters-needed---1-biology",
+    "href": "presentations/presentation_12_lbspr.html#parameters-needed---1-biology",
+    "title": "Introduction to Length-Based Models",
+    "section": "Parameters needed - 1 Biology",
+    "text": "Parameters needed - 1 Biology\n\n\n\nvon Bertalanffy asymptotic length (Linf)\nM/K ratio (natural mortality divided by von Bertalanffy K coefficient) (MK)\nLength at 50% maturity (L50)\nLength at 95% maturity (L95)\n\n\n\n\nCode\nMyPars@Linf &lt;- 100 \nMyPars@L50 &lt;- 66 \nMyPars@L95 &lt;- 70\nMyPars@MK &lt;- 1.5"
+  },
+  {
+    "objectID": "presentations/presentation_12_lbspr.html#parameters-needed---2-exploitation",
+    "href": "presentations/presentation_12_lbspr.html#parameters-needed---2-exploitation",
+    "title": "Introduction to Length-Based Models",
+    "section": "Parameters needed - 2 Exploitation",
+    "text": "Parameters needed - 2 Exploitation\n\n\n\nLength at 50% selectivity (SL50)\nLength at 95% selectivity (SL95)\nF/M ratio (FM) or SPR (SPR).\n\n\nIf you specify both, the F/M value will be ignored.\n\n\n\n\nCode\nMyPars@SL50 &lt;- 50 \nMyPars@SL95 &lt;- 65\nMyPars@SPR &lt;- 0.4"
+  },
+  {
+    "objectID": "presentations/presentation_12_lbspr.html#parameters-needed---3-size-classes",
+    "href": "presentations/presentation_12_lbspr.html#parameters-needed---3-size-classes",
+    "title": "Introduction to Length-Based Models",
+    "section": "Parameters needed - 3 Size Classes",
+    "text": "Parameters needed - 3 Size Classes\n\n\n\nWidth of the length classes (BinWidth)\nMaximum length of the sample (BinMax)\nMinimum length of sample (BinMin)\nUnits for the length parameters\n\n\n\n\nCode\nMyPars@BinWidth &lt;- 5\nMyPars@BinMax &lt;- 150\nMyPars@BinMin &lt;- 0\n\nMyPars@L_units &lt;- \"mm\""
+  },
+  {
+    "objectID": "presentations/presentation_12_lbspr.html#interpreting-lbspr-output",
+    "href": "presentations/presentation_12_lbspr.html#interpreting-lbspr-output",
+    "title": "Introduction to Length-Based Models",
+    "section": "Interpreting LBSPR Output",
+    "text": "Interpreting LBSPR Output\nThe model provides three key estimates:\n\nSPR (Spawning Potential Ratio):\n\nThe plot shows an estimated SPR.\nIt inform on the state of the stock.\nA common target is 40% and a limit is 20%.\n\nF/M (Fishing Mortality / Natural Mortality):\n\nThe estimated F/M ratio.\nIt tells us how intense fishing mortality is relative to natural death.\nAn F/M ratio &gt; 1.0 suggests that fishing is causing more deaths than natural causes, a sign of high fishing pressure.\n\nThe fish state-stock:"
+  },
+  {
+    "objectID": "presentations/presentation_12_lbspr.html#key-takeaways",
+    "href": "presentations/presentation_12_lbspr.html#key-takeaways",
+    "title": "Introduction to Length-Based Models",
+    "section": "Key Takeaways",
+    "text": "Key Takeaways\n\nLength-based models like LBSPR are powerful tools for assessing data-limited stocks.\nThey require length frequency data and some basic life history parameters.\nThe key outputs, SPR and F/M, provide a quantitative snapshot of stock status and fishing pressure.\nThese results can directly inform management actions, such as deciding whether to increase, decrease, or maintain current fishing effort."
+  },
+  {
+    "objectID": "presentations/presentation_12_lbspr.html#questions-discussion",
+    "href": "presentations/presentation_12_lbspr.html#questions-discussion",
+    "title": "Introduction to Length-Based Models",
+    "section": "Questions & Discussion",
+    "text": "Questions & Discussion\nThank You"
+  },
+  {
+    "objectID": "presentations/presentation_12_lbspr.html#step-1-prepare-the-length-data",
+    "href": "presentations/presentation_12_lbspr.html#step-1-prepare-the-length-data",
+    "title": "Introduction to Length-Based Models",
+    "section": "Step 1: Prepare the Length Data",
+    "text": "Step 1: Prepare the Length Data\nFirst, we need to process our raw data into the format LBSPR requires: a simple vector of fish lengths. We will filter for our target species group, “Tuna”, and remove any invalid length measurements.\n\n\n\n\nCode\n# Filter for Tuna and select the length column\ntuna_lengths &lt;- lw |&gt; \n  filter(\n    fish_group == \"Tuna\",\n    !is.na(length_cm)\n  ) |&gt; \n  pull(length_cm)\n\n# How many fish do we have?\n\ntuna_lengths |&gt; \nlength()\n\n# Let's look at the first few lengths\ntuna_lengths |&gt; \nhead()\n\ntuna_lengths |&gt; \n  range()\n\n\n\nIt’s always a good idea to visualize your length data with a histogram before running the model. This helps you spot any potential issues with the data.\n\n\nCode\nhist(tuna_lengths, \n     main = \"Length Frequency of Tuna\",\n     xlab = \"Length (cm)\",\n     breaks = 30)"
+  },
+  {
+    "objectID": "presentations/presentation_12_lbspr.html#step-1-create-lbspr-objects",
+    "href": "presentations/presentation_12_lbspr.html#step-1-create-lbspr-objects",
+    "title": "Introduction to Length-Based Models",
+    "section": "Step 1 : Create LBSPR Objects",
+    "text": "Step 1 : Create LBSPR Objects\n\n\n\n\nCode\nMyPars &lt;- new(\"LB_pars\")\n\n\n\n\nThe LB_pars object has 25 slots.\nNot all parameters need to be specified for the simulation model.\n\n\n\nCode\nMyPars |&gt; slotNames()"
+  },
+  {
+    "objectID": "presentations/presentation_12_lbspr.html#step-2-populate",
+    "href": "presentations/presentation_12_lbspr.html#step-2-populate",
+    "title": "Introduction to Length-Based Models",
+    "section": "Step 2: Populate",
+    "text": "Step 2: Populate\nNow, we populate the LB_pars object with key metric\n\n\nCode\n# Biological\n# MyPars$Species = \"Yellowfin\"\nMyPars@Linf &lt;- 100 \nMyPars@L50 &lt;- 66 \nMyPars@L95 &lt;- 70\nMyPars@MK &lt;- 1.5 \n\n# Exploitation\n\nMyPars@SL50 &lt;- 50 \nMyPars@SL95 &lt;- 65\nMyPars@SPR &lt;- 0.4\n\n# Size Classes\n\nMyPars@BinWidth &lt;- 5\nMyPars@BinMax &lt;- 150\nMyPars@BinMin &lt;- 0\nMyPars@L_units &lt;- \"mm\""
+  },
+  {
+    "objectID": "presentations/presentation_12_lbspr.html#step-3-run-the-lbspr-model",
+    "href": "presentations/presentation_12_lbspr.html#step-3-run-the-lbspr-model",
+    "title": "Introduction to Length-Based Models",
+    "section": "Step 3: Run the LBSPR Model",
+    "text": "Step 3: Run the LBSPR Model\nWith our parameters and lengths objects ready, we can now run the LBSPRfit function. This is the core of the analysis, where the model fits the parameters to the length data to estimate the stock status.\n\n\nCode\n# Fit the LBSPR model\nlbspr_fit &lt;- MyPars |&gt; \n  LBSPR::LBSPRsim()\n\n\nThe lbspr_fit object now contains all the results of our analysis."
+  },
+  {
+    "objectID": "presentations/presentation_12_lbspr.html#step-4-view-and-plot-the-results",
+    "href": "presentations/presentation_12_lbspr.html#step-4-view-and-plot-the-results",
+    "title": "Introduction to Length-Based Models",
+    "section": "Step 4: View and Plot the Results",
+    "text": "Step 4: View and Plot the Results\nThe model provides estimates for selectivity (SL50, SL95), fishing pressure (F/M), and most importantly, the stock status (SPR).\n\n\nYou can view the key estimated parameters directly from the fitted object.\n\n\nCode\nlbspr_fit@Ests\n\n\n\nThe plotSim function gives a comprehensive visual summary of the fit\n\n\nCode\nlbspr_fit |&gt; \nplotSim()"
+  },
+  {
+    "objectID": "presentations/presentation_12_lbspr.html#interpreting-the-real-output",
+    "href": "presentations/presentation_12_lbspr.html#interpreting-the-real-output",
+    "title": "Introduction to Length-Based Models",
+    "section": "Interpreting the Real Output",
+    "text": "Interpreting the Real Output\nLet’s look at the plot from our lbspr_fit object.\n!{fig-align=“center” width=“80%”}\n\nLeft Panel: Shows the fit of the model (red line) to your observed length data (grey bars). A good fit means the line follows the general shape of the bars.\nRight Panel: This is the key result. It shows the estimated SPR (Spawning Potential Ratio). The black dot is the estimate, and the grey area is the uncertainty. You can compare this value directly to your management targets (e.g., 40%) and limits (e.g., 20%).\n\nBased on this output, you can make a clear statement about the stock’s status."
   },
   {
     "objectID": "presentations/tna_presentation.html#outline",

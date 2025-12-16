@@ -1,0 +1,167 @@
+---
+title: "Exercise: Estimating Length at 50% Maturity (L50)"
+subtitle: "A step-by-step guide using the `sizeMat` package"
+format: html
+execute:
+  eval: true
+  echo: true
+  warning: false
+code-fold: false
+---
+
+## Introduction
+
+This exercise will guide you through the process of estimating the length at 50% maturity (L50) for Yellowfin Tuna (YFT) using data from Somali landing sites. We will use the `sizeMat` package in R, which provides tools for this type of analysis, especially in data-limited situations where direct gonad staging data is not available.
+
+The `sizeMat` package can infer maturity by identifying different morphometric groups (juveniles and adults) within the length and weight data.
+
+## Step 1: Setup
+
+First, we need to load the R packages that we will use for this analysis. We need `tidyverse` for data manipulation, `sizeMat` for the maturity analysis, and `gt` to create well-formatted tables.
+
+```{r}
+#| label: setup
+# Load required libraries
+library(tidyverse)
+library(sizeMat) # For maturity analysis
+library(gt)      # For nice tables
+```
+
+## Step 2: Load and Prepare Data
+
+Next, we will load the fish landing data from the `lw2.csv` file. This dataset contains length and weight measurements for various species. We will then filter this data to create a dataset that only contains records for Yellowfin Tuna (YFT) and has complete length and weight information.
+
+
+```{r}
+
+lw = readxl::read_excel('../data_shared/ProjKalluun_master_data_entry.xlsx', sheet = 'Section 3', skip= 4) |> 
+    janitor::clean_names() |> 
+    filter(!is.na(landing_site))
+
+lw = lw |> 
+ mutate(
+    year = year(date_dd_mm_yy),
+    month = month(date_dd_mm_yy, label = TRUE),
+    day = day(date_dd_mm_yy), 
+    .after = date_dd_mm_yy
+ ) |> 
+    mutate(
+    weight_kg = as.numeric(weight_kg),
+    length_cm = as.numeric(length_cm)
+    )
+
+# lw |> write_csv('../data_shared/lw2.csv')
+
+yft = lw |> filter(fish_type_code == 'YFT')
+```
+
+## Step 3: Classify Maturity using Morphometrics
+
+Since we don't have visual gonad staging data, we will use the `classify_mature()` function from the `sizeMat` package. This function uses a statistical method (`"ld"` for linear discriminant analysis) to find two groups in the length-weight data, which it classifies as "juvenile" and "adult".
+
+```{r}
+#| label: classify-maturity
+#| code-fold: false
+
+## Partitioning with Frequentist regression 
+classified_yft <- yft |> 
+  classify_mature(
+    varNames = c("length_cm", "weight_kg"),
+    varSex = NULL, 
+    selectSex = NULL,
+    method = "ld"
+  )
+```
+
+The function has now added a `maturity` column to our dataset. Let's inspect the result.
+
+
+We can visualize how the function has classified the fish by plotting the length-weight relationship and coloring the points by the new `maturity` status.
+
+```{r}
+#| label: plot-classification
+#| fig-cap: "Length-weight relationship of Yellowfin Tuna, colored by maturity status."
+
+classified_yft |> 
+  plot(
+    main = 'L50 of Yellowfin',
+    xlab = 'Length (cm)', 
+    ylab = 'Weight (kg)',
+     cex.main = 1.5,
+     cex.lab = 1.2,
+     cex.axis = 1
+  )
+```
+
+## Step 4: Estimate L50
+
+Now that we have classified each fish as either juvenile (0) or adult (1), we can model the probability of being mature at a given length. The `morph_mature()` function fits a logistic curve to this binary data and estimates the parameters of the maturity ogive, including L50.
+
+We will use the frequentist method (`method = "fq"`) and run 1000 bootstrap iterations (`niter = 1000`) to get confidence intervals for our estimates.
+
+```{r}
+#| label: estimate-l50
+
+my_ogive_fq <- morph_mature(
+    data = classified_yft, 
+    method = "fq", 
+    niter = 1000
+)
+```
+
+## Step 5: Interpret the Results
+
+The `morph_mature` function returns an object containing the estimated parameters. We can print this object to see the results.
+
+```{r}
+#| label: view-results
+
+# The print() function for this object is a bit verbose, so we capture and reformat it.
+my_ogive_tb <- my_ogive_fq |> 
+    print() |> 
+    as.data.frame() |> 
+    as_tibble() |> 
+    mutate(Freq = as.numeric(Freq)) |> 
+    pivot_wider(names_from = Var1, values_from = Freq)
+
+my_ogive_tb |> 
+  gt() |> 
+  fmt_number(columns = everything(), decimals = 2) |>
+  tab_header(title = "Maturity Ogive Parameters for Yellowfin Tuna")
+```
+
+**Interpretation of the table:**
+
+-   **A and B**: These are the intercept and slope parameters for the logistic regression model: `Y = 1 / (1 + exp(-(A + B*X)))`.
+-   **L50**: This is the estimated length at which 50% of the population is mature. This is our key result.
+-   **R2**: The coefficient of determination, indicating how well the model fits the data.
+-   **Bootstrap (Median)**: These are the median values from the 1000 bootstrap runs, which give a more robust estimate of the parameters.
+
+Based on this analysis, the estimated L50 for Yellowfin Tuna is **`r my_ogive_tb$L50[1] |> round(1)` cm**.
+
+### Visualize the Maturity Ogive
+
+Finally, we can plot the maturity ogive, which is the S-shaped curve showing the proportion of mature fish at each length.
+
+```{r}
+#| label: plot-ogive
+#| fig-cap: "Maturity ogive for Yellowfin Tuna, showing the proportion of mature individuals by length."
+
+my_ogive_fq |> 
+    plot(
+    main = 'L50 of Yellowfin',
+    xlab = 'Length (cm)', 
+    ylab = 'Proportion Mature',
+    cex.main = 1.5,
+    cex.lab = 1.2,
+    cex.axis = 1
+)
+```
+
+The plot shows the observed proportion of mature fish at each length class (black dots) and the fitted logistic curve (solid line). The dashed lines indicate the estimated L50.
+
+## Exercise Questions
+
+1.  What does the L50 value of `r my_ogive_tb$L50[1] |> round(1)` cm mean for the management of Yellowfin Tuna in Somalia?
+2.  The `classify_mature` function can also use a `"gmm"` (Gaussian Mixture Model) method. Try re-running the analysis with `method = "gmm"`. Does the estimated L50 change significantly?
+3.  This analysis was done on all Yellowfin Tuna data combined. How might you adapt this script to see if L50 differs between regions (e.g., 'Berbera' vs. 'Mogadishu')?

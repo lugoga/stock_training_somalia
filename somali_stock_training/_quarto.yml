@@ -56,10 +56,25 @@ website:
             href: presentations/module1_stock_fundamentals.qmd
           - text: "Data type"
             href: presentations/module1_data_req_slides.qmd
+          # - text: "Trophic level"
+          #   href: presentations/presentation_10_trophic_level.qmd
+          # - text: "Fecundity"
+          #   href: presentations/presentation_11_fecundity_maturity.qmd
+          - text: "Length-based model framework"
+            href: presentations/presentation_12_lbspr2.qmd
+          - text: "Length Frequency & Maturity"
+            href: exercises/maturity.qmd
       - text: "Resources"
         menu:
           - text: "Resources1: The Giant Fishery Report"
             href: resources/resource1.qmd
+      - text: "Exercises"
+        menu:
+          - text: "Install Tools"
+            href: exercises/steps_for_tools.qmd
+          - text: "Determine maturity"
+            href: exercises/maturity_exercise.qmd
+
 
 
 
