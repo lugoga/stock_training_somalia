@@ -71,6 +71,9 @@ ul.task-list li input[type="checkbox"] {
     "search-label": "Search"
   }
 }</script>
+<script src="../site_libs/quarto-diagram/mermaid.min.js"></script>
+<script src="../site_libs/quarto-diagram/mermaid-init.js"></script>
+<link href="../site_libs/quarto-diagram/mermaid.css" rel="stylesheet">
 
 
 <link rel="stylesheet" href="../styles.css">
@@ -323,6 +326,7 @@ ul.task-list li input[type="checkbox"] {
   <ul>
   <li><a href="#overview" id="toc-overview" class="nav-link active" data-scroll-target="#overview">Overview</a></li>
   <li><a href="#learning-objectives" id="toc-learning-objectives" class="nav-link" data-scroll-target="#learning-objectives">Learning Objectives</a></li>
+  <li><a href="#the-stock-assessment-framework" id="toc-the-stock-assessment-framework" class="nav-link" data-scroll-target="#the-stock-assessment-framework">The Stock Assessment Framework</a></li>
   <li><a href="#content-areas" id="toc-content-areas" class="nav-link" data-scroll-target="#content-areas">Content Areas</a>
   <ul class="collapse">
   <li><a href="#stock-assessment-fundamentals" id="toc-stock-assessment-fundamentals" class="nav-link" data-scroll-target="#stock-assessment-fundamentals">1. Stock Assessment Fundamentals</a></li>
@@ -423,51 +427,229 @@ ul.task-list li input[type="checkbox"] {
 <li><label><input type="checkbox">Apply best practices in fisheries science</label></li>
 </ul>
 </section>
+<section id="the-stock-assessment-framework" class="level2">
+<h2 class="anchored" data-anchor-id="the-stock-assessment-framework">The Stock Assessment Framework</h2>
+<div class="cell" data-layout-align="default">
+<div class="cell-output-display">
+<div>
+<p></p><figure class="figure"><p></p>
+<div>
+<pre class="mermaid mermaid-js">graph TD
+    A["&lt;b&gt;FISH POPULATION&lt;/b&gt;&lt;br/&gt;Fish in the Ocean"] 
+    
+    B["&lt;b&gt;DATA COLLECTION&lt;/b&gt;&lt;br/&gt;Landing Sites &amp; Fisheries"]
+    C["&lt;b&gt;BIOLOGICAL PARAMETERS&lt;/b&gt;&lt;br/&gt;Growth | Mortality | Recruitment | Maturity"]
+    D["&lt;b&gt;POPULATION MODELS&lt;/b&gt;&lt;br/&gt;Age-Structured | Length-Based | Surplus Production"]
+    E["&lt;b&gt;STOCK STATUS&lt;/b&gt;&lt;br/&gt;Healthy | At Risk | Overfished"]
+    F["&lt;b&gt;MANAGEMENT ADVICE&lt;/b&gt;&lt;br/&gt;Catch Limits | Regulations | Conservation"]
+    
+    A --&gt;|Fishing| B
+    B --&gt;|Length, Weight,&lt;br/&gt;Maturity Data| C
+    C --&gt;|Parameter&lt;br/&gt;Estimates| D
+    D --&gt;|Analysis &amp;&lt;br/&gt;Modeling| E
+    E --&gt;|Assessment&lt;br/&gt;Results| F
+    F --&gt;|Policy &amp;&lt;br/&gt;Implementation| A
+    
+    style A fill:#e1f5fe
+    style B fill:#fff3e0
+    style C fill:#f3e5f5
+    style D fill:#e8f5e9
+    style E fill:#fce4ec
+    style F fill:#fff9c4
+</pre>
+</div>
+<p></p></figure><p></p>
+</div>
+</div>
+</div>
+</section>
 <section id="content-areas" class="level2">
 <h2 class="anchored" data-anchor-id="content-areas">Content Areas</h2>
 <section id="stock-assessment-fundamentals" class="level3">
 <h3 class="anchored" data-anchor-id="stock-assessment-fundamentals">1. Stock Assessment Fundamentals</h3>
+<p><strong>Definition:</strong> Stock assessment is the process of evaluating the status of a fish population using available data and scientific methods to inform management decisions.</p>
+<p><strong>Key questions it answers:</strong></p>
 <ul>
-<li>Definition and objectives</li>
-<li>Why stock assessment matters for management</li>
-<li>Assessment approaches (data-rich vs.&nbsp;data-limited)</li>
-<li>Success factors in assessment</li>
+<li><p>How many fish are in the stock?</p></li>
+<li><p>Are we fishing sustainably?</p></li>
+<li><p>What catch level can we maintain indefinitely?</p></li>
+<li><p>Is the stock recovering or declining?</p></li>
+<li><p>Definition and objectives</p></li>
+<li><p>Why stock assessment matters for management</p></li>
+<li><p>Assessment approaches (data-rich vs.&nbsp;data-limited)</p></li>
+<li><p>Success factors in assessment</p></li>
 </ul>
 </section>
 <section id="key-biological-parameters" class="level3">
 <h3 class="anchored" data-anchor-id="key-biological-parameters">2. Key Biological Parameters</h3>
+<p>Understanding these parameters is essential because they determine how a population responds to fishing:</p>
+<div class="cell" data-layout-align="default">
+<div class="cell-output-display">
+<div>
+<p></p><figure class="figure"><p></p>
+<div>
+<pre class="mermaid mermaid-js">graph TB
+    subgraph Biology["&lt;b&gt;BIOLOGICAL PARAMETERS&lt;/b&gt;"]
+        G["&lt;b&gt;GROWTH (K, Linf)&lt;/b&gt;&lt;br/&gt;How fast fish grow&lt;br/&gt;to maximum size"]
+        M["&lt;b&gt;MORTALITY (M, Z, F)&lt;/b&gt;&lt;br/&gt;Death rates from&lt;br/&gt;natural causes &amp; fishing"]
+        R["&lt;b&gt;RECRUITMENT&lt;/b&gt;&lt;br/&gt;New young fish&lt;br/&gt;entering the population"]
+        Mat["&lt;b&gt;MATURITY (L50, L95)&lt;/b&gt;&lt;br/&gt;Size/age when fish&lt;br/&gt;can reproduce"]
+    end
+    
+    Output["&lt;b&gt;Population&lt;br/&gt;Productivity&lt;/b&gt;&lt;br/&gt;How much we can&lt;br/&gt;harvest sustainably"]
+    
+    G --&gt; Output
+    M --&gt; Output
+    R --&gt; Output
+    Mat --&gt; Output
+    
+    style G fill:#bbdefb
+    style M fill:#ffccbc
+    style R fill:#c8e6c9
+    style Mat fill:#f8bbd0
+    style Output fill:#fff9c4
+</pre>
+</div>
+<p></p></figure><p></p>
+</div>
+</div>
+</div>
+<p><strong>Details for each parameter:</strong></p>
 <ul>
 <li><strong>Growth:</strong> von Bertalanffy growth curves, length-weight relationships</li>
-<li><strong>Mortality:</strong> Natural mortality, fishing mortality</li>
+<li><strong>Mortality:</strong> Natural mortality, fishing mortality, total mortality</li>
 <li><strong>Recruitment:</strong> Recruitment variations, stock-recruitment relationships</li>
-<li><strong>Maturity:</strong> Age/size at maturity, fecundity</li>
+<li><strong>Maturity:</strong> Age/size at maturity, fecundity (egg production)</li>
 </ul>
 </section>
 <section id="population-dynamics" class="level3">
 <h3 class="anchored" data-anchor-id="population-dynamics">3. Population Dynamics</h3>
+<p>How fish populations change over time in response to fishing:</p>
+<div class="cell" data-layout-align="default">
+<div class="cell-output-display">
+<div>
+<p></p><figure class="figure"><p></p>
+<div>
+<pre class="mermaid mermaid-js">graph LR
+    subgraph Unfished["&lt;b&gt;UNFISHED STOCK&lt;/b&gt;"]
+        direction TB
+        U1["Large older fish&lt;br/&gt;Many juveniles&lt;br/&gt;High biomass"]
+    end
+    
+    subgraph Moderate["&lt;b&gt;MODERATELY FISHED&lt;/b&gt;"]
+        direction TB
+        M1["Mix of sizes&lt;br/&gt;Fewer old fish&lt;br/&gt;Medium biomass"]
+    end
+    
+    subgraph Overfished["&lt;b&gt;OVERFISHED&lt;/b&gt;"]
+        direction TB
+        O1["Mostly juveniles&lt;br/&gt;Few large fish&lt;br/&gt;Low biomass&lt;br/&gt;Low reproduction"]
+    end
+    
+    Unfished --&gt;|Increasing&lt;br/&gt;Fishing| Moderate
+    Moderate --&gt;|Excessive&lt;br/&gt;Fishing| Overfished
+    Overfished --&gt;|Fishing&lt;br/&gt;Reduction| Moderate
+    
+    style Unfished fill:#c8e6c9
+    style Moderate fill:#fff9c4
+    style Overfished fill:#ffccbc
+</pre>
+</div>
+<p></p></figure><p></p>
+</div>
+</div>
+</div>
 <ul>
-<li>Population models</li>
-<li>Surplus production models</li>
-<li>Age-structured population models</li>
+<li>Population models and how they work</li>
+<li>Surplus production models (simple, data-limited approach)</li>
+<li>Age-structured population models (complex, data-rich approach)</li>
 <li>Equilibrium versus dynamic concepts</li>
 </ul>
 </section>
 <section id="data-requirements" class="level3">
 <h3 class="anchored" data-anchor-id="data-requirements">4. Data Requirements</h3>
+<p><strong>Different assessment methods need different data:</strong></p>
+<div class="cell" data-layout-align="default">
+<div class="cell-output-display">
+<div>
+<p></p><figure class="figure"><p></p>
+<div>
+<pre class="mermaid mermaid-js">graph TB
+    subgraph DataRich["&lt;b&gt;DATA-RICH ASSESSMENT&lt;/b&gt;&lt;br/&gt;(Integrated Models)"]
+        DR["✓ Age data from otoliths&lt;br/&gt;✓ Detailed catch history&lt;br/&gt;✓ Survey indices&lt;br/&gt;✓ Biological samples&lt;br/&gt;✓ Effort data"]
+    end
+    
+    subgraph DataModerate["&lt;b&gt;DATA-MODERATE&lt;/b&gt;&lt;br/&gt;(Length-Based Methods)"]
+        DM["✓ Length-frequency data&lt;br/&gt;✓ Catch history&lt;br/&gt;✓ Growth parameters&lt;br/&gt;✓ Maturity ogives"]
+    end
+    
+    subgraph DataLimited["&lt;b&gt;DATA-LIMITED&lt;/b&gt;&lt;br/&gt;(Empirical Indicators)"]
+        DL["✓ Catch data&lt;br/&gt;✓ Basic biology&lt;br/&gt;✓ Expert knowledge&lt;br/&gt;✓ Effort trends"]
+    end
+    
+    Accuracy["Assessment&lt;br/&gt;Accuracy&lt;br/&gt;&amp; Detail"]
+    
+    DataRich --&gt; Accuracy
+    DataModerate --&gt; Accuracy
+    DataLimited --&gt; Accuracy
+    
+    style DataRich fill:#bbdefb
+    style DataModerate fill:#fff9c4
+    style DataLimited fill:#ffccbc
+</pre>
+</div>
+<p></p></figure><p></p>
+</div>
+</div>
+</div>
 <ul>
-<li>What data is needed?</li>
-<li>Data quality considerations</li>
+<li>What data is needed for different approaches?</li>
+<li>Data quality considerations and QA/QC</li>
 <li>Data limitations in the Indian Ocean</li>
-<li>Working with incomplete data</li>
+<li>Working with incomplete data (practical reality)</li>
 </ul>
 </section>
 <section id="assessment-approaches" class="level3">
 <h3 class="anchored" data-anchor-id="assessment-approaches">5. Assessment Approaches</h3>
+<p>Choosing the right method depends on available data and resources:</p>
+<div class="cell" data-layout-align="default">
+<div class="cell-output-display">
+<div>
+<p></p><figure class="figure"><p></p>
+<div>
+<pre class="mermaid mermaid-js">graph TB
+    Start{"What data&lt;br/&gt;do you have?"}
+    
+    Age["Age Data&lt;br/&gt;from Otoliths&lt;br/&gt;or Scales"]
+    Length["Length&lt;br/&gt;Frequency&lt;br/&gt;Data"]
+    Catch["Only Catch&lt;br/&gt;&amp; Effort&lt;br/&gt;Data"]
+    
+    Integrated["&lt;b&gt;Integrated Assessment&lt;/b&gt;&lt;br/&gt;Age-Structured Models&lt;br/&gt;Very Detailed&lt;br/&gt;Most Accurate"]
+    LBSPR["&lt;b&gt;Length-Based&lt;/b&gt;&lt;br/&gt;LBSPR | LIME&lt;br/&gt;Moderate Detail&lt;br/&gt;Practical &amp; Robust"]
+    CatchMSY["&lt;b&gt;Empirical Methods&lt;/b&gt;&lt;br/&gt;Catch-MSY | Simple Indicators&lt;br/&gt;Limited Detail&lt;br/&gt;Quick &amp; Useful"]
+    
+    Start --&gt;|Yes| Age --&gt; Integrated
+    Start --&gt;|Yes| Length --&gt; LBSPR
+    Start --&gt;|Limited| Catch --&gt; CatchMSY
+    
+    style Start fill:#e1f5fe
+    style Age fill:#bbdefb
+    style Length fill:#fff9c4
+    style Catch fill:#ffccbc
+    style Integrated fill:#c8e6c9
+    style LBSPR fill:#c8e6c9
+    style CatchMSY fill:#c8e6c9
+</pre>
+</div>
+<p></p></figure><p></p>
+</div>
+</div>
+</div>
 <ul>
-<li>Catch-MSY methods</li>
-<li>Length-based approaches</li>
-<li>Simple empirical indicators</li>
-<li>Integrated stock assessment models</li>
+<li>Catch-MSY methods (simplest, data-limited)</li>
+<li>Length-based approaches (our focus in this training)</li>
+<li>Simple empirical indicators (quick assessment)</li>
+<li>Integrated stock assessment models (most complex)</li>
 </ul>
 </section>
 </section>
@@ -483,7 +665,7 @@ Tip
 </div>
 </div>
 <div class="callout-body-container callout-body">
-<p><strong>Stock:</strong> A group of individuals of one species, occupying a defined area and showing independent population dynamics</p>
+<p><strong>Stock:</strong> A group of individuals of one species, occupying a defined area and showing independent population dynamics. A stock is the management unit.</p>
 </div>
 </div>
 <div class="callout callout-style-default callout-note callout-titled">
@@ -496,7 +678,20 @@ Note
 </div>
 </div>
 <div class="callout-body-container callout-body">
-<p><strong>Assessment:</strong> The process of evaluating the status of a stock using available data and scientific methods</p>
+<p><strong>Assessment:</strong> The process of evaluating the status of a stock using available data and scientific methods to answer: “Is this stock healthy? Can we increase catches? Do we need to reduce fishing?”</p>
+</div>
+</div>
+<div class="callout callout-style-default callout-warning callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Warning
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p><strong>Sustainability Principle:</strong> The fundamental goal of stock assessment is to ensure fish populations remain productive indefinitely—balancing the needs of people today with fish stocks for the future.</p>
 </div>
 </div>
 </section>
@@ -506,6 +701,8 @@ Note
 <li><label><input type="checkbox">Review case studies from Indian Ocean fisheries</label></li>
 <li><label><input type="checkbox">Identify data needs for Somali fisheries</label></li>
 <li><label><input type="checkbox">Discuss assessment priorities by region</label></li>
+<li><label><input type="checkbox">Map your own country’s data availability</label></li>
+<li><label><input type="checkbox">Identify bottlenecks and solutions</label></li>
 </ul>
 </section>
 <section id="assessment" class="level2">
@@ -514,6 +711,7 @@ Note
 <li>Class participation</li>
 <li>Case study group discussion</li>
 <li>Short quiz on biological parameters</li>
+<li>Concept mapping exercise (relating parameters to population outcomes)</li>
 </ul>
 <hr>
 

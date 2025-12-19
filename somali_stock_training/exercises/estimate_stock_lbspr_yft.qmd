@@ -406,6 +406,7 @@ lfq_mod$M <- as.numeric(Ms)
 Compile all the biological and exploitation parameters we've estimated into variables ready for the LBSPR model.
 
 **Parameter groups:**
+
 - **Biological:** Growth (Linf), maturity (L50, L95), natural mortality (M/K ratio)
 - **Exploitation:** Gear selectivity (SL50, SL95), fishing pressure (F/M)
 - **Size classes:** Bins for the analysis (typically 5 cm intervals)
@@ -482,6 +483,7 @@ yftSim = yftPars |> LBSPRsim()
 ### Visualize LBSPR Results
 
 **What we're doing:** Create four diagnostic plots showing:
+
 - **Top-left:** Expected catch size structure vs. unfished population
 - **Top-right:** Maturity and selectivity curves overlaid
 - **Bottom-left:** von Bertalanffy growth curve

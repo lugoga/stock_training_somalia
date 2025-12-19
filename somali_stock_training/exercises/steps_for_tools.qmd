@@ -26,7 +26,42 @@ This guide provides step-by-step instructions for installing the necessary softw
 2. **RStudio or Positron**: An Integrated Development Environment (IDE) that makes working with R much easier and more user-friendly.
 3. **R Packages**: Specialized add-ons for R that provide pre-built functions for data manipulation, visualization, and stock assessment analysis.
 
-**Why do we need all three?** R is the engine, the IDE is the driver's seat that makes it comfortable to use, and packages are specialized tools that solve specific problems.
+## The Three Layers of the R Ecosystem
+
+```{mermaid}
+graph TB
+    subgraph Layer3["<b>PACKAGES</b><br/>(Specialized Tools)"]
+        direction LR
+        P1["tidyverse<br/>(Data Wrangling)"]
+        P2["LBSPR<br/>(Stock Assessment)"]
+        P3["TropFishR<br/>(Fisheries Methods)"]
+        P4["gt<br/>(Professional Tables)"]
+    end
+    
+    subgraph Layer2["<b>IDE</b><br/>(User Interface)"]
+        direction LR
+        I1["RStudio<br/>(Popular & Easy)"]
+        I2["OR"]
+        I3["Positron<br/>(Modern & Flexible)"]
+    end
+    
+    subgraph Layer1["<b>R</b><br/>(Foundation Engine)"]
+        R["Statistical Programming Language"]
+    end
+    
+    Layer3 --> Layer2
+    Layer2 --> Layer1
+    
+    style Layer1 fill:#bbdefb
+    style Layer2 fill:#fff9c4
+    style Layer3 fill:#c8e6c9
+```
+
+**Why do we need all three?**
+
+- **R** is the engine that does the actual computation
+- **IDE** is the comfortable driver's seat with a dashboard (RStudio or Positron)
+- **Packages** are specialized tools that solve specific problems (no need to code everything from scratch)
 
 Please follow these steps **before** the training session begins. The entire setup typically takes 30-60 minutes depending on your internet speed.
 
@@ -37,6 +72,23 @@ Please follow these steps **before** the training session begins. The entire set
 **What is R?** R is a free, open-source programming language specifically designed for statistical computing and data analysis. It's the foundation that everything else depends on.
 
 **Why install it first?** RStudio and Positron are interfaces to R—they won't work without R installed on your computer.
+
+```{mermaid}
+graph LR
+    Start["<b>Your Computer</b>"] 
+    Empty["No R installed"]
+    Start --> Empty
+    Empty -->|Step 1| RInstalled["<b>R Installed</b><br/>Foundation Ready"]
+    RInstalled -->|Step 2| IDE["<b>IDE Installed</b><br/>User Interface Ready"]
+    IDE -->|Step 3| Packages["<b>Packages Installed</b><br/>Tools Ready"]
+    Packages -->|Step 4| Verify["<b>Verified & Ready!</b>"]
+    
+    style Start fill:#e1f5fe
+    style RInstalled fill:#bbdefb
+    style IDE fill:#fff9c4
+    style Packages fill:#c8e6c9
+    style Verify fill:#a5d6a7
+```
 
 **Installation steps:**
 
@@ -62,7 +114,29 @@ Please follow these steps **before** the training session begins. The entire set
 
 ## Step 2: Install an IDE (Choose One)
 
-**What is an IDE?** An Integrated Development Environment is a user-friendly application that lets you write, run, and debug R code much more easily than using R directly. Think of it like the difference between writing in a basic text editor versus Microsoft Word.
+**What is an IDE?** An Integrated Development Environment is a user-friendly application that lets you write, run, and debug R code much more easily than using R directly.
+
+```{mermaid}
+graph TB
+    subgraph NoIDE["<b>WITHOUT IDE</b><br/>(Using R Console Only)"]
+        direction TB
+        N1["❌ Confusing interface"]
+        N2["❌ Hard to organize code"]
+        N3["❌ Difficult to view plots"]
+        N4["❌ Tedious workflow"]
+    end
+    
+    subgraph WithIDE["<b>WITH IDE</b><br/>(RStudio or Positron)"]
+        direction TB
+        Y1["✓ Clean, organized interface"]
+        Y2["✓ Code editor with syntax highlighting"]
+        Y3["✓ Built-in plot viewer"]
+        Y4["✓ Efficient, professional workflow"]
+    end
+    
+    style NoIDE fill:#ffccbc
+    style WithIDE fill:#c8e6c9
+```
 
 **Choose one option below:**
 
@@ -85,15 +159,39 @@ RStudio is the most popular IDE for R. It has a clean, intuitive interface and i
 
 5. Once installation completes, you can open RStudio from your applications menu.
 
-**First launch:** When you open RStudio for the first time, you'll see four panels:
-- **Script Editor** (top-left): Where you write code
-- **Console** (bottom-left): Where code runs and shows results
-- **Environment/History** (top-right): Shows variables and previous commands
-- **Files/Plots/Packages/Help** (bottom-right): File browser and output displays
+#### RStudio Interface Overview
 
-### Option B: Positron (Alternative for Advanced Users or VS Code Users)
+**First launch:** When you open RStudio for the first time, you'll see four panels arranged like this:
 
-Positron is a modern, lightweight alternative developed by Posit (the company behind RStudio). It runs inside Visual Studio Code and is ideal if you're familiar with code editors.
+```{mermaid}
+graph TB
+    subgraph RStudio["<b>RStudio Layout</b>"]
+        subgraph TopLeft["<b>Script Editor</b><br/>(Top-Left)"]
+            TL["Where you write<br/>your R code<br/><br/>syntax highlighting<br/>code suggestions"]
+        end
+        
+        subgraph BottomLeft["<b>Console</b><br/>(Bottom-Left)"]
+            BL["Where R runs code<br/>and shows results<br/><br/>Type commands<br/>here directly"]
+        end
+        
+        subgraph TopRight["<b>Environment/History</b><br/>(Top-Right)"]
+            TR["Variables you created<br/>Previous commands<br/><br/>Track your work"]
+        end
+        
+        subgraph BottomRight["<b>Files/Plots/Packages</b><br/>(Bottom-Right)"]
+            BR["Browse files<br/>View plots<br/>Manage packages<br/>Access help"]
+        end
+    end
+    
+    style TopLeft fill:#bbdefb
+    style BottomLeft fill:#fff9c4
+    style TopRight fill:#f8bbd0
+    style BottomRight fill:#c8e6c9
+```
+
+### Option B: Positron (Alternative for Advanced Users)
+
+Positron is a modern, lightweight alternative developed by Posit. It runs inside Visual Studio Code.
 
 **When to choose Positron:**
 - You already use Visual Studio Code for other programming
@@ -117,83 +215,170 @@ Positron is a modern, lightweight alternative developed by Posit (the company be
 
 #### Getting Started with Positron (Quick Guide)
 
-**If you're new to VS Code and Positron:**
+```{mermaid}
+graph TB
+    subgraph Positron["<b>Positron Interface</b>"]
+        subgraph Left["<b>Left Sidebar</b>"]
+            LS["Explorer<br/>(File Browser)<br/><br/>R Icon<br/>(Environment,<br/>Plots, Help)"]
+        end
+        
+        subgraph Center["<b>Center</b>"]
+            CE["Code Editor<br/><br/>Open .R or .qmd files<br/>Write your code here"]
+        end
+        
+        subgraph Bottom["<b>Bottom Panel</b>"]
+            BT["R Console<br/>(Active Tab)<br/><br/>Run commands<br/>See results"]
+        end
+    end
+    
+    style Left fill:#e3f2fd
+    style Center fill:#fff9c4
+    style Bottom fill:#c8e6c9
+```
+
+**Quick setup:**
 
 1. **Open Your Project Folder**:
    - Go to `File > Open Folder...`
-   - Select the main training folder (e.g., `somali_stock_training`)
+   - Select the main training folder
    - The left sidebar **Explorer** will show all your files
 
 2. **Open the R Console**:
-   - Open any R file (files ending in `.R` or `.qmd`)
-   - Go to `View > Terminal` or press **Ctrl+`** (backtick)
-   - Select the **R** tab in the bottom panel
-   - You should see an `>` prompt ready for commands
+   - Open any R file (`.R` or `.qmd`)
+   - Press **Ctrl+`** (backtick) to open the terminal
+   - Select the **R** tab
+   - You'll see the `>` prompt ready for commands
 
-3. **Arrange Your Workspace** (Optional):
-   - **Editor** (top-center): Where you write code
-   - **R Console** (bottom-center): Where code runs
-   - **Positron Sidebar** (left): Click the **R icon** to access Environment, Plots, Packages, Help
-   - Drag panels to rearrange as you prefer
-
-4. **Run R Code**:
-   - Click in a line of R code inside a code chunk
+3. **Run R Code**:
+   - Click in a line of R code
    - Press **Ctrl+Enter** (Windows/Linux) or **Cmd+Enter** (macOS)
-   - The code executes in the R console below
+   - Code executes in the R console below
 
 ---
 
 ## Step 3: Install Required R Packages
 
-**What are packages?** Packages are collections of pre-written functions that solve specific problems. Our training uses specialized packages for fisheries analysis, data visualization, and stock assessment.
+**What are packages?** Packages are collections of pre-written functions that solve specific problems. Think of R as a toolbox, and packages as specialty tools inside that toolbox.
+
+```{mermaid}
+graph TB
+    subgraph Core["<b>Data Wrangling</b>"]
+        C1["tidyverse<br/>Filter, transform,<br/>visualize data"]
+    end
+    
+    subgraph Assessment["<b>Stock Assessment</b>"]
+        A1["LBSPR<br/>Length-based<br/>spawning potential"]
+        A2["TropFishR<br/>Growth & mortality<br/>estimation"]
+        A3["sizeMat<br/>Size at maturity<br/>analysis"]
+    end
+    
+    subgraph Utilities["<b>Utilities</b>"]
+        U1["readxl<br/>Read Excel files"]
+        U2["janitor<br/>Clean data"]
+        U3["tidyplots<br/>Easy plots"]
+        U4["gt<br/>Beautiful tables"]
+    end
+    
+    style Core fill:#bbdefb
+    style Assessment fill:#c8e6c9
+    style Utilities fill:#fff9c4
+```
 
 **The packages we need:**
-- **tidyverse**: Data manipulation and visualization (essential for almost all analyses)
-- **LBSPR**: Length-Based Spawning Potential Ratio calculations
-- **TropFishR**: Tropical fisheries stock assessment methods
-- **sizeMat**: Estimating size at maturity
-- **readxl**: Reading Excel files
-- **janitor**: Data cleaning helpers
-- **tidyplots**: Easy, professional plotting
-- **gt**: Creating beautiful tables
+
+| Package | Purpose | Why It Matters |
+|---------|---------|----------------|
+| **tidyverse** | Data manipulation & visualization | Foundation for all analyses |
+| **LBSPR** | Length-Based Spawning Potential Ratio | Core assessment method |
+| **TropFishR** | Tropical fisheries stock assessment | Growth and mortality estimation |
+| **sizeMat** | Size at maturity estimation | Maturity analysis |
+| **readxl** | Read Excel files | Load your data |
+| **janitor** | Data cleaning | Prepare data quickly |
+| **tidyplots** | Professional plotting | Beautiful visualizations |
+| **gt** | Create beautiful tables | Publication-ready results |
 
 **Installation steps:**
 
-1. Open your IDE (**RStudio** or **VS Code with Positron**).
+1. Open your IDE (**RStudio** or **Positron**).
 
-2. Find the **Console panel**—this is where you type commands directly to R.
-
-3. Copy the entire command below, paste it into the console, and press **Enter**:
+2. Find the **Console panel** and copy this command:
 
 ```r
 #| eval: false
 #| echo: true
-#| code-summary: "Install required packages"
+#| code-summary: "Install all required packages"
 
 install.packages(c("tidyverse", "LBSPR", "readxl", "janitor", "tidyplots", "sizeMat", "TropFishR"))
 ```
 
+3. **Paste into the console and press Enter**
+
 4. **What happens next:**
-   - R will download the packages from the internet (this takes 5-15 minutes depending on speed)
-   - You'll see lots of text in the console—this is normal
-   - R may ask: `Do you want to install from sources the packages which need compilation?`
-     - Type `No` and press Enter (safer and faster)
-   - When done, you'll see the `>` prompt again
+   - R downloads packages from the internet (5-15 minutes depending on speed)
+   - You'll see lots of text—this is normal and expected
+   - R may ask about compiling from source—type `No` and press Enter
+   - When complete, you'll see the `>` prompt again
+
+```{mermaid}
+graph LR
+    Start["<b>Paste Command</b><br/>into Console"] 
+    Download["<b>Downloading</b><br/>5-15 minutes<br/>Normal text output"]
+    Compile["<b>Installation</b><br/>May ask about<br/>compiling: Say No"]
+    Complete["<b>Complete!</b><br/>See > prompt"]
+    
+    Start --> Download
+    Download --> Compile
+    Compile --> Complete
+    
+    style Start fill:#fff9c4
+    style Download fill:#ffccbc
+    style Compile fill:#fff9c4
+    style Complete fill:#c8e6c9
+```
 
 5. **Troubleshooting:**
-   - If you get errors about missing dependencies, it's usually safe to run the command again
-   - If a package fails, you can install it individually: `install.packages("PackageName")`
-   - Internet connection issues? Try again or contact us for help
+   - If you get errors about missing dependencies, run the command again
+   - For individual package issues: `install.packages("PackageName")`
+   - Internet problems? Try again or contact us
 
 ---
 
 ## Step 4: Verify Your Installation
 
-**What we're doing:** Testing that everything works correctly before training starts.
+**What we're doing:** Testing that everything works before training starts.
+
+```{mermaid}
+graph TB
+    Start["<b>START</b><br/>Open R Console"]
+    Test1["Type: library<br/>tidyverse"]
+    Check1{"Error?"}
+    Pass1["✓ PASS"]
+    Fail1["✗ FAIL<br/>Note the error"]
+    
+    Test2["Type: library<br/>LBSPR"]
+    Check2{"Error?"}
+    Pass2["✓ PASS<br/>Ready for<br/>training!"]
+    Fail2["✗ FAIL<br/>Contact us"]
+    
+    Start --> Test1
+    Test1 --> Check1
+    Check1 -->|No| Pass1
+    Check1 -->|Yes| Fail1
+    Pass1 --> Test2
+    Test2 --> Check2
+    Check2 -->|No| Pass2
+    Check2 -->|Yes| Fail2
+    
+    style Start fill:#e1f5fe
+    style Pass1 fill:#c8e6c9
+    style Pass2 fill:#a5d6a7
+    style Fail1 fill:#ffccbc
+    style Fail2 fill:#ef9a9a
+```
 
 **Verification steps:**
 
-1. In the R console, type the following commands **one at a time**, pressing **Enter** after each:
+1. In the R console, type these commands **one at a time**, pressing **Enter** after each:
 
 ```r
 #| eval: false
@@ -205,29 +390,52 @@ library(LBSPR)
 ```
 
 2. **Expected result:**
-   - If you see text that looks like "Loading required package: ..." without any red error messages, your installation is successful!
-   - **Warnings** (yellow text) are okay—they're informational only
+   - Text like "Loading required package: ..." without red error messages = **Success!**
+   - **Warnings** (yellow text) are okay—they're informational
    - **Errors** (red text starting with "Error:") mean something is wrong
 
 3. **Troubleshooting**:
-   - If you get an error, note the exact text and share it with us
-   - Common issue: You may need to restart R (go to `Session > Restart R`)
-   - Still having problems? Check your internet connection and try the package installation again
+   - Note the exact error message
+   - Try: `Session > Restart R` (then test again)
+   - Check your internet connection
+   - Re-run the package installation command
 
 ---
 
 ## You're Ready!
 
-If you reached this point without errors, **congratulations!** Your computer is fully set up for the training session. 
+```{mermaid}
+graph TB
+    Check1["✓ R Installed"]
+    Check2["✓ IDE Installed"]
+    Check3["✓ Packages Installed"]
+    Check4["✓ Verified & Working"]
+    
+    Ready["<b>YOUR COMPUTER IS READY!</b><br/>You're set for training"]
+    
+    Check1 --> Ready
+    Check2 --> Ready
+    Check3 --> Ready
+    Check4 --> Ready
+    
+    style Check1 fill:#c8e6c9
+    style Check2 fill:#c8e6c9
+    style Check3 fill:#c8e6c9
+    style Check4 fill:#c8e6c9
+    style Ready fill:#a5d6a7
+```
 
 **Before training starts, please:**
-- Verify that RStudio or Positron launches without errors
-- Test that you can see the R console
-- Bookmark this guide in case you need to reference it during the training
+- [ ] Verify that RStudio or Positron launches without errors
+- [ ] Test that you can see the R console
+- [ ] Run the verification commands (library commands)
+- [ ] Bookmark this guide for reference during training
 
 **Still having issues?** Contact us before training begins with:
+
 - Your operating system (Windows/Mac/Linux)
 - The exact error messages you received
 - A screenshot of the error (if possible)
+- What step you're stuck on
 
-We're here to help!
+**We're here to help!** Don't hesitate to reach out—software setup can be tricky, and we want everyone ready to focus on stock assessment science.

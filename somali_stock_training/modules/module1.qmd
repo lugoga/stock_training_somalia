@@ -31,46 +31,200 @@ By the end of this module, participants will:
 - [ ] Identify appropriate data types for different assessment scenarios
 - [ ] Apply best practices in fisheries science
 
+## The Stock Assessment Framework
+
+```{mermaid}
+graph TD
+    A["<b>FISH POPULATION</b><br/>Fish in the Ocean"] 
+    
+    B["<b>DATA COLLECTION</b><br/>Landing Sites & Fisheries"]
+    C["<b>BIOLOGICAL PARAMETERS</b><br/>Growth | Mortality | Recruitment | Maturity"]
+    D["<b>POPULATION MODELS</b><br/>Age-Structured | Length-Based | Surplus Production"]
+    E["<b>STOCK STATUS</b><br/>Healthy | At Risk | Overfished"]
+    F["<b>MANAGEMENT ADVICE</b><br/>Catch Limits | Regulations | Conservation"]
+    
+    A -->|Fishing| B
+    B -->|Length, Weight,<br/>Maturity Data| C
+    C -->|Parameter<br/>Estimates| D
+    D -->|Analysis &<br/>Modeling| E
+    E -->|Assessment<br/>Results| F
+    F -->|Policy &<br/>Implementation| A
+    
+    style A fill:#e1f5fe
+    style B fill:#fff3e0
+    style C fill:#f3e5f5
+    style D fill:#e8f5e9
+    style E fill:#fce4ec
+    style F fill:#fff9c4
+```
+
 ## Content Areas
 
 ### 1. Stock Assessment Fundamentals
+
+**Definition:** Stock assessment is the process of evaluating the status of a fish population using available data and scientific methods to inform management decisions.
+
+**Key questions it answers:**
+
+- How many fish are in the stock?
+- Are we fishing sustainably?
+- What catch level can we maintain indefinitely?
+- Is the stock recovering or declining?
+
 - Definition and objectives
 - Why stock assessment matters for management
 - Assessment approaches (data-rich vs. data-limited)
 - Success factors in assessment
 
 ### 2. Key Biological Parameters
+
+Understanding these parameters is essential because they determine how a population responds to fishing:
+
+```{mermaid}
+graph TB
+    subgraph Biology["<b>BIOLOGICAL PARAMETERS</b>"]
+        G["<b>GROWTH (K, Linf)</b><br/>How fast fish grow<br/>to maximum size"]
+        M["<b>MORTALITY (M, Z, F)</b><br/>Death rates from<br/>natural causes & fishing"]
+        R["<b>RECRUITMENT</b><br/>New young fish<br/>entering the population"]
+        Mat["<b>MATURITY (L50, L95)</b><br/>Size/age when fish<br/>can reproduce"]
+    end
+    
+    Output["<b>Population<br/>Productivity</b><br/>How much we can<br/>harvest sustainably"]
+    
+    G --> Output
+    M --> Output
+    R --> Output
+    Mat --> Output
+    
+    style G fill:#bbdefb
+    style M fill:#ffccbc
+    style R fill:#c8e6c9
+    style Mat fill:#f8bbd0
+    style Output fill:#fff9c4
+```
+
+**Details for each parameter:**
+
 - **Growth:** von Bertalanffy growth curves, length-weight relationships
-- **Mortality:** Natural mortality, fishing mortality
+- **Mortality:** Natural mortality, fishing mortality, total mortality
 - **Recruitment:** Recruitment variations, stock-recruitment relationships
-- **Maturity:** Age/size at maturity, fecundity
+- **Maturity:** Age/size at maturity, fecundity (egg production)
 
 ### 3. Population Dynamics
-- Population models
-- Surplus production models
-- Age-structured population models
+
+How fish populations change over time in response to fishing:
+
+```{mermaid}
+graph LR
+    subgraph Unfished["<b>UNFISHED STOCK</b>"]
+        direction TB
+        U1["Large older fish<br/>Many juveniles<br/>High biomass"]
+    end
+    
+    subgraph Moderate["<b>MODERATELY FISHED</b>"]
+        direction TB
+        M1["Mix of sizes<br/>Fewer old fish<br/>Medium biomass"]
+    end
+    
+    subgraph Overfished["<b>OVERFISHED</b>"]
+        direction TB
+        O1["Mostly juveniles<br/>Few large fish<br/>Low biomass<br/>Low reproduction"]
+    end
+    
+    Unfished -->|Increasing<br/>Fishing| Moderate
+    Moderate -->|Excessive<br/>Fishing| Overfished
+    Overfished -->|Fishing<br/>Reduction| Moderate
+    
+    style Unfished fill:#c8e6c9
+    style Moderate fill:#fff9c4
+    style Overfished fill:#ffccbc
+```
+
+- Population models and how they work
+- Surplus production models (simple, data-limited approach)
+- Age-structured population models (complex, data-rich approach)
 - Equilibrium versus dynamic concepts
 
 ### 4. Data Requirements
-- What data is needed?
-- Data quality considerations
+
+**Different assessment methods need different data:**
+
+```{mermaid}
+graph TB
+    subgraph DataRich["<b>DATA-RICH ASSESSMENT</b><br/>(Integrated Models)"]
+        DR["✓ Age data from otoliths<br/>✓ Detailed catch history<br/>✓ Survey indices<br/>✓ Biological samples<br/>✓ Effort data"]
+    end
+    
+    subgraph DataModerate["<b>DATA-MODERATE</b><br/>(Length-Based Methods)"]
+        DM["✓ Length-frequency data<br/>✓ Catch history<br/>✓ Growth parameters<br/>✓ Maturity ogives"]
+    end
+    
+    subgraph DataLimited["<b>DATA-LIMITED</b><br/>(Empirical Indicators)"]
+        DL["✓ Catch data<br/>✓ Basic biology<br/>✓ Expert knowledge<br/>✓ Effort trends"]
+    end
+    
+    Accuracy["Assessment<br/>Accuracy<br/>& Detail"]
+    
+    DataRich --> Accuracy
+    DataModerate --> Accuracy
+    DataLimited --> Accuracy
+    
+    style DataRich fill:#bbdefb
+    style DataModerate fill:#fff9c4
+    style DataLimited fill:#ffccbc
+```
+
+- What data is needed for different approaches?
+- Data quality considerations and QA/QC
 - Data limitations in the Indian Ocean
-- Working with incomplete data
+- Working with incomplete data (practical reality)
 
 ### 5. Assessment Approaches
-- Catch-MSY methods
-- Length-based approaches
-- Simple empirical indicators
-- Integrated stock assessment models
+
+Choosing the right method depends on available data and resources:
+
+```{mermaid}
+graph TB
+    Start{"What data<br/>do you have?"}
+    
+    Age["Age Data<br/>from Otoliths<br/>or Scales"]
+    Length["Length<br/>Frequency<br/>Data"]
+    Catch["Only Catch<br/>& Effort<br/>Data"]
+    
+    Integrated["<b>Integrated Assessment</b><br/>Age-Structured Models<br/>Very Detailed<br/>Most Accurate"]
+    LBSPR["<b>Length-Based</b><br/>LBSPR | LIME<br/>Moderate Detail<br/>Practical & Robust"]
+    CatchMSY["<b>Empirical Methods</b><br/>Catch-MSY | Simple Indicators<br/>Limited Detail<br/>Quick & Useful"]
+    
+    Start -->|Yes| Age --> Integrated
+    Start -->|Yes| Length --> LBSPR
+    Start -->|Limited| Catch --> CatchMSY
+    
+    style Start fill:#e1f5fe
+    style Age fill:#bbdefb
+    style Length fill:#fff9c4
+    style Catch fill:#ffccbc
+    style Integrated fill:#c8e6c9
+    style LBSPR fill:#c8e6c9
+    style CatchMSY fill:#c8e6c9
+```
+
+- Catch-MSY methods (simplest, data-limited)
+- Length-based approaches (our focus in this training)
+- Simple empirical indicators (quick assessment)
+- Integrated stock assessment models (most complex)
 
 ## Key Concepts
 
 :::{.callout-tip}
-**Stock:** A group of individuals of one species, occupying a defined area and showing independent population dynamics
+**Stock:** A group of individuals of one species, occupying a defined area and showing independent population dynamics. A stock is the management unit.
 :::
 
 :::{.callout-note}
-**Assessment:** The process of evaluating the status of a stock using available data and scientific methods
+**Assessment:** The process of evaluating the status of a stock using available data and scientific methods to answer: "Is this stock healthy? Can we increase catches? Do we need to reduce fishing?"
+:::
+
+:::{.callout-warning}
+**Sustainability Principle:** The fundamental goal of stock assessment is to ensure fish populations remain productive indefinitely—balancing the needs of people today with fish stocks for the future.
 :::
 
 ## Practical Activities
@@ -78,13 +232,15 @@ By the end of this module, participants will:
 - [ ] Review case studies from Indian Ocean fisheries
 - [ ] Identify data needs for Somali fisheries
 - [ ] Discuss assessment priorities by region
-
+- [ ] Map your own country's data availability
+- [ ] Identify bottlenecks and solutions
 
 ## Assessment
 
 - Class participation
 - Case study group discussion
 - Short quiz on biological parameters
+- Concept mapping exercise (relating parameters to population outcomes)
 
 ---
 
