@@ -74,6 +74,14 @@ website:
             href: exercises/steps_for_tools.qmd
           - text: "Determine maturity"
             href: exercises/maturity_exercise.qmd
+          - text: "Length Frequencies"
+            href: exercises/lfq.qmd
+          - text: "Size Separation and  maturity"
+            href: exercises/size_maturity.qmd
+          - text: "Estimate stock"
+            href: exercises/estimate_stock_lbspr.qmd
+          - text: "Estimate stock yellowfin"
+            href: exercises/estimate_stock_lbspr_yft.qmd
 
 
 

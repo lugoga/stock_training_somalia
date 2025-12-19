@@ -1,0 +1,387 @@
+---
+title: "Stock Assessment Using LBSPR"
+subtitle: "Selected species of tuna and tuna-like fish in Somalia Water"
+author: "Rushingisha George, Masumbuko Semba, and Mathew Silas"
+format: html
+date: "2025-12-16"
+date-modified: today
+toc: true
+lot: true
+lof: true
+embed-resources: true
+execute: 
+  echo: true
+  error: false
+  comment: ""
+  warning: false
+  message: false
+code-fold: show
+---
+
+## Introduction
+
+This document provides a step-by-step guide to performing a stock assessment simulation using the **Length-Based Spawning Potential Ratio (LBSPR)** method. LBSPR is a powerful technique for assessing the health of fish stocks, especially in data-limited situations where traditional age-based data is unavailable.
+
+We will first simulate a fish population with known biological and fishery characteristics to understand how the LBSPR model works. This simulation will generate an expected length-frequency distribution, which can later be compared against real-world data collected from fisheries.
+
+## Setting Up the R Environment
+
+**What we're doing:** Load the R packages needed for the entire analysis. Each package provides specialized functions for different parts of the stock assessment.
+
+**Package purposes:**
+- **tidyverse**: Data manipulation, filtering, and reshaping
+- **tidyplots**: Easy, publication-quality plotting
+- **LBSPR**: Length-based spawning potential ratio analysis
+- **sizeMat**: Estimating size at sexual maturity
+- **gt**: Creating professional tables
+- **TropFishR**: Tropical fisheries stock assessment methods
+
+```{r}
+# Load required libraries
+require(tidyverse)
+require(tidyplots)
+require(LBSPR)
+require(sizeMat)
+require(gt) 
+require(TropFishR)
+```
+
+# Approach
+
+## Data
+
+**What we're doing:** Read the fisheries dataset containing length, weight, species, and catch information from a CSV file.
+
+```{r}
+lw = read_csv("lw2.csv")
+```
+
+### Model Fish Group: Yellowfin Tuna
+
+**What we're doing:** Filter the dataset to focus on Yellowfin Tuna (YFT) for this demonstration.
+
+**Why it matters:** Working with a single species ensures we're analyzing fish with similar biology and behavior.
+
+```{r}
+yft = lw |> 
+    filter(fish_type_code == 'YFT')
+```
+
+### Explore Length-Weight Relationship
+
+**What we're doing:** Create a scatter plot showing how length and weight relate for Yellowfin Tuna across regions, excluding Berbera and very small fish.
+
+**What to look for:** 
+- A smooth curved relationship indicates normal growth
+- Outliers might indicate data quality issues
+- The curve should follow the power-law relationship: Weight ∝ Length³
+
+```{r}
+yft |> 
+  filter(!region %in% c('Berbera') & length_cm > 20) |> 
+  tidyplot(x = length_cm, y = weight_kg, color = region) |> 
+  add_data_points() |> 
+  add_curve_fit() |> 
+  adjust_size(width = 2, height = 3, unit = 'in') |> 
+  adjust_font(fontsize = 12) |> 
+  adjust_legend_position(position = c(.35, .9)) |> 
+  adjust_x_axis(title = 'Length (cm)') |> 
+  adjust_y_axis(title = 'Weight (kg)') |> 
+  remove_legend_title()
+```
+
+### Data Quality Filter
+
+**What we're doing:** Remove problematic data by excluding Berbera region and small fish under 20 cm.
+
+**Why it matters:** Clean data improves assessment reliability and removes potential juveniles with different growth patterns.
+
+```{r}
+yft = lw |> 
+    filter(fish_type_code == 'YFT' & !region == 'Berbera' & length_cm > 20)
+```
+
+### Maturity Classification
+
+**What we're doing:** Separate fish into two groups—mature and immature—based on their length-weight relationships using linear discriminant analysis.
+
+**Why it matters:** Maturity status is critical for LBSPR because it determines the L50 and L95 parameters that define when fish can reproduce.
+
+```{r}
+## Partitioning with Frequentist regression 
+classified_yft <- yft |> 
+  classify_mature(
+    varNames = c("length_cm", "weight_kg"),
+    varSex = NULL, 
+    selectSex = NULL,
+    method = "ld"
+  )
+
+classified_yft
+```
+
+### Visualize Maturity Classification
+
+**What we're doing:** Plot the classified mature and immature fish to visually inspect the separation quality.
+
+**What to look for:** Clear separation between mature (upper right) and immature (lower left) groups indicates good classification accuracy.
+
+```{r}
+classified_yft |> 
+  plot(
+    xlab = 'Length (cm)', 
+    ylab = 'Weight (kg)',
+    cex.main = 1.5,
+    cex.lab = 1.2,
+    cex.axis = 1
+  )
+```
+
+### L50 Estimation
+
+**What we're doing:** Estimate the logistic maturity curve using 1000 bootstrap samples to calculate:
+- **L50:** Length at which 50% of fish are mature
+- **L95:** Length at which 95% of fish are mature
+
+**Why it matters:** L50 and L95 are key biological parameters for LBSPR that define the spawning population.
+
+```{r}
+yft_ogive_fq <- classified_yft |> 
+  morph_mature(
+    method = "fq", 
+    niter = 1000
+)
+```
+
+### Display Maturity Curve Parameters
+
+**What we're doing:** Create a professional table showing the estimated maturity curve parameters.
+
+**Table columns:**
+- **A & B:** Logistic curve coefficients (intercept and slope)
+- **L50:** Length (cm) where 50% are mature
+- **R²:** Goodness of fit (closer to 1.0 is better)
+
+```{r}
+yft_ogive_fq |> 
+    print() |> 
+    as.data.frame() |> 
+    as_tibble() |> 
+    mutate(Freq = as.numeric(Freq)) |> 
+    pivot_wider(names_from = Var1 , values_from  = Freq) |> 
+    gt() |> 
+    fmt_number(columns = everything(), decimals = 2) |> 
+    fmt_missing(columns = everything(), missing_text = '-') |> 
+    cols_label(
+        Var2 ~ 'Variables',
+        L50 ~ md('L~50~'),
+        R2  ~ md('R^2^')
+    ) |>
+    tab_spanner(columns = c('A', 'B'), label = 'Ogive Parameters') |> 
+    tab_options(data_row.padding = px(5), table.font.size = '12pt') |> 
+    cols_width(
+        Var2 ~ px(200),
+        A ~ px(120),
+        B ~ px(70),
+        L50 ~ px(70),
+        R2 ~ px(70)
+    ) |> 
+    tab_footnote(footnote = 'A for Intercept of the logistic curve.', locations = cells_column_labels(columns = 'A'))|> 
+    tab_footnote(footnote = 'B for slope of the logistic curve.', locations = cells_column_labels(columns = 'B'))
+```
+
+### Plot Maturity Ogive
+
+**What we're doing:** Visualize the maturity curve showing the proportion of mature fish at each length.
+
+**What it shows:** An S-shaped (logistic) curve where:
+- Below L50: mostly immature fish
+- Above L50: mostly mature fish
+- The steepness shows how quickly maturity is reached
+
+```{r}
+yft_ogive_fq |> 
+    plot(
+    main = 'Maturity Ogive of Yellowfin Tuna',
+    xlab = 'Length (cm)', 
+    ylab = 'Proportion Mature',
+    cex.main = 1.5,
+    cex.lab = 1.2,
+    cex.axis = 1, 
+    onlyOgive = TRUE
+)
+```
+
+### Prepare Length-Frequency Data
+
+**What we're doing:** Convert individual fish measurements into binned length-frequency data with smoothing applied.
+
+**Process:**
+1. Create length-frequency bins
+2. Aggregate data by month
+3. Apply moving average (MA = 9) to smooth seasonal variation
+4. Apply square root transformation to stabilize variance
+
+**Why it matters:** LBSPR requires data in length-class format; smoothing reduces sampling noise.
+
+```{r}
+aa = yft |> 
+   mutate(
+    date = lubridate::make_date(year = 2024, month = month(date_dd_mm_yy), day = 15)
+    )
+
+aa |> 
+  TropFishR::lfqCreate(
+    Lname = "length_cm", 
+    Dname = "date", 
+    bin_size = 2, 
+    species = "Yellowfin", 
+    length_unit = "cm", 
+    aggregate_dates = TRUE
+    ) |> 
+  TropFishR::lfqModify(
+    bin_size = 4, 
+    aggregate = "month", 
+    vectorise_catch = FALSE
+    ) |> 
+  TropFishR::lfqRestructure(
+    MA = 9, 
+    addl.sqrt = TRUE
+    ) |> 
+    plot(        
+        Fname = "catch", 
+        las = 1,
+        ylab = 'Length classes (cm)',
+        cex.main = 1.5,
+        cex.lab = 1.2,
+        cex.axis = 1
+    )
+```
+
+## LBSPR Model
+
+### Create a New LB_pars Object
+
+**What we're doing:** Create an empty LB_pars object—a special R data structure designed to hold LBSPR model parameters.
+
+**Why it matters:** This object organizes all biological and fishery parameters in a standardized format.
+
+```{r}
+MyPars <- new("LB_pars")
+```
+
+### Examine LB_pars Slots
+
+**What we're doing:** Display all 25 slots (parameter slots) available in the LB_pars object.
+
+**Note:** You don't need to fill all slots—many have default values. Only minimum parameters are required (see next section).
+
+```{r}
+MyPars |> slotNames()
+```
+
+### Populate the LB_pars Object
+
+**What we're doing:** Fill the LB_pars object with biological and exploitation parameters needed for the LBSPR simulation.
+
+**Minimum required parameters:**
+
+**Biology:**
+- **Linf:** Von Bertalanffy asymptotic length (maximum theoretical length)
+- **L50 & L95:** Lengths at 50% and 95% maturity
+- **M/K:** Natural mortality divided by growth coefficient (describes life history strategy)
+
+**Exploitation:**
+- **SL50 & SL95:** Lengths at 50% and 95% selectivity by fishing gear
+- **SPR or F/M:** Either specify Spawning Potential Ratio or Fishing/Natural mortality ratio
+
+**Size classes:**
+- **BinWidth:** Length interval for size classes (typically 5 cm)
+
+**Example parameters:** These are hypothetical values for demonstration. In a real analysis, these would come from your data analysis (like we did above with Yellowfin).
+
+```{r}
+## Biological parameters
+MyPars@Species = 'Yellowfin'
+MyPars@Linf <- 100  # Maximum length (cm)
+MyPars@L50 <- 66    # Length at 50% maturity (cm)
+MyPars@L95 <- 70    # Length at 95% maturity (cm)
+MyPars@MK <- 1.5    # M/K ratio (natural mortality / growth rate)
+
+## Exploitation parameters
+MyPars@SL50 <- 50   # Length at 50% selectivity (cm)
+MyPars@SL95 <- 65   # Length at 95% selectivity (cm)
+MyPars@SPR <- 0.4   # Target spawning potential ratio (40% of unfished)
+MyPars@BinWidth <- 5
+
+## Size class boundaries
+MyPars@BinMax <- 150
+MyPars@BinMin <- 0
+MyPars@L_units <- "mm"
+```
+
+### View the Populated Parameters
+
+**What we're doing:** Display the LB_pars object to verify all parameters are correctly entered.
+
+```{r}
+MyPars
+```
+
+### Run the LBSPR Simulation
+
+**What we're doing:** Execute the LBSPR model to simulate what a fish population would look like with these specific biological and exploitation parameters.
+
+**Output:** An LB_obj object containing simulated population dynamics, size structure, and stock status metrics.
+
+```{r}
+MySim = MyPars |> 
+  LBSPRsim()
+```
+
+### Visualize Full LBSPR Results
+
+**What we're doing:** Create four diagnostic plots showing:
+- **Top-left:** Expected catch size structure vs. unfished population
+- **Top-right:** Maturity and selectivity curves overlaid
+- **Bottom-left:** Von Bertalanffy growth curve
+- **Bottom-right:** SPR and yield curves (stock status relative to reference points)
+
+**Interpretation:** 
+- Yellow lines show expected patterns
+- Red lines show what we observe in the catch
+- SPR plot shows if stock is overfished (low SPR) or healthy (high SPR)
+
+```{r}
+MySim |> 
+  plotSim()
+```
+
+### Plot Length-Frequency Results
+
+**What we're doing:** Visualize just the expected size structure (length-frequency distribution) from the simulation.
+
+**What to look for:** 
+- The modal length (peak) indicates what size fish dominate the catch
+- A gap between modal length and maximum length suggests high fishing mortality
+- Multiple modes may indicate strong recruitment pulses
+
+```{r}
+MySim |> 
+  plotSim(type = "len.freq")
+```
+
+### Plot Population Structure
+
+**What we're doing:** Compare the expected catch composition with the unfished (spawning stock) population structure.
+
+**What it shows:**
+- Blue line: Unfished population (what it would look like with no fishing)
+- Red line: Current catch composition (effect of fishing and selectivity)
+- The difference illustrates fishing impact on population structure
+
+```{r}
+MySim |>  
+  plotSim(lf.type = "pop")
+```
+

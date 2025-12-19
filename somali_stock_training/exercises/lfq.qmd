@@ -1,0 +1,308 @@
+---
+title: "Length-Frequency Analysis for Stock Assessment"
+subtitle: "Selected species of tuna and tuna-like fish in Somalia Water"
+author: "Rushingisha George, Masumbuko Semba, and Mathew Silas"
+format: html
+date: "2025-12-16"
+date-modified: today
+toc: true
+lot: true
+lof: true
+embed-resources: true
+execute: 
+  echo: true
+  error: false
+  comment: ""
+  warning: false
+  message: false
+
+code-fold: show
+---
+
+**What we're doing:** Load the R packages required for length-frequency analysis and stock assessment.
+
+```{r}
+# Load required libraries
+library(tidyverse)      # Data manipulation and visualization
+library(sizeMat)        # For maturity analysis
+library(gt)             # For professional tables
+require(TropFishR)      # Tropical fisheries stock assessment
+```
+
+# Introduction
+
+This document provides a step-by-step guide to analyzing length-frequency (LFQ) data for commercially important fish species in Somalia using the `TropFishR` package. Length-frequency analysis is a fundamental method in fisheries science for understanding population structure, growth, and mortality.
+
+The exercise will proceed as follows:
+
+1. Load and prepare the length-weight data.
+2. Use `TropFishR` functions to create a length-frequency object.
+3. Modify and restructure the LFQ data for visualization and analysis.
+4. Plot raw and restructured data to identify growth and recruitment patterns.
+
+# Method
+
+## Data Preparation
+
+**What we're doing:** Load the fisheries dataset containing length, weight, species, and date information.
+
+```{r}
+lw = read_csv("lw2.csv")
+```
+
+### Identify Species with Sufficient Data
+
+**What we're doing:** Filter for fish species with at least 200 recorded individuals to ensure statistical reliability.
+
+**Why it matters:** Species with few observations may have unreliable estimates. Focus on well-sampled species improves analysis quality.
+
+```{r}
+fishes = lw |> 
+  group_by(fish_type_code) |> 
+  tally() |> 
+  arrange(desc(n)) |> 
+  filter(n > 200) |> 
+  pull(fish_type_code)
+
+# Use these key tuna and mackerel species
+fishes = c("YFT", "SKJ", "KAW", "JAC", "LOT", "MAH", "SCH", "BET")
+```
+
+### Create Species Reference Table
+
+**What we're doing:** Build a lookup table mapping FAO species codes to common and scientific names.
+
+**Why it matters:** Clear species identification is essential for communicating results to stakeholders and ensuring accurate interpretation.
+
+```{r}
+fish_name <- tibble(
+  FAO_Code = c("YFT", "SKJ", "KAW", "JAC", "LOT", "MAH", "SCH", "BET"),
+  English_Name = c("Yellowfin tuna", "Skipjack tuna", "Kawakawa", "Jack mackerel", 
+                   "Longtail tuna", "Mahi-mahi", "Chub mackerel", "Bigeye tuna"),
+  Scientific_Name = c("Thunnus albacares", "Katsuwonus pelamis", "Euthynnus affinis", 
+                      "Trachurus spp.", "Thunnus tonggol", "Coryphaena hippurus", 
+                      "Scomber japonicus", "Thunnus obesus")
+)
+
+fish_name
+```
+
+### Inspect Dataset Structure
+
+**What we're doing:** Display the column names and data types in the dataset.
+
+**What to look for:** Ensure date, length, weight, and species columns are present and correctly formatted.
+
+```{r}
+lw |> 
+    glimpse()
+```
+
+## Fish Groups Analysis
+
+In the following sections, we will perform length-frequency analysis for several key tuna and mackerel species. For each species, we filter the data and convert it into a structured length-frequency format suitable for growth and mortality analyses.
+
+### Yellowfin Tuna Example
+
+**What we're doing:** Filter the main dataset to create a subset containing only Yellowfin Tuna (YFT) observations.
+
+**Why start here:** Yellowfin is a well-studied species with good sample sizes, making it ideal for demonstrating the analysis workflow.
+
+```{r}
+yft = lw |> 
+    filter(fish_type_code == 'YFT')
+```
+
+## LFQ Creation
+
+**What we're doing:** Convert raw individual fish length measurements into a length-frequency object using the `lfqCreate()` function.
+
+**The process:**
+1. Standardize dates to a proper date format
+2. Aggregate measurements into 2 cm length bins
+3. Group by sampling date to create a time series
+4. Create an `lfq` object ready for further analysis
+
+**Why it matters:** LFQ objects organize data into the standardized format required by growth and mortality estimation methods.
+
+```{r}
+yft_lfq = yft |>
+   mutate(
+    date = as_date(date_dd_mm_yy)
+    ) |> 
+  TropFishR::lfqCreate(
+    Lname = "length_cm",       # Column name for lengths
+    Dname = "date",            # Column name for dates
+    bin_size = 2,              # 2 cm length bins
+    species = "Yellowfin", 
+    length_unit = "cm", 
+    aggregate_dates = TRUE
+    )
+```
+
+## LFQ Modification and Restructuring
+
+**What we're doing:** Process the LFQ object to improve visualization of cohort progression:
+1. Aggregate samples into monthly groups (rather than daily)
+2. Increase length bin size to 5 cm for clearer visualization
+3. Apply moving average smoothing (11-month window) to reduce noise
+4. Apply square-root transformation to stabilize variance
+
+**Why each step matters:**
+- **Monthly aggregation:** Reduces noise from daily variation
+- **5 cm bins:** Easier to visualize growth patterns
+- **Moving average:** Highlights cohort trajectories by smoothing random fluctuations
+- **Square-root transformation:** Large catches don't visually dominate small catches
+
+```{r}
+yft_lfq_mod = yft_lfq |> 
+  TropFishR::lfqModify(
+    bin_size = 5,              # Wider length bins
+    aggregate = "month",       # Monthly aggregation
+    vectorise_catch = FALSE
+    ) |> 
+  TropFishR::lfqRestructure(
+    MA = 11,                   # 11-month moving average
+    addl.sqrt = TRUE           # Square-root transformation
+    )
+```
+
+### Plot Restructured Length-Frequency Data
+
+**What we're doing:** Visualize the processed length-frequency data as a contour or heatmap showing how fish sizes change over time.
+
+**What to look for:**
+- **Diagonal bands:** Show cohorts (same-aged groups) growing through size classes
+- **Modal length:** The most common size in each time period
+- **Recruitment pulses:** New fish entering the fishery (smallest sizes)
+- **Gaps:** May indicate periods of low recruitment or high fishing on young fish
+
+```{r}
+par(mfrow = c(1,1))
+
+yft_lfq_mod |> 
+  plot(
+    Fname = "catch",           # Use restructured counts
+    las = 1,
+    ylab = 'Length classes (cm)',
+    cex.main = 1.5,
+    cex.lab = 1.2,
+    cex.axis = 1
+  )
+```
+
+## Summary for All Species
+
+**What we're doing:** Automate the entire LFQ workflow for all selected species using a loop.
+
+**Workflow for each species:**
+1. Filter data for that species
+2. Standardize dates to 2024 (keep original month)
+3. Create LFQ object with 2 cm bins
+4. Modify to monthly bins with 5 cm length classes
+5. Restructure with 9-month moving average and square-root transformation
+6. Plot the results
+
+**Why standardize to one year:** Allows easy visual comparison of seasonal patterns across species by plotting the annual cycle.
+
+```{r}
+for (j in 1:length(fishes)){  
+
+    readline(prompt = 'Press ENTER to see next species')
+
+    aa = lw |> 
+        filter(fish_type_code == fishes[j]) |>
+        mutate(
+            # Standardize all dates to 2024 while keeping original month
+            date = lubridate::make_date(year = 2024, month = month(date_dd_mm_yy), day = 15)
+        )
+    
+    # Calculate length range for consistent axis limits
+    bb = aa |> pull(length_cm) |> quantile(c(0.01, 0.99), na.rm = TRUE)
+
+    aa |> 
+      TropFishR::lfqCreate(
+        Lname = "length_cm", 
+        Dname = "date", 
+        bin_size = 2, 
+        species = fish_name$English_Name[j],
+        length_unit = "cm", 
+        aggregate_dates = TRUE
+        ) |> 
+      TropFishR::lfqModify(
+        bin_size = 4, 
+        aggregate = "month", 
+        vectorise_catch = FALSE
+        ) |> 
+      TropFishR::lfqRestructure(
+        MA = 9, 
+        addl.sqrt = TRUE
+        ) |> 
+        plot(        
+            Fname = "catch", 
+            las = 1, 
+            ylim = bb,
+            main = paste0(fish_name$English_Name[j], " (", fish_name$Scientific_Name[j], ")"),
+            ylab = 'Length classes (cm)',
+            cex.main = 1.5,
+            cex.lab = 1.2,
+            cex.axis = 1
+        )
+}
+```
+
+## Bonus Information: Alternative LFQ Packages
+
+Length-Frequency analysis is essential in data-limited fisheries. While `TropFishR` is comprehensive and implements the ELEFAN method, other R packages offer complementary approaches for length-based stock assessment.
+
+### `fishdynr` Package
+
+**Purpose:** Alternative implementation of FiSAT II methods for LFQ analysis with a slightly different workflow.
+
+```{r}
+#| eval: false
+#| code-summary: "Example: fishdynr workflow"
+
+library(fishdynr)
+
+# Prepare data: fishdynr requires 'date' and 'length' columns
+yft_for_fishdynr <- yft |>
+  select(date = date_dd_mm_yy, length = length_cm) |>
+  mutate(date = as.Date(date, format = "%d-%m-%Y"))
+
+# Create LFQ object and plot
+yft_lfq_fd <- lfq(dat = yft_for_fishdynr, bin_size = 4)
+plot(yft_lfq_fd, hist.sc = 0.5)
+```
+
+### `LBSPR` Package
+
+**Purpose:** Estimate Spawning Potential Ratio (SPR)—a key indicator of stock health—using length data and basic life history parameters.
+
+**Advantages:** Simpler than ELEFAN; directly estimates current stock status relative to management reference points.
+
+```{r}
+#| eval: false
+#| code-summary: "Example: LBSPR workflow"
+
+library(LBSPR)
+
+# 1. Set up life history parameters
+MyPars <- new("LB_pars", L_units = "cm")
+MyPars@Linf <- 170      # Asymptotic length (from literature)
+MyPars@L50 <- 105       # Length at 50% maturity
+MyPars@L95 <- 120       # Length at 95% maturity
+MyPars@MK <- 1.5        # Natural Mortality / Growth rate ratio
+
+# 2. Create length data object from your observations
+MyLengths <- new("LBSPRlen", Len = yft$length_cm, LData = MyPars)
+
+# 3. Fit the model
+LBSPR_fit <- LBSPRfit(MyPars, MyLengths)
+
+# 4. Plot results showing stock status
+plot(LBSPR_fit)
+```
+
+**Key advantage:** LBSPR directly tells you if a stock is overfished (SPR too low) or healthy (SPR adequate), making it ideal for management advice.
+

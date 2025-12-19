@@ -1,0 +1,639 @@
+---
+title: "Stock Assessment  Using LBSPR"
+subtitle: "Selected species of tuna and tuna-like fish in Somalia Water"
+author: "Rushingisha George, Masumbuko Semba, and Mathew Silas"
+format: html
+date: "2025-12-16"
+date-modified: today
+toc: true
+lot: true
+lof: true
+embed-resources: true
+execute: 
+  echo: true
+  error: false
+  comment: ""
+  warning: false
+  message: false
+
+code-fold: show
+
+---
+
+## Introduction
+
+This document provides a step-by-step guide to performing a stock assessment simulation using the **Length-Based Spawning Potential Ratio (LBSPR)** method. LBSPR is a powerful technique for assessing the health of fish stocks, especially in data-limited situations where traditional age-based data is unavailable.
+
+We will first simulate a fish population with known biological and fishery characteristics to understand how the LBSPR model works. This simulation will generate an expected length-frequency distribution, which can later be compared against real-world data collected from fisheries.
+
+## Setting Up the R Environment
+
+The first step is to load the necessary R packages. Each package provides a specific set of tools required for our analysis.
+
+-   **`tidyverse`**: A collection of R packages for data manipulation and visualization.
+-   **`LBSPR`**: The core package for this analysis, containing all functions for the LBSPR method.
+-   **`TropFishR`**: A package for tropical fish stock assessment, which can be useful for related analyses.
+-   **`gt`**: For creating beautiful and presentation-ready tables.
+-   **`sizeMat`**: A package for estimating size at maturity, a key input for LBSPR.
+
+
+```{r}
+# Load required libraries
+require(tidyverse) # Data manipulation and visualization
+require(tidyplots) # Easy plotting
+require(LBSPR)     # Length-Based Spawning Potential Ratio analysis
+require(sizeMat)   # Estimate size at maturity
+require(gt)        # Create presentation-ready tables
+require(TropFishR) # Tropical fisheries stock assessment methods
+
+```
+
+
+# Approach
+
+## Read data
+
+The first step in any data analysis is to load the data. Our fisheries data, containing length, weight, species, and catch information, is stored in a CSV (Comma-Separated Values) file named `lw2.csv`. The following code chunk reads this file into our R environment and stores it in a data frame called `lw`. This data frame will be the foundation for all subsequent steps in our stock assessment.
+
+```{r}
+lw = read_csv("lw2.csv")
+```
+
+### Model Fish Group: Yellowfin Tuna
+
+**What we're doing:** We need to isolate data for a single species to conduct a stock-specific assessment. Here we filter for Yellowfin Tuna (YFT) from the larger dataset.
+
+**Why it matters:** Each fish species has different growth rates, maturity schedules, and fishing characteristics. By focusing on one species, we can accurately estimate its population parameters.
+
+```{r}
+yft = lw |> 
+    filter(fish_type_code == 'YFT')
+```
+
+### Explore Length-Weight Relationship
+
+**What we're doing:** We create a scatter plot showing how length and weight relate to each other for Yellowfin Tuna across different regions, with a fitted curve.
+
+**What to look for:** 
+
+- A smooth, curved relationship indicates normal growth patterns
+- Outliers might represent data entry errors
+- Different regions may show different growth patterns
+
+```{r}
+yft |> 
+  tidyplot(x = length_cm, y = weight_kg, color = region) |> 
+  add_data_points() |> 
+  add_curve_fit() |> 
+  adjust_size(width = 2, height = 3, unit = 'in') |> 
+  adjust_font(fontsize = 12) |> 
+  adjust_legend_position(position = c(.35, .9)) |> 
+  adjust_x_axis(title = 'Length (cm)') |> 
+  adjust_y_axis(title = 'Weight (kg)') |> 
+  remove_legend_title()
+```
+
+### Data Quality Filter
+
+**What we're doing:** Remove potentially problematic data points (fish from Berbera region and very small fish under 20 cm).
+
+**Why it matters:** 
+
+- Small fish may be juveniles with different growth patterns
+- Regional data quality issues may affect estimates
+- Cleaner data = more reliable assessment results
+
+```{r}
+yft = lw |> 
+    filter(fish_type_code == 'YFT' & !region == 'Berbera' & length_cm > 20)
+```
+
+### Maturity Classification
+
+**What we're doing:** Separate fish into two groups—mature (able to reproduce) and immature (not yet reproductive)—using statistical analysis of length and weight patterns.
+
+**Why it matters:** Maturity schedules are critical for LBSPR because:
+
+- The model needs to know at what size fish can first reproduce (L50)
+- Fishing immature fish reduces population recovery ability
+- Management often protects immature fish to ensure stock replenishment
+
+```{r}
+## Partitioning with Frequentist regression 
+classified_yft <- yft |> 
+  classify_mature(
+    varNames = c("length_cm", "weight_kg"),
+    varSex = NULL, 
+    selectSex = NULL,
+    method = "ld"
+  )
+
+classified_yft
+```
+
+### Visualize Maturity Classification
+
+**What we're doing:** Plot the classified mature and immature fish to visually inspect the separation quality.
+
+**What to look for:** Clear separation between mature (upper right) and immature (lower left) fish groups indicates good classification.
+
+```{r}
+classified_yft |> 
+  plot(
+    xlab = 'Length (cm)', 
+    ylab = 'Weight (kg)',
+    cex.main = 1.5,
+    cex.lab = 1.5,
+    cex.axis = 1.3, 
+    las = 1
+  )
+```
+
+### Estimate L50 (Length at 50% Maturity)
+
+**What we're doing:** Calculate the length at which 50% of the population reaches maturity using a logistic regression fitted to 1000 bootstrap samples.
+
+**Why it matters:** L50 is a key input to LBSPR because it defines when fish become vulnerable to overfishing from a reproductive standpoint.
+
+```{r}
+yft_ogive_fq <- classified_yft |> 
+  morph_mature(
+    method = "fq", 
+    niter = 1000
+)
+```
+
+### Display Maturity Parameters
+
+**What we're doing:** Create a professional table showing the estimated parameters of the maturity curve (A, B intercepts and L50).
+
+**What the columns mean:**
+
+- **A & B:** Parameters of the logistic maturity curve
+- **L50:** Length (cm) where 50% of fish are mature
+- **R²:** How well the curve fits the data (1.0 = perfect fit)
+
+```{r}
+yft_ogive_fq |> 
+    print() |> 
+    as.data.frame() |> 
+    as_tibble() |> 
+    mutate(Freq = as.numeric(Freq)) |> 
+    pivot_wider(names_from = Var1 , values_from  = Freq) |> 
+    gt() |> 
+    fmt_number(columns = everything(), decimals = 2) |> 
+    fmt_missing(columns = everything(), missing_text = '-') |> 
+    cols_label(
+        Var2 ~ 'Variables',
+        # A ~ 'A-Intercept',
+        # B ~ 'B-Slope',
+        L50 ~ md('L~50~'),
+        R2  ~ md('R^2^')
+    ) |>
+    tab_spanner(columns = c('A', 'B'), label = 'Ogive Parameters') |> 
+    tab_options(data_row.padding = px(5), table.font.size = '12pt') |> 
+    cols_width(
+        Var2 ~ px(200),
+        A ~ px(120),
+        B ~ px(70),
+        L50 ~ px(70),
+        R2 ~ px(70)
+    ) |> 
+    tab_footnote(footnote = 'A for Intercept of the logistic curve.', locations = cells_column_labels(columns = 'A'))|> 
+    tab_footnote(footnote = 'B for slope of the logistic curve.', locations = cells_column_labels(columns = 'B'))
+```
+
+### Plot Maturity Curve
+
+**What we're doing:** Visualize the maturity ogive—the smooth curve showing the proportion of mature fish at each length.
+
+**What it shows:** 
+
+- At lengths below L50, few fish are mature
+- At lengths above L50, most fish are mature
+- The curve typically follows an S-shape (logistic pattern)
+
+```{r}
+yft_ogive_fq |> 
+    plot(
+    main = 'L50 of Yellowfin Tuna',
+    xlab = 'Length (cm)', 
+    ylab = 'Proportion Mature',
+    cex.main = 1.5,
+    cex.lab = 1.5,
+    cex.axis = 1.3, 
+    las = 1,
+    onlyOgive = TRUE
+)
+```
+
+### Combine Maturity and Ogive Visualizations
+
+**What we're doing:** Display both the classified data and the fitted maturity curve side-by-side for comprehensive assessment quality review.
+
+```{r}
+par(mfrow = c(1,2))
+
+classified_yft |> 
+  plot(
+    xlab = 'Length (cm)', 
+    ylab = 'Weight (kg)',
+    cex.main = 1.5,
+    cex.lab = 1.5,
+    cex.axis = 1.3, 
+    las = 1
+  )
+
+yft_ogive_fq |> 
+    plot(
+    xlab = 'Length (cm)', 
+    ylab = 'Proportion Mature',
+    cex.main = 1.5,
+    cex.lab = 1.5,
+    cex.axis = 1.3, 
+    las = 1,
+    onlyOgive = TRUE
+)
+```
+
+### Prepare Length-Frequency Data (LFQ)
+
+**What we're doing:** Convert raw individual fish measurements into length-frequency data by binning them into size classes. We also apply smoothing techniques (moving average, square root transformation).
+
+**Why it matters:** 
+
+- LBSPR needs data organized by size classes, not individual fish
+- Smoothing reduces noise from sampling variation
+- This format is standard for length-based assessment methods
+
+```{r}
+par(mfrow = c(1,1))
+
+aa = yft |> 
+   mutate(
+    date = lubridate::make_date(year = 2024, month = month(date_dd_mm_yy), day = 15 )
+    )
+
+lfq_mod = aa |> 
+  TropFishR::lfqCreate(
+    Lname = "length_cm", 
+    Dname = "date", 
+    bin_size = 2, 
+    species = "Yellowfin", 
+    length_unit = "cm", 
+    aggregate_dates = TRUE
+    ) |> 
+  TropFishR::lfqModify(
+    bin_size = 4, 
+    aggregate = "month", 
+    vectorise_catch = FALSE
+    ) |> 
+  TropFishR::lfqRestructure(
+    MA = 9, 
+    addl.sqrt = TRUE
+    ) 
+
+lfq_mod |> 
+    plot(        
+        Fname = "catch", 
+        las = 1,
+        ylab = 'Length classes (cm)', 
+        cex.main = 1.5,
+        cex.lab = 1.5,
+        cex.axis = 1.3
+    )
+```
+
+### Powell-Wetherall Method: Estimate Linf and Z
+
+**What we're doing:** Estimate two key parameters:
+
+- **Linf (L∞):** The theoretical maximum length the fish can reach
+- **Z (Total Mortality):** The combined death rate from fishing and natural causes
+
+**Why it matters:** These are fundamental biological parameters needed for all subsequent growth and mortality calculations.
+
+```{r}
+par(mfrow = c(1,1))
+
+res_PW <- powell_wetherall(param = lfq_mod,
+                           catch_columns = 1:ncol(lfq_mod$catch),
+                           reg_int = c(20,30)
+                           )
+
+# show results
+paste0("Linf = ", round(res_PW$Linf_est, 2), " ± ", round(res_PW$se_Linf))
+```
+
+### ELEFAN: Estimate Growth Parameters (K)
+
+**What we're doing:** Use Electronic LEngth Frequency ANalysis (ELEFAN) with K-Scan to estimate the growth coefficient (K) from the length-frequency data.
+
+**Why it matters:** 
+
+- K describes how quickly fish grow toward their maximum size
+- Combined with Linf, it defines the von Bertalanffy growth curve
+- Essential input for age calculations in LBSPR
+
+```{r}
+# ELEFAN with K-Scan
+res_KScan <- ELEFAN(lfq_mod, Linf_fix = res_PW$Linf_est,
+                    MA = 5, addl.sqrt = TRUE, hide.progressbar = TRUE)
+
+# show results
+res_KScan$par$Linf
+res_KScan$par$K
+```
+
+### Length-Converted Catch Curve: Estimate F, Z, and Selectivity
+
+**What we're doing:** Analyze the size structure of the catch to estimate:
+
+- **Z:** Total mortality rate (natural + fishing)
+- **F:** Fishing mortality rate (F = Z - M)
+- **L50, L95:** Lengths at which 50% and 95% of fish are selected by the fishing gear
+
+**Why it matters:** 
+
+- F tells us how heavily the stock is being fished
+- Selectivity (L50, L95) shows whether the gear targets juvenile or adult fish
+- Together these help us understand current fishing pressure
+
+```{r}
+par(mfrow = c(2,1))
+
+ab = lfq_mod |> 
+  TropFishR::lfqModify(vectorise_catch = TRUE, 
+                       bin_size = 4,
+                       year = 2024) 
+
+ab$Linf = res_KScan$par$Linf
+ab$K = res_KScan$par$K
+
+catch.converted = ab |> 
+  TropFishR::catchCurve(reg_int = c(40, 178), 
+                        calc_ogive = TRUE,
+                        auto = TRUE, 
+                        plot = TRUE)
+
+catch.converted$F
+```
+
+### Estimate Natural Mortality Rate (M)
+
+**What we're doing:** 
+Calculate the natural mortality rate (M)—the death rate from predators, disease, and aging—using an empirical equation based on growth parameters.
+
+**Why it matters:** 
+
+- M is needed to separate fishing deaths (F) from natural deaths
+- Equation: F = Z - M
+- Different species have different natural mortality based on their life history
+
+```{r}
+# estimation of M
+Ms <- TropFishR::M_empirical(Linf = res_KScan$par$Linf, 
+                             K_l = res_KScan$par$K, 
+                             method = "Then_growth")
+
+lfq_mod$M <- as.numeric(Ms)
+```
+
+### Assemble LBSPR Input Parameters
+
+**What we're doing:** 
+
+Compile all the biological and exploitation parameters we've estimated into variables ready for the LBSPR model.
+
+**Parameter groups:**
+- **Biological:** Growth (Linf), maturity (L50, L95), natural mortality (M/K ratio)
+- **Exploitation:** Gear selectivity (SL50, SL95), fishing pressure (F/M)
+- **Size classes:** Bins for the analysis (typically 5 cm intervals)
+
+```{r}
+## biological parameters
+Species = "Yellowfin"
+Linf = res_KScan$par$Linf
+L50 = yft_ogive_fq$out |> filter(between(fitted, 0.49, 0.60)) |> slice(1) |> pull(x)
+L95 = yft_ogive_fq$out |> filter(between(fitted, 0.938, 0.9510)) |> slice(1) |> pull(x)
+MK = lfq_mod$M / res_KScan$par$K
+
+## Exploitation parameters
+SL50 = catch.converted$L50
+SL95 = catch.converted$L95
+FM = catch.converted$FM |> as.numeric() |> abs()
+
+## Size classes
+BinWidth = 5
+BinMin = yft |> pull(length_cm) |> min()
+BinMax = yft |> pull(length_cm) |> max()
+L_units = "cm"
+```
+
+### Create LBSPR Parameter Object
+
+**What we're doing:** 
+Create an empty LB_pars object (a special R data structure) to hold all LBSPR model parameters.
+
+```{r}
+yftPars <- new("LB_pars")
+```
+
+### Populate LBSPR Parameters
+
+**What we're doing:** 
+Fill the LB_pars object with all the parameters we've estimated. We use FM = 0.3 as a starting point for the model to refine through fitting.
+
+**Note:** Some parameters use defaults if not specified; the model will estimate F/M to match the observed data.
+
+```{r}
+## biological parameters
+yftPars@Species = "Yellowfin"
+yftPars@Linf = res_KScan$par$Linf
+yftPars@L50 = yft_ogive_fq$out |> filter(between(fitted, 0.49, 0.60)) |> slice(1) |> pull(x)
+yftPars@L95 = yft_ogive_fq$out |> filter(between(fitted, 0.938, 0.9510)) |> slice(1) |> pull(x)
+yftPars@MK = lfq_mod$M / res_KScan$par$K
+
+## Exploitation parameters
+yftPars@SL50 = catch.converted$L50
+yftPars@SL95 = catch.converted$L95
+yftPars@FM = 0.3  # Initial value; model will estimate based on data
+
+## Size classes
+yftPars@BinWidth = 5
+yftPars@BinMin = yft |> pull(length_cm) |> min()
+yftPars@BinMax = 190
+yftPars@L_units = "cm"
+```
+
+### Run the LBSPR Simulation
+
+**What we're doing:** 
+Execute the LBSPR model to:
+
+1. Simulate an expected size distribution based on our parameters
+2. Compare it to observed catch data
+3. Estimate current fishing pressure (F/M) and stock status (SPR)
+
+```{r}
+yftSim = yftPars |> LBSPRsim()
+```
+
+### Visualize LBSPR Results
+
+**What we're doing:** Create four diagnostic plots showing:
+- **Top-left:** Expected catch size structure vs. unfished population
+- **Top-right:** Maturity and selectivity curves overlaid
+- **Bottom-left:** von Bertalanffy growth curve
+- **Bottom-right:** Stock status relative to reference points
+
+```{r}
+#| label: fig-stock-b0
+#| fig-cap: Estimated a) the expected (equilibrium) size structure of the catch and the expected unfished size structure of the vulnerable population, b) the maturity and selectivity-at-length curves, c) the von Bertalanffy growth curve with relative age, and d) the SPR and relative yield curves as a function of relative fishing mortality.
+
+yftSim |> 
+  plotSim(lf.type = "pop")
+```
+
+```{r, fig.width=3, fig.height=3.5}
+#| eval: false
+
+par(mfrow = c(1,1))
+
+yftSim  |>  plotSim(type = "growth")
+yftSim  |>  plotSim(type = "len.freq")
+yftSim  |>  plotSim(type = "yield.curve")
+
+```
+
+```{r}
+yftmetrics = tibble(
+    Linf = yftSim@Linf, 
+    Z = catch.converted$Z, 
+    K = catch.converted$K, 
+    t50 = catch.converted$t50, 
+    t95 = catch.converted$t95,   
+    L50 = yftSim@L50, 
+    L95 = yftSim@L95, 
+    
+    SL50 = yftSim@SL50, 
+    SL95 = yftSim@SL95,
+    MK = yftSim@MK,
+    FM = yftSim@FM,
+    
+    SPR = yftSim@SPR, 
+    Yield = yftSim@Yield, 
+    YPR = yftSim@YPR, 
+    SSB = yftSim@SSB, 
+    SSB0 = yftSim@SSB0
+    )  |>  
+  mutate(across(is.numeric, round, 2)) |> 
+  pivot_longer(cols =1:16) |> 
+  mutate(Parameters = rep(c('Biological', "Exploitation", "Stock"), c(7,4,5)), .before = name)
+  
+
+```
+
+
+
+```{r}
+#| echo: false
+
+# Create the tibble
+tuna_metrics <- tibble(
+  reference_point = c("Z", "K", "M", "F", "t50", "t95", "L50", "L95", 
+                      "SL50", "SL95", "Linf", "SPR", "Yield", "YPR", "SSB", "SSB0"),
+  value = c(0.49, 0.21, 1.12, 0.25, 1.59, 1.83, 92.00, 97.00, 
+            52.25, 58.84, 184.05, 0.68, 1831180267.62, 194308.29, 
+            6485394609.52, 1018437.79),
+  measure = c(
+    "Total Mortality Rate - Combined rate of all fish deaths (natural + fishing)",
+    "Growth Coefficient - How quickly fish approach their maximum size",
+    "Natural Mortality Rate - Death rate from natural causes (predators, disease, age)",
+    "Fishing Mortality Rate - Rate at which fish are removed by fishing",
+    "Age at 50% Maturity - Average age (years) when half the fish can reproduce",
+    "Age at 95% Maturity - Age when nearly all fish are sexually mature",
+    "Length at 50% Maturity - Size (cm) when half the population can breed",
+    "Length at 95% Maturity - Size when almost all fish are mature breeders",
+    "Selectivity Length 50% - Size when fishing gear catches 50% of fish at that length",
+    "Selectivity Length 95% - Size when gear catches 95% of fish encountered",
+    "Asymptotic Length - Theoretical maximum length (cm) the species can reach",
+    "Spawning Potential Ratio - Current breeding capacity vs unfished stock",
+    "Total Yield - Total weight of fish caught from the stock",
+    "Yield Per Recruit - Average catch obtained from each young fish over its lifetime",
+    "Spawning Stock Biomass - Total weight of all breeding adults in the population",
+    "Unfished SSB - Theoretical spawning biomass with no fishing"
+  ),
+  interpretation = c(
+    "About 49% of the population dies each year from all causes combined",
+    "Fish grow relatively slowly to full size (may be swapped with M value)",
+    "High natural death rate - this value seems unusual and may be swapped with K",
+    "Moderate fishing pressure - about 25% of population removed by fishing annually",
+    "Yellowfin mature quickly at about 1.6 years old",
+    "By age 2, almost all fish are able to spawn",
+    "Fish around 92 cm (3 feet) start reproducing",
+    "Nearly all fish can breed by 97 cm",
+    "CONCERN: Gear catches fish at 52 cm - well below maturity size of 92 cm",
+    "Gear fully effective by 59 cm - still catching many immature fish",
+    "Yellowfin can grow to about 184 cm (6 feet) long",
+    "EXCELLENT: 68% of unfished breeding capacity remains - very healthy",
+    "Large fishery production (units need verification - likely kg or lbs)",
+    "Each fish entering the fishery provides substantial yield",
+    "Very large breeding population currently",
+    "DATA ISSUE: This should be higher than current SSB, not lower"
+  )
+)
+
+```
+
+
+
+```{r}
+#| label: tbl-metrics
+#| tbl-cap: Stock assessment reference points with descriptions and metric values of yellowfin tuna 
+
+tuna_metrics_clean = tuna_metrics |> rename(name = 1) |> dplyr::select(-value)
+
+yftmetrics |> 
+    left_join(tuna_metrics_clean, by = "name") |> 
+    dplyr::select(1:4) |> 
+  gt(groupname_col = 'Parameters') |> 
+  cols_label(
+    name = "Metric",
+    value = "Value",
+    measure = "What It Measures"
+  ) |> 
+  fmt_number(
+    columns = value,
+    decimals = 2
+  ) |> 
+  tab_style(
+    style = cell_text(weight = "bold"),
+    locations = cells_column_labels()
+  ) |> 
+  tab_style(
+    style = cell_fill(color = "#e8f4f8"),
+    locations = cells_body(rows = Parameters %in% c("Biological"))
+  ) |> 
+  tab_style(
+    style = cell_fill(color = "#fff3cd"),
+    locations = cells_body(rows = Parameters %in% c("Exploitation"))
+  ) |> 
+  tab_style(
+    style = cell_fill(color = "#aef6eaff"),
+    locations = cells_body(rows = Parameters %in% c("Stock"))
+  ) |> 
+  tab_options(
+    table.font.size = 12,
+    column_labels.font.weight = "bold",
+    row_group.font.weight = "bold"
+  ) |> 
+  cols_width(
+    name ~ px(50),
+    value ~ px(150),
+    measure ~ px(400)
+  ) |> 
+  tab_source_note(
+    source_note = "Note: These metrics were computed from yellowfin tuna data of Somalia"
+  )
+```

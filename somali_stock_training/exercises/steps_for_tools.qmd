@@ -22,117 +22,212 @@ embed-resources: true
 
 This guide provides step-by-step instructions for installing the necessary software for our training session on length-based stock assessment. We will install:
 
-1.  **R**: The programming language for statistical computing.
-2.  **RStudio**: An Integrated Development Environment (IDE) that makes working with R much easier.
-3.  **R Packages**: Specific add-ons for R that we will use for data manipulation, plotting, and the LBSPR analysis.
+1. **R**: The programming language for statistical computing and data analysis.
+2. **RStudio or Positron**: An Integrated Development Environment (IDE) that makes working with R much easier and more user-friendly.
+3. **R Packages**: Specialized add-ons for R that provide pre-built functions for data manipulation, visualization, and stock assessment analysis.
 
-Please follow these steps *before* the training session begins.
+**Why do we need all three?** R is the engine, the IDE is the driver's seat that makes it comfortable to use, and packages are specialized tools that solve specific problems.
 
-------------------------------------------------------------------------
+Please follow these steps **before** the training session begins. The entire setup typically takes 30-60 minutes depending on your internet speed.
+
+---
 
 ## Step 1: Install R
 
-R is the core programming language we will be using. You must install R before you can install RStudio.
+**What is R?** R is a free, open-source programming language specifically designed for statistical computing and data analysis. It's the foundation that everything else depends on.
 
-1.  Go to the **Comprehensive R Archive Network (CRAN)** website: <https://cran.r-project.org/>
+**Why install it first?** RStudio and Positron are interfaces to R—they won't work without R installed on your computer.
 
-2.  Click on the download link for your operating system:
+**Installation steps:**
 
-    -   **Download R for Windows**
-    -   **Download R for macOS**
-    -   **Download R for Linux**
+1. Go to the **Comprehensive R Archive Network (CRAN)** website: <https://cran.r-project.org/>
 
-3.  Select the **"base"** distribution (or the latest recommended version for your OS).
+2. Look for the large download button and click on the link for your operating system:
+   - **Download R for Windows** (if you use Windows)
+   - **Download R for macOS** (if you use Mac)
+   - **Download R for Linux** (if you use Linux)
 
-4.  Run the downloaded installer file and follow the on-screen instructions. It is safe to accept all the default settings.
+3. Select the **"base"** distribution (this is the standard R package—other options are for advanced users).
 
-------------------------------------------------------------------------
+4. Run the downloaded installer file:
+   - **Windows:** Double-click the `.exe` file
+   - **macOS:** Double-click the `.pkg` file
+   - **Linux:** Follow the terminal instructions
+
+5. Follow the on-screen prompts. **You can safely accept all default settings**—there's no need to customize anything.
+
+6. Once installation completes, you're done with this step. You don't need to open R yet.
+
+---
 
 ## Step 2: Install an IDE (Choose One)
 
-An Integrated Development Environment (IDE) makes writing and running code much easier. For this training, we recommend RStudio, but advanced users may prefer Positron. You only need to install **one** of them.
+**What is an IDE?** An Integrated Development Environment is a user-friendly application that lets you write, run, and debug R code much more easily than using R directly. Think of it like the difference between writing in a basic text editor versus Microsoft Word.
 
-### Option A: RStudio Desktop (Recommended)
+**Choose one option below:**
 
-RStudio is the classic, widely-used IDE for R.
+### Option A: RStudio Desktop (Recommended for Beginners)
 
-1.  Go to the Posit website to download RStudio: <https://posit.co/download/rstudio-desktop/>
+RStudio is the most popular IDE for R. It has a clean, intuitive interface and is widely used in education and research.
 
-2.  The website should automatically detect your operating system. Click the **"DOWNLOAD RSTUDIO DESKTOP"** button for the free version.
+**Installation steps:**
 
-3.  Run the downloaded installer file and follow the on-screen instructions. The default settings are fine.
+1. Go to the Posit website: <https://posit.co/download/rstudio-desktop/>
 
-### Option B: Positron (Alternative for VS Code Users)
+2. The website will automatically detect your operating system. Click the blue **"DOWNLOAD RSTUDIO DESKTOP"** button to get the free version.
 
-Positron is a modern IDE from the creators of RStudio that runs as an extension inside Visual Studio Code (VS Code).
+3. Run the downloaded installer file:
+   - **Windows:** Double-click the `.exe` file
+   - **macOS:** Double-click the `.dmg` file
+   - **Linux:** Follow the terminal instructions
 
-1.  **Install VS Code**: If you don't already have it, download and install Visual Studio Code from <https://code.visualstudio.com/>.
+4. Follow the on-screen prompts. Default settings are fine.
 
-2.  **Install the Positron Extension**:
+5. Once installation completes, you can open RStudio from your applications menu.
 
-    -   Open VS Code.
-    -   Click on the Extensions icon in the activity bar on the left (it looks like four squares).
-    -   Search for `Positron - R IDE` in the marketplace search bar.
-    -   Find the extension published by **Posit** and click **Install**. This will also automatically install the required "R" extension.
+**First launch:** When you open RStudio for the first time, you'll see four panels:
+- **Script Editor** (top-left): Where you write code
+- **Console** (bottom-left): Where code runs and shows results
+- **Environment/History** (top-right): Shows variables and previous commands
+- **Files/Plots/Packages/Help** (bottom-right): File browser and output displays
 
-> After installation, you can open R files and use the R console directly within VS Code, similar to how you would in RStudio.
+### Option B: Positron (Alternative for Advanced Users or VS Code Users)
 
-#### First Steps in Positron (for Beginners)
+Positron is a modern, lightweight alternative developed by Posit (the company behind RStudio). It runs inside Visual Studio Code and is ideal if you're familiar with code editors.
 
-If you are new to VS Code and Positron, here is a quick guide to get you started:
+**When to choose Positron:**
+- You already use Visual Studio Code for other programming
+- You prefer a minimalist, modern interface
+- You want a flexible, customizable development environment
 
-1.  **Open Your Project Folder**:
-    -   In VS Code, go to `File > Open Folder...` and select the main folder for this training (e.g., `somali_stock_training`). This will show all your files in the **Explorer** panel on the left.
-2.  **Find the R Console**:
-    -   Once you open an R script (a file ending in `.R` or `.qmd`), Positron's R tools will become active.
-    -   You can open the R console by going to the main menu `View > Terminal` and ensuring the "R" tab is selected in the bottom panel. You can also use the command palette (`Ctrl+Shift+P`) and search for `R: Create R Terminal`.
-3.  **Arrange Your Workspace**:
-    -   The VS Code interface is flexible. A common layout is:
-        -   **Editor** (top-center) for your R scripts.
-        -   **R Console** (bottom-center) to see command output.
-        -   **Positron Panes** (left or right sidebars) for Environment, Plots, Help, and Packages. You can open these from the "R" icon in the activity bar on the far left.
-4.  **Run R Code**:
-    -   Open an R script (e.g., a `.qmd` file from the `presentations` folder).
-    -   Place your cursor on a line of R code inside a code chunk.
-    -   Press **`Ctrl+Enter`** (on Windows/Linux) or **`Cmd+Enter`** (on macOS) to run that single line. The code will execute in the R console.
+**Installation steps:**
 
-------------------------------------------------------------------------
+1. **Install VS Code** (if you don't already have it):
+   - Download from <https://code.visualstudio.com/>
+   - Run the installer and follow defaults
+
+2. **Install Positron extension**:
+   - Open VS Code
+   - Click the **Extensions icon** on the left sidebar (four squares)
+   - Search for `Positron - R IDE`
+   - Click the result published by **Posit** and click **Install**
+   - This will also automatically install the R extension
+
+3. Once installation completes, restart VS Code. Positron is now ready to use.
+
+#### Getting Started with Positron (Quick Guide)
+
+**If you're new to VS Code and Positron:**
+
+1. **Open Your Project Folder**:
+   - Go to `File > Open Folder...`
+   - Select the main training folder (e.g., `somali_stock_training`)
+   - The left sidebar **Explorer** will show all your files
+
+2. **Open the R Console**:
+   - Open any R file (files ending in `.R` or `.qmd`)
+   - Go to `View > Terminal` or press **Ctrl+`** (backtick)
+   - Select the **R** tab in the bottom panel
+   - You should see an `>` prompt ready for commands
+
+3. **Arrange Your Workspace** (Optional):
+   - **Editor** (top-center): Where you write code
+   - **R Console** (bottom-center): Where code runs
+   - **Positron Sidebar** (left): Click the **R icon** to access Environment, Plots, Packages, Help
+   - Drag panels to rearrange as you prefer
+
+4. **Run R Code**:
+   - Click in a line of R code inside a code chunk
+   - Press **Ctrl+Enter** (Windows/Linux) or **Cmd+Enter** (macOS)
+   - The code executes in the R console below
+
+---
 
 ## Step 3: Install Required R Packages
 
-Packages are collections of functions and data that extend R's capabilities. We will install them from within your chosen IDE (RStudio or Positron/VS Code).
+**What are packages?** Packages are collections of pre-written functions that solve specific problems. Our training uses specialized packages for fisheries analysis, data visualization, and stock assessment.
 
-1.  Open the **RStudio** or **VS Code** application.
+**The packages we need:**
+- **tidyverse**: Data manipulation and visualization (essential for almost all analyses)
+- **LBSPR**: Length-Based Spawning Potential Ratio calculations
+- **TropFishR**: Tropical fisheries stock assessment methods
+- **sizeMat**: Estimating size at maturity
+- **readxl**: Reading Excel files
+- **janitor**: Data cleaning helpers
+- **tidyplots**: Easy, professional plotting
+- **gt**: Creating beautiful tables
 
-2.  Find the panel labeled **"Console"**. This is where you can type commands directly to R.
+**Installation steps:**
 
-3.  Copy the following command, paste it into the console, and press **Enter**.
+1. Open your IDE (**RStudio** or **VS Code with Positron**).
 
-``` r
+2. Find the **Console panel**—this is where you type commands directly to R.
+
+3. Copy the entire command below, paste it into the console, and press **Enter**:
+
+```r
 #| eval: false
 #| echo: true
+#| code-summary: "Install required packages"
 
-install.packages(c("tidyverse", "LBSPR", "readxl", "janitor", "tidyplots"))
+install.packages(c("tidyverse", "LBSPR", "readxl", "janitor", "tidyplots", "sizeMat", "TropFishR"))
 ```
 
-4.  R will now download and install these packages from the internet. This may take a few minutes. You might see a lot of text printed in the console, which is normal. If you are asked `Do you want to install from sources the packages which need compilation?`, it is usually safe to type `No` and press Enter.
+4. **What happens next:**
+   - R will download the packages from the internet (this takes 5-15 minutes depending on speed)
+   - You'll see lots of text in the console—this is normal
+   - R may ask: `Do you want to install from sources the packages which need compilation?`
+     - Type `No` and press Enter (safer and faster)
+   - When done, you'll see the `>` prompt again
 
-------------------------------------------------------------------------
+5. **Troubleshooting:**
+   - If you get errors about missing dependencies, it's usually safe to run the command again
+   - If a package fails, you can install it individually: `install.packages("PackageName")`
+   - Internet connection issues? Try again or contact us for help
+
+---
 
 ## Step 4: Verify Your Installation
 
-Let's make sure everything is working correctly.
+**What we're doing:** Testing that everything works correctly before training starts.
 
-1.  In the R console within your IDE, type the following commands one by one, pressing **Enter** after each one.
+**Verification steps:**
 
-``` r
+1. In the R console, type the following commands **one at a time**, pressing **Enter** after each:
+
+```r
 #| eval: false
 #| echo: true
+#| code-summary: "Verify package installation"
 
 library(tidyverse)
 library(LBSPR)
 ```
 
-2.  If the commands run without any `Error:` messages (warnings are okay), then your installation was successful! You are now ready for the training session.
+2. **Expected result:**
+   - If you see text that looks like "Loading required package: ..." without any red error messages, your installation is successful!
+   - **Warnings** (yellow text) are okay—they're informational only
+   - **Errors** (red text starting with "Error:") mean something is wrong
 
-If you encounter any problems during this setup, please don't hesitate to ask for help.
+3. **Troubleshooting**:
+   - If you get an error, note the exact text and share it with us
+   - Common issue: You may need to restart R (go to `Session > Restart R`)
+   - Still having problems? Check your internet connection and try the package installation again
+
+---
+
+## You're Ready!
+
+If you reached this point without errors, **congratulations!** Your computer is fully set up for the training session. 
+
+**Before training starts, please:**
+- Verify that RStudio or Positron launches without errors
+- Test that you can see the R console
+- Bookmark this guide in case you need to reference it during the training
+
+**Still having issues?** Contact us before training begins with:
+- Your operating system (Windows/Mac/Linux)
+- The exact error messages you received
+- A screenshot of the error (if possible)
+
+We're here to help!

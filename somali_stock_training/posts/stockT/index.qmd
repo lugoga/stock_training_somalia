@@ -1,0 +1,95 @@
+---
+title: "Launch of Somali Fisheries Stock Assessment Training"
+author: 
+    - name: "Masumbuko Semba"
+      affiliation: "Nelson Mandela African Institution of Science and Technology"
+date: "2025-12-13"
+categories: [training, stock assessment, capacity building]
+description: "The inaugural day of the Somali Fisheries Stock Assessment Training program, featuring opening remarks and expert-led sessions on fundamental assessment concepts."
+---
+
+## A Historic Beginning
+
+The Somali Fisheries Stock Assessment Training program officially launched today at White Sands Hotel, bringing together fisheries professionals from Somalia and leading experts from the Tanzania Fisheries Research Institute (TAFIRI) to advance the science and practice of fish stock assessment in the Indian Ocean region.
+
+## Opening Remarks
+
+![TAFIRI Director General Dr Ismael Kimirei addresses delegates from Somalia during the opening ceremony of the fish stock assessment training at White Sands Hotel](DSC_2677.JPG)
+
+The training was formally opened by **Dr Ismael Kimirei, Director General of TAFIRI**, who emphasized the critical importance of science-based fisheries management for sustainable development in the region. Dr Kimirei highlighted how robust stock assessment methods provide the foundation for evidence-based decision-making, protecting both marine ecosystems and the livelihoods of fishing communities.
+
+## Key Messages from Day One
+
+### Why This Training Matters
+
+The training addresses a critical capacity gap in East African fisheries. Many stocks, particularly in Somalia's waters, are assessed using data-limited methods due to:
+
+- **Limited age data**: Otoliths and scales are rarely available for tropical species
+- **Incomplete catch records**: Not all fish landed are formally recorded
+- **Resource constraints**: Dedicated research vessels are expensive
+- **Rapid changes**: Fish stocks fluctuate, requiring adaptive management
+
+This training equips participants with practical, science-based methods that work with available data—no excuses, just solutions.
+
+### Curriculum Overview
+
+Participants will progress through six interconnected modules:
+
+1. **Fundamentals of Stock Assessment** - Biological parameters and population dynamics
+2. **Fisheries Data Collection** - Sampling design and quality assurance
+3. **Length-Based Assessment Methods** - Practical approaches for data-limited stocks
+4. **Data Processing and Management** - From field to database
+5. **Data Analysis and Interpretation** - Growth, mortality, and stock status estimation
+6. **Field Exercises** - Real-world application at landing sites
+
+## Meet the Participants and Experts
+
+![A group photo of delegates from Somalia and TAFIRI experts in fish stock assessment and management at White Sands Hotel](DSC_2667%20(1).JPG)
+
+The training brings together:
+
+- **Fisheries professionals from Somalia** representing government agencies, fishing associations, and research institutions
+- **Expert trainers from TAFIRI** with decades of experience in tropical fisheries assessment
+- **International collaborators** contributing specialized knowledge in length-based methods and data-limited assessment
+
+This diverse group shares a common commitment: ensuring that Somali fisheries are managed sustainably, with evidence at the center of every decision.
+
+## Networking and Collaboration
+
+![Director General Dr Ismael Kimirei engages with training participants](DSC_2675.JPG)
+
+Beyond the classroom, the training creates opportunities for informal knowledge exchange. Informal conversations between Somali managers and TAFIRI scientists are already yielding insights into regional priorities, data challenges, and potential collaborative research partnerships.
+
+## What's Ahead
+
+Over the coming weeks, participants will:
+
+- Learn to classify fish by maturity status using morphological approaches
+- Estimate growth parameters from length-frequency data using ELEFAN
+- Calculate mortality rates and fishing pressure
+- Apply the Length-Based Spawning Potential Ratio (LBSPR) method
+- Interpret results and translate findings into management advice
+
+## The Road to Sustainable Fisheries
+
+This training represents a significant investment in regional capacity. By strengthening assessment skills in Somalia, we take steps toward:
+
+- **Better management**: Science-informed decisions about fishing limits and regulations
+- **Resilience**: Protecting stocks from overfishing and ensuring long-term productivity
+- **Equity**: Ensuring fishing communities benefit from sustainable rather than exploitative practices
+- **Regional cooperation**: Building a network of assessment expertise across East Africa
+
+## Looking Forward
+
+The energy and commitment visible on Day One are excellent indicators of the training's potential impact. Participants are engaged, asking sharp questions, and eager to apply these methods to their own stocks when they return home.
+
+The journey toward evidence-based fisheries management in Somalia has begun.
+
+---
+
+**Training Team:**
+- Dr. Rushingisha George (TAFIRI)
+- Dr. Masumbuko Semba (Nelson Mandela African Institution of Science and Technology)
+- Dr. Mathew Silas (Deep Sea Fishing Authority)
+- Dr. Catherine Mwakosya (TAFIRI Director General)
+- Dr. Alistidia Mwijage (TAFIRI Director General)

@@ -1,0 +1,703 @@
+---
+title: "Determination Size at Maturity"
+subtitle: "Selected species of tuna and tuna-like fish in Somalia Water"
+author: "Rushingisha George, Masumbuko Semba, and Mathew Silas"
+format: html
+date: "2025-12-16"
+date-modified: today
+toc: true
+lot: true
+lof: true
+embed-resources: true
+execute: 
+  echo: true
+  error: false
+  comment: ""
+  warning: false
+  message: false
+
+code-fold: show
+
+---
+
+**What we're doing:** Load the R packages required for maturity analysis and data visualization.
+
+```{r}
+# Load required libraries
+library(tidyverse)      # Data manipulation and visualization
+library(sizeMat)        # For morphological maturity analysis
+library(gt)             # For professional tables
+require(TropFishR)      # Tropical fisheries methods (if needed)
+```
+
+# Introduction
+
+This document serves as a step-by-step exercise to determine the size at maturity (L50) for several commercially important fish species in Somalia. We will use a morphological method, which classifies fish as mature or immature based on their length-weight relationship.
+
+The exercise will proceed as follows:
+
+1. Load and prepare the length-weight data.
+2. Explain the core functions from the `sizeMat` package.
+3. Apply the analysis to each fish species one by one.
+4. Combine the results into a summary plot and table for comparison.
+
+# Method
+
+## Data Preparation
+
+**What we're doing:** Load the fisheries dataset containing length and weight measurements for various fish species.
+
+```{r}
+lw = read_csv("lw2.csv")
+```
+
+### Identify Species with Sufficient Data
+
+**What we're doing:** Filter for fish species with at least 200 recorded individuals to ensure statistical reliability.
+
+**Why it matters:** Species with few observations produce unreliable estimates. Focusing on well-sampled species ensures robust maturity determinations.
+
+```{r}
+fishes = lw |> 
+  group_by(fish_type_code) |> 
+  tally() |> 
+  arrange(desc(n)) |> 
+  filter(n > 200) |> 
+  pull(fish_type_code)
+
+# Use these key tuna and mackerel species
+fishes = c("YFT", "SKJ", "KAW", "JAC", "LOT", "MAH", "SCH", "BET")
+```
+
+### Create Species Reference Table
+
+**What we're doing:** Build a lookup table mapping FAO species codes to common and scientific names.
+
+**Why it matters:** Clear species identification ensures accurate communication and proper interpretation of results.
+
+```{r}
+fish_name <- tibble(
+  FAO_Code = c("YFT", "SKJ", "KAW", "JAC", "LOT", "MAH", "SCH", "BET"),
+  English_Name = c("Yellowfin tuna", "Skipjack tuna", "Kawakawa", "Jack mackerel", 
+                   "Longtail tuna", "Mahi-mahi", "Chub mackerel", "Bigeye tuna"),
+  Scientific_Name = c("Thunnus albacares", "Katsuwonus pelamis", "Euthynnus affinis", 
+                      "Trachurus spp.", "Thunnus tonggol", "Coryphaena hippurus", 
+                      "Scomber japonicus", "Thunnus obesus")
+)
+
+fish_name
+```
+
+### Inspect Dataset Structure
+
+**What we're doing:** Display the column names and data types in the dataset.
+
+**What to look for:** Ensure date, length, weight, and species columns are present and correctly formatted.
+
+```{r}
+lw |> 
+    glimpse()
+```
+
+## Fish Groups Analysis
+
+In the following sections, we will perform the size-at-maturity analysis for several key tuna and mackerel species. For each species, we:
+1. Filter the data to that species
+2. Classify fish as mature or immature using morphological criteria
+3. Model the maturity ogive to estimate L50 (length at 50% maturity)
+
+### Yellowfin Tuna
+
+**What we're doing:** Filter the dataset to create a subset containing only Yellowfin Tuna (YFT).
+
+**Why start here:** Yellowfin is a well-studied, commercially important species with good sample sizes.
+
+```{r}
+yft = lw |> 
+    filter(fish_type_code == 'YFT')
+```
+
+### Maturity Classification using Linear Discriminant Analysis
+
+**What we're doing:** Use the `classify_mature()` function to separate fish into mature and immature groups based on their length-weight relationship.
+
+**How it works:**
+- Linear discriminant analysis (LDA) finds the boundary that best separates mature from immature fish in length-weight space
+- Creates a new `mature` column indicating classification for each fish
+- Works best when there's a clear separation between groups in the data
+
+**Why it matters:** This classification is the foundation for the subsequent ogive fitting and L50 estimation.
+
+```{r}
+## Partitioning with Linear Discriminant Analysis
+classified_yft <- yft |> 
+  classify_mature(
+    varNames = c("length_cm", "weight_kg"),  # Variables to use for classification
+    varSex = NULL,                            # No sex data available
+    selectSex = NULL,
+    method = "ld"                             # Linear discriminant method
+  )
+
+classified_yft
+```
+
+### Visualize Classification Results
+
+**What we're doing:** Plot the classified fish on a length-weight scatter plot to visually inspect classification quality.
+
+**What to look for:**
+- Clear spatial separation between mature (upper right) and immature (lower left) groups
+- Few misclassified points in the overlap region
+- Good coverage of the entire range
+
+```{r}
+classified_yft |> 
+  plot(
+    main = 'Maturity Classification: Yellowfin Tuna',
+    xlab = 'Length (cm)', 
+    ylab = 'Weight (kg)',
+    cex.main = 1.5,
+    cex.lab = 1.2,
+    cex.axis = 1
+  )
+```
+
+### Fit Maturity Ogive
+
+**What we're doing:** Model the maturity classification with a logistic regression curve using 1000 bootstrap samples.
+
+**What this produces:**
+- A smooth S-shaped (logistic) curve showing proportion mature at each length
+- Estimates of L50 (length at 50% maturity) and L95 (length at 95% maturity)
+- Bootstrap confidence intervals around these estimates
+
+**Why 1000 iterations:** Bootstrap resampling with 1000 iterations provides stable estimates and quantifies uncertainty in L50.
+
+```{r}
+yft_ogive_fq <- classified_yft |> 
+  morph_mature(
+    method = "fq",      # Frequentist method using logistic regression
+    niter = 1000        # 1000 bootstrap samples for stable estimates
+  )
+```
+
+### Plot Maturity Ogive
+
+**What we're doing:** Display the fitted maturity curve showing the proportion of mature fish at each length.
+
+**What it shows:**
+- X-axis: Length (cm)
+- Y-axis: Proportion of mature individuals (0 to 1)
+- S-shaped curve typical of logistic maturity schedules
+- L50 is where the curve crosses 0.5 (50% maturity)
+
+```{r}
+yft_ogive_fq |> 
+    plot(
+    main = 'Maturity Ogive: Yellowfin Tuna',
+    xlab = 'Length (cm)', 
+    ylab = 'Proportion Mature',
+    cex.main = 1.5,
+    cex.lab = 1.2,
+    cex.axis = 1, 
+    onlyOgive = TRUE
+  )
+```
+
+### Bigeye Tuna
+
+**What we're doing:** Repeat the maturity analysis for Bigeye Tuna (BET).
+
+```{r}
+bigeye = lw |> 
+    filter(fish_type_code == 'BET')
+```
+
+```{r}
+## Partitioning with Linear Discriminant Analysis
+classified_bet <- bigeye |> 
+  classify_mature(
+    varNames = c("length_cm", "weight_kg"),
+    varSex = NULL, 
+    selectSex = NULL,
+    method = "ld"
+  )
+
+classified_bet
+```
+
+```{r}
+classified_bet |> 
+  plot(
+    main = 'Maturity Classification: Bigeye Tuna',
+    xlab = 'Length (cm)', 
+    ylab = 'Weight (kg)',
+    cex.main = 1.5,
+    cex.lab = 1.2,
+    cex.axis = 1
+  )
+```
+
+```{r}
+bet_ogive_fq <- morph_mature(
+    data = classified_bet, 
+    method = "fq", 
+    niter = 1000
+)
+```
+
+```{r}
+bet_ogive_fq |> 
+    plot(
+    main = 'Maturity Ogive: Bigeye Tuna',
+    xlab = 'Length (cm)', 
+    ylab = 'Proportion Mature',
+    cex.main = 1.5,
+    cex.lab = 1.2,
+    cex.axis = 1, 
+    onlyOgive = TRUE
+)
+```
+
+### Skipjack Tuna
+
+**What we're doing:** Analyze maturity for Skipjack Tuna (SKJ).
+
+```{r}
+skj = lw |> 
+    filter(fish_type_code == 'SKJ')
+```
+
+```{r}
+## Partitioning with Linear Discriminant Analysis
+classified_skj <- skj |> 
+  classify_mature(
+    varNames = c("length_cm", "weight_kg"),
+    varSex = NULL, 
+    selectSex = NULL,
+    method = "ld"
+  )
+
+classified_skj
+```
+
+```{r}
+classified_skj |> 
+  plot(
+    main = 'Maturity Classification: Skipjack Tuna',
+    xlab = 'Length (cm)', 
+    ylab = 'Weight (kg)',
+    cex.main = 1.5,
+    cex.lab = 1.2,
+    cex.axis = 1
+  )
+```
+
+```{r}
+skj_ogive_fq <- morph_mature(
+    data = classified_skj, 
+    method = "fq", 
+    niter = 1000
+)
+```
+
+```{r}
+skj_ogive_fq |> 
+    plot(
+    main = 'Maturity Ogive: Skipjack Tuna',
+    xlab = 'Length (cm)', 
+    ylab = 'Proportion Mature',
+    cex.main = 1.5,
+    cex.lab = 1.2,
+    cex.axis = 1, 
+    onlyOgive = TRUE
+)
+```
+
+### Kawakawa
+
+**What we're doing:** Analyze maturity for Kawakawa (KAW).
+
+```{r}
+kaw = lw |> 
+    filter(fish_type_code == 'KAW')
+```
+
+```{r}
+## Partitioning with Linear Discriminant Analysis
+classified_kaw <- kaw |> 
+  classify_mature(
+    varNames = c("length_cm", "weight_kg"),
+    varSex = NULL, 
+    selectSex = NULL,
+    method = "ld"
+  )
+
+classified_kaw
+```
+
+```{r}
+classified_kaw |> 
+  plot(
+    main = 'Maturity Classification: Kawakawa',
+    xlab = 'Length (cm)', 
+    ylab = 'Weight (kg)',
+    cex.main = 1.5,
+    cex.lab = 1.2,
+    cex.axis = 1
+  )
+```
+
+```{r}
+kaw_ogive_fq <- morph_mature(
+    data = classified_kaw, 
+    method = "fq", 
+    niter = 1000
+)
+```
+
+```{r}
+kaw_ogive_fq |> 
+    plot(
+    main = 'Maturity Ogive: Kawakawa',
+    xlab = 'Length (cm)', 
+    ylab = 'Proportion Mature',
+    cex.main = 1.5,
+    cex.lab = 1.2,
+    cex.axis = 1, 
+    onlyOgive = TRUE
+)
+```
+
+### Jack Mackerel
+
+**What we're doing:** Analyze maturity for Jack Mackerel (JAC).
+
+```{r}
+jac = lw |> 
+    filter(fish_type_code == 'JAC')
+```
+
+```{r}
+## Partitioning with Linear Discriminant Analysis
+classified_jac <- jac |> 
+  classify_mature(
+    varNames = c("length_cm", "weight_kg"),
+    varSex = NULL, 
+    selectSex = NULL,
+    method = "ld"
+  )
+
+classified_jac
+```
+
+```{r}
+classified_jac |> 
+  plot(
+    main = 'Maturity Classification: Jack Mackerel',
+    xlab = 'Length (cm)', 
+    ylab = 'Weight (kg)',
+    cex.main = 1.5,
+    cex.lab = 1.2,
+    cex.axis = 1
+  )
+```
+
+```{r}
+jac_ogive_fq <- morph_mature(
+    data = classified_jac, 
+    method = "fq", 
+    niter = 1000
+)
+```
+
+```{r}
+jac_ogive_fq |> 
+    plot(
+    main = 'Maturity Ogive: Jack Mackerel',
+    xlab = 'Length (cm)', 
+    ylab = 'Proportion Mature',
+    cex.main = 1.5,
+    cex.lab = 1.2,
+    cex.axis = 1, 
+    onlyOgive = TRUE
+)
+```
+
+### Longtail Tuna
+
+**What we're doing:** Analyze maturity for Longtail Tuna (LOT).
+
+```{r}
+lot = lw |> 
+    filter(fish_type_code == 'LOT')
+```
+
+```{r}
+## Partitioning with Linear Discriminant Analysis
+classified_lot <- lot |> 
+  classify_mature(
+    varNames = c("length_cm", "weight_kg"),
+    varSex = NULL, 
+    selectSex = NULL,
+    method = "ld"
+  )
+
+classified_lot
+```
+
+```{r}
+classified_lot |> 
+  plot(
+    main = 'Maturity Classification: Longtail Tuna',
+    xlab = 'Length (cm)', 
+    ylab = 'Weight (kg)',
+    cex.main = 1.5,
+    cex.lab = 1.2,
+    cex.axis = 1
+  )
+```
+
+```{r}
+lot_ogive_fq <- morph_mature(
+    data = classified_lot, 
+    method = "fq", 
+    niter = 1000
+)
+```
+
+```{r}
+lot_ogive_fq |> 
+    plot(
+    main = 'Maturity Ogive: Longtail Tuna',
+    xlab = 'Length (cm)', 
+    ylab = 'Proportion Mature',
+    cex.main = 1.5,
+    cex.lab = 1.2,
+    cex.axis = 1, 
+    onlyOgive = TRUE
+)
+```
+
+### Mahi-mahi
+
+**What we're doing:** Analyze maturity for Mahi-mahi (MAH).
+
+```{r}
+mah = lw |> 
+    filter(fish_type_code == 'MAH')
+```
+
+```{r}
+## Partitioning with Linear Discriminant Analysis
+classified_mah <- mah |> 
+  classify_mature(
+    varNames = c("length_cm", "weight_kg"),
+    varSex = NULL, 
+    selectSex = NULL,
+    method = "ld"
+  )
+
+classified_mah
+```
+
+```{r}
+classified_mah |> 
+  plot(
+    main = 'Maturity Classification: Mahi-mahi',
+    xlab = 'Length (cm)', 
+    ylab = 'Weight (kg)',
+    cex.main = 1.5,
+    cex.lab = 1.2,
+    cex.axis = 1
+  )
+```
+
+```{r}
+mah_ogive_fq <- morph_mature(
+    data = classified_mah, 
+    method = "fq", 
+    niter = 1000
+)
+```
+
+```{r}
+mah_ogive_fq |> 
+    plot(
+    main = 'Maturity Ogive: Mahi-mahi',
+    xlab = 'Length (cm)', 
+    ylab = 'Proportion Mature',
+    cex.main = 1.5,
+    cex.lab = 1.2,
+    cex.axis = 1, 
+    onlyOgive = TRUE
+)
+```
+
+### Chub Mackerel
+
+**What we're doing:** Analyze maturity for Chub Mackerel (SCH).
+
+```{r}
+sch = lw |> 
+    filter(fish_type_code == 'SCH')
+```
+
+```{r}
+## Partitioning with Linear Discriminant Analysis
+classified_sch <- sch |> 
+  classify_mature(
+    varNames = c("length_cm", "weight_kg"),
+    varSex = NULL, 
+    selectSex = NULL,
+    method = "ld"
+  )
+
+classified_sch
+```
+
+**What we're doing:** Visualize the classification results for Chub Mackerel.
+
+```{r}
+classified_sch |> 
+  plot(
+    main = 'Maturity Classification: Chub Mackerel',
+    xlab = 'Length (cm)', 
+    ylab = 'Weight (kg)',
+    cex.main = 1.5,
+    cex.lab = 1.2,
+    cex.axis = 1
+  )
+```
+
+```{r}
+sch_ogive_fq <- morph_mature(
+    data = classified_sch, 
+    method = "fq", 
+    niter = 1000
+)
+```
+
+```{r}
+sch_ogive_fq |> 
+    plot(
+    main = 'Maturity Ogive: Chub Mackerel',
+    xlab = 'Length (cm)', 
+    ylab = 'Proportion Mature',
+    cex.main = 1.5,
+    cex.lab = 1.2,
+    cex.axis = 1, 
+    onlyOgive = TRUE
+)
+```
+
+# Combined Maturity Ogives
+
+**What we're doing:** Automate the entire analysis for all species and create a multi-panel figure for easy visual comparison of maturity schedules across species.
+
+**The loop:**
+
+- Iterates through all eight species
+- Classifies each using LDA
+- Fits maturity ogives with bootstrap resampling
+- Extracts L50, L95, and other parameters
+- Creates an 8-panel figure showing all ogives together
+
+**Why combine them:** Side-by-side comparison reveals differences in maturity schedules between species, which is important for species-specific management strategies.
+
+```{r}
+#| label: fig-ogive
+#| fig-cap: "Maturity ogives for eight commercially important fish species from Somalian waters. Each panel displays the logistic regression curve representing the proportion of mature individuals as a function of their length (cm). The maturity classification was determined using a morphological approach based on length-weight data."
+
+par(mfrow = c(2, 4))
+
+ogive = list()
+lf_tb = list()
+
+for (i in 1:length(fishes)){
+
+    classified = lw |> 
+      ## select species
+      filter(fish_type_code == fish_name$FAO_Code[i]) |> 
+      # classify using linear discriminant analysis
+      classify_mature(
+        varNames = c("length_cm", "weight_kg"),
+        varSex = NULL, 
+        selectSex = NULL,
+        method = "ld"
+      ) 
+      
+    # fit maturity ogive with 1000 bootstrap samples
+    morph = classified |>  
+      morph_mature(
+        method = "fq", 
+        niter = 1000
+    )
+
+    ogive[[i]] = morph
+
+    # Extract and store L50 and other parameters
+    lf_tb[[i]] = morph |> 
+        print() |> 
+        as.data.frame() |> 
+        as_tibble() |> 
+        mutate(Freq = as.numeric(Freq)) |> 
+        pivot_wider(names_from = Var1 , values_from  = Freq) |> 
+        mutate(
+          species = fish_name$English_Name[i], 
+          scientific = fish_name$Scientific_Name[i]
+          ) |> 
+        slice(1)
+
+    # Plot maturity ogive for this species
+    morph |> 
+        plot(
+        main = paste(fish_name$English_Name[i], sep = " "),
+        xlab = 'Length (cm)', 
+        ylab = 'Proportion Mature',
+        cex.main = 1.5,
+        cex.lab = 1.2,
+        cex.axis = 1, 
+        onlyOgive = TRUE
+    )
+}
+```
+
+# Summary Table of Results
+
+**What we're doing:** Compile all L50 estimates and ogive parameters into a comprehensive table for easy reference and comparison.
+
+**Table columns:**
+- **Species & Scientific name:** Fish identification
+- **A & B:** Logistic curve parameters (intercept and slope)
+- **L50:** Length (cm) at 50% maturity—key reference point for management
+- **R²:** Goodness of fit (closer to 1.0 is better)
+
+```{r}
+#| label: tbl-ogive
+#| tbl-cap: "Summary of the morphological size-at-maturity analysis for selected fish species. The table displays the estimated parameters from the logistic regression model: intercept (A), slope (B), length at 50% maturity (L50), and the coefficient of determination (R²)."
+
+lf_tb |> bind_rows() |> 
+  dplyr::select(-1) |> 
+  relocate(c(species, scientific), .before = A) |> 
+  gt() |> 
+    fmt_number(columns = everything(), decimals = 2) |> 
+    fmt_missing(columns = everything(), missing_text = '-') |> 
+    cols_label(
+        species ~ 'Fish Type',
+        scientific ~ 'Scientific Name',
+        L50 ~ md('L~50~ (cm)'),
+        R2 ~ md('R^2^')
+    ) |>
+    tab_spanner(columns = c('A', 'B'), label = 'Ogive Parameters') |> 
+    tab_options(data_row.padding = px(5), table.font.size = '10pt') |> 
+    cols_width(
+        species ~ px(160),
+        scientific ~ px(180),
+        A ~ px(120),
+        B ~ px(70),
+        L50 ~ px(70),
+        R2 ~ px(70)
+    ) |> 
+    tab_footnote(footnote = 'A = intercept of the logistic curve; B = slope of the logistic curve', 
+                 locations = cells_column_labels(columns = c('A', 'B')))
