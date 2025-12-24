@@ -118,6 +118,13 @@ Training implemented across 6 regions:
 5. **Baidoa** - Inland
 6. **Galkacyo** - Northeast
 
+### Key Landing Sites
+
+Active monitoring sites for practical field exercises:
+- **Casco Port** - Active fishing landing site
+- **China Port** - Major landing and processing hub
+- **Panama Port** - Coastal landing facility
+
 ## 📈 Implementation Timeline
 
 - **2024:** Complete training & establish national committee

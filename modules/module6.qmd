@@ -6,6 +6,16 @@ title: "Module 6: Practical Field Exercises at Landing Sites"
 
 Hands-on training at operational landing sites brings modules 1-5 into practice. This day-long exercise demonstrates real-world fisheries monitoring.
 
+## Training Locations
+
+Field exercises will be conducted at three key landing sites:
+
+- **Casco Port** - Active fishing port with diverse species
+- **China Port** - Major landing and processing facility
+- **Panama Port** - Coastal landing site with daily operations
+
+Each site provides unique learning opportunities and exposure to different operational contexts.
+
 ## Learning Objectives
 
 By the end of this module, participants will:
