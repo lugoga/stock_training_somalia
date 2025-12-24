@@ -1,0 +1,11 @@
+boat_id,catch_id,fish_id,date_dd_mm_yy,year,month,day,region,landing_site,vessel_id,fish_type_code,fish_index,weight_kg,length_cm,fish_group,notes,kobo_section_1_index,kobo_section_2_index,kobo_section_3_index
+101,201,301,2025-12-19T00:00:00Z,2025,Dec,19,Mogadishu,Casco Port,101,YFT,1,8.2,78,Tuna,Field training day,1,1,1
+101,201,302,2025-12-19T00:00:00Z,2025,Dec,19,Mogadishu,Casco Port,101,YFT,2,7.5,75,Tuna,Field training day,1,1,2
+101,201,303,2025-12-19T00:00:00Z,2025,Dec,19,Mogadishu,Casco Port,101,KAW,3,5.1,65,Tuna,Field training day,1,1,3
+102,202,304,2025-12-19T00:00:00Z,2025,Dec,19,Mogadishu,China Port,102,MAH,1,10.2,125,Other,Large commercial port,1,2,1
+102,202,305,2025-12-19T00:00:00Z,2025,Dec,19,Mogadishu,China Port,102,SWO,2,45.5,185,Other,Large commercial port,1,2,2
+102,202,306,2025-12-19T00:00:00Z,2025,Dec,19,Mogadishu,China Port,102,YFT,3,9.8,82,Tuna,Large commercial port,1,2,3
+103,203,307,2025-12-19T00:00:00Z,2025,Dec,19,Berbera,Panama Port,103,SKJ,1,4.8,58,Tuna,Coastal landing site,1,3,1
+103,203,308,2025-12-19T00:00:00Z,2025,Dec,19,Berbera,Panama Port,103,YFT,2,6.9,72,Tuna,Coastal landing site,1,3,2
+103,203,309,2025-12-19T00:00:00Z,2025,Dec,19,Berbera,Panama Port,103,ALB,3,12.5,95,Tuna,Coastal landing site,1,3,3
+103,203,310,2025-12-19T00:00:00Z,2025,Dec,19,Berbera,Panama Port,103,BET,4,15.2,105,Tuna,Coastal landing site,1,3,4
