@@ -806,6 +806,29 @@ Using the provided `lw` dataset from Somali landing sites:
 
 4.  **Propose Improvements:** Based on your review, suggest 2-3 practical steps to improve data collection for stock assessment in your region.
 
+---
+
+## Somalia's Key Landing Sites {.smaller}
+
+**Northern Coast (Gulf of Aden):**
+
+- **Berbera Port** - Major commercial hub
+- **Bosaso (Bossaso) Port** - Puntland fishing center
+- **Zeila** - Traditional fishing site
+
+**Mogadishu Coastal Landing Sites:**
+
+- **Lido Beach** - Popular artisanal site
+- **Panama Beach** - Active fishing operations
+- **Jazeera Beach** - Commercial landings
+
+**Southern Coast (Indian Ocean):**
+
+- **Kismayo Port** - Major southern hub
+- **Merca** - Coastal fishing town  
+- **Barawe** - Historic fishing port
+
+These sites should be considered when planning fisheries data collection programs.
 
 ---
 

@@ -46,6 +46,29 @@ lw = lw |>
 
 This section provides an overview of the landing sites by region.
 
+::: {.callout-note}
+## Major Somalia Landing Sites
+
+For reference, Somalia's main fishing ports and landing sites include:
+
+**Northern Coast (Gulf of Aden):**
+- Berbera Port
+- Bosaso (Bossaso) Port  
+- Zeila
+
+**Mogadishu Region:**
+- Lido Beach
+- Panama Beach
+- Jazeera Beach
+
+**Southern Coast:**
+- Kismayo Port
+- Merca
+- Barawe
+
+For detailed information, see the [Somalia Landing Sites Reference](resources/somali_landing_sites.qmd).
+:::
+
 ```{r}
 lw |> 
     distinct(landing_site, .keep_all = T) |> 
