@@ -1,0 +1,172 @@
+---
+title: "Somalia Fishing Ports and Landing Sites Reference"
+subtitle: "Key Data Collection Points for Stock Assessment"
+date: "2025-12-24"
+format: html
+---
+
+## Overview
+
+This document provides reference information on major fishing ports and landing sites across Somalia's extensive coastline. These locations serve as critical data collection points for fisheries monitoring and stock assessment programs.
+
+## Somalia's Coastline
+
+Somalia has one of the longest coastlines in Africa, stretching approximately 3,333 kilometers along:
+- The Gulf of Aden (northern coast)
+- The Indian Ocean (eastern and southern coast)
+
+## Major Fishing Ports and Landing Sites
+
+### Northern Coast (Gulf of Aden Region)
+
+#### **Berbera**
+- **Region**: Somaliland
+- **Coordinates**: Approximately 10°26'N, 45°01'E
+- **Description**: Major commercial fishing hub and Somalia's largest port on the Gulf of Aden
+- **Key Features**: 
+  - Deep-water port facilities
+  - Commercial and artisanal fisheries
+  - Export-oriented fishing operations
+  - Tuna and pelagic species landing
+
+#### **Bosaso (Bossaso/Boosaaso)**
+- **Region**: Puntland
+- **Coordinates**: Approximately 11°17'N, 49°11'E  
+- **Description**: Important fishing and commercial port city, second-largest city in Puntland
+- **Key Features**:
+  - Active fishing fleet
+  - Artisanal and semi-industrial fisheries
+  - Lobster and demersal fish landings
+  - Growing fish market and processing
+
+#### **Zeila (Saylac)**
+- **Region**: Somaliland (near Djibouti border)
+- **Coordinates**: Approximately 11°21'N, 43°28'E
+- **Description**: Historic port town with traditional fishing activities
+- **Key Features**:
+  - Traditional artisanal fisheries
+  - Small-scale landing operations
+  - Historical trading port
+
+### Eastern and Southern Coast (Indian Ocean Region)
+
+#### **Mogadishu**
+- **Region**: Benadir
+- **Coordinates**: Approximately 2°2'N, 45°20'E
+- **Description**: Capital city with multiple active landing sites along its coastline
+
+**Key Landing Sites in Mogadishu:**
+
+1. **Lido Beach**
+   - Popular public beach with active fishing operations
+   - Artisanal fisheries
+   - Direct market access
+   - Used as training site in fisheries programs
+
+2. **Panama Beach**
+   - Active fishing landing site
+   - Artisanal and small-scale commercial operations
+   - Important data collection point
+   - Mixed species landings
+
+3. **Jazeera Beach**
+   - Commercial and artisanal fishing
+   - Fish market nearby
+   - Diverse catch composition
+
+#### **Merca (Marka)**
+- **Region**: Lower Shabelle
+- **Coordinates**: Approximately 1°43'N, 44°46'E
+- **Description**: Coastal fishing town south of Mogadishu
+- **Key Features**:
+  - Artisanal fisheries
+  - Agricultural and fishing community
+  - Local fish markets
+
+#### **Barawe (Brava)**
+- **Region**: Lower Shabelle  
+- **Coordinates**: Approximately 1°6'N, 44°2'E
+- **Description**: Historic coastal town with fishing traditions
+- **Key Features**:
+  - Traditional fishing methods
+  - Small-scale operations
+  - Historic trading port
+
+#### **Kismayo**
+- **Region**: Lower Juba
+- **Coordinates**: Approximately 0°22'S, 42°32'E
+- **Description**: Major southern fishing port and third-largest city
+- **Key Features**:
+  - Industrial and artisanal fisheries
+  - Port facilities
+  - Fish processing potential
+  - Strategic southern location
+
+## Data Collection Considerations
+
+### Key Variables to Monitor at Landing Sites
+
+1. **Catch Data**: Species, quantities, sizes
+2. **Effort Data**: Number of vessels, fishing trips, gear types
+3. **Biological Data**: Length-frequency, weight, maturity, age
+4. **Economic Data**: Prices, market trends, value chains
+5. **Environmental Data**: Sea conditions, temperature, seasonal patterns
+
+### Best Practices for Landing Site Monitoring
+
+1. **Consistency**: Regular sampling schedules
+2. **Standardization**: Uniform measurement protocols across sites
+3. **Training**: Well-trained enumerators at each location
+4. **Quality Control**: Data validation and verification procedures
+5. **Community Engagement**: Collaboration with local fishers and traders
+
+## Regional Priorities
+
+### Immediate Priority Sites (High Activity)
+- Berbera Port
+- Bosaso Port
+- Mogadishu landing sites (Lido, Panama Beach)
+- Kismayo Port
+
+### Secondary Sites (Developing Capacity)
+- Zeila
+- Merca
+- Barawe
+- Other smaller landing sites
+
+## Implementation Strategy
+
+### Phase 1 (2024-2025): Establish Core Sites
+- Deploy trained enumerators at priority sites
+- Standardize data collection protocols
+- Set up data management systems
+
+### Phase 2 (2025-2026): Expand Coverage
+- Add secondary sites
+- Strengthen regional coordination
+- Implement quality control measures
+
+### Phase 3 (2026-2027): Full Network Operation
+- Complete coastal coverage
+- Real-time data sharing
+- Integration with management systems
+
+## References
+
+- FAO. (2005). Fishery Country Profile: Somalia
+- Heritage Institute for Policy Studies. (2020). June 2020 Fisheries Report
+- World Bank. (2016). Somalia Sustainable Fisheries Development Note
+- UNDP. (2004). Feasibility Study on Somaliland Fisheries
+
+## Data Integration
+
+Landing site data from these locations should be:
+- Entered into the Project Kalluun database
+- Quality-checked for consistency
+- Analyzed for temporal and spatial trends
+- Shared with regional and national fisheries authorities
+- Used for stock assessment and management advice
+
+---
+
+**Note**: Coordinates are approximate and should be verified with local authorities and GPS measurements during field visits. Security and logistical conditions should be assessed before establishing monitoring programs at any location.

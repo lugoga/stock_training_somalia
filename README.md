@@ -118,6 +118,26 @@ Training implemented across 6 regions:
 5. **Baidoa** - Inland
 6. **Galkacyo** - Northeast
 
+### Major Fishing Ports and Landing Sites
+
+Somalia's extensive coastline features several key fishing ports and landing sites:
+
+**Northern Coast (Gulf of Aden):**
+- **Berbera Port** - Major commercial fishing hub
+- **Bosaso (Bossaso/Boosaaso) Port** - Important fishing and commercial port in Puntland
+- **Zeila** - Traditional fishing site near Djibouti border
+
+**Eastern and Southern Coast (Indian Ocean):**
+- **Mogadishu** - Capital city with multiple landing sites:
+  - Lido Beach - Popular landing site
+  - Panama Beach - Active fishing landing site
+  - Jazeera Beach - Commercial and artisanal fishing
+- **Kismayo Port** - Southern major fishing port
+- **Merca (Marka)** - Coastal fishing town
+- **Barawe (Brava)** - Historic fishing port
+
+These landing sites serve as critical data collection points for fisheries monitoring and stock assessment programs.
+
 ## 📈 Implementation Timeline
 
 - **2024:** Complete training & establish national committee
