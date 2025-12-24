@@ -39,6 +39,13 @@ By the end of this module, participants will:
 4. **Biological sampling** - collect specimens for analysis
 5. **Data recording** - digital or paper forms
 
+### Example Sites in Somalia
+- **Casco Port** - Daily monitoring operations
+- **China Port** - High-volume landing facility
+- **Panama Port** - Multi-species landing site
+
+These sites serve as training grounds and operational monitoring locations for implementing standardized protocols.
+
 ### Quality Assurance Checks
 - Duplicate measurements
 - Data validation rules
