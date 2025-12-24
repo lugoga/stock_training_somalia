@@ -136,17 +136,17 @@ Somalia has one of the longest coastlines in Africa, stretching approximately 3,
 
 ## Implementation Strategy
 
-### Phase 1 (2024-2025): Establish Core Sites
+### Phase 1 (2025-2026): Establish Core Sites
 - Deploy trained enumerators at priority sites
 - Standardize data collection protocols
 - Set up data management systems
 
-### Phase 2 (2025-2026): Expand Coverage
+### Phase 2 (2026-2027): Expand Coverage
 - Add secondary sites
 - Strengthen regional coordination
 - Implement quality control measures
 
-### Phase 3 (2026-2027): Full Network Operation
+### Phase 3 (2027-2028): Full Network Operation
 - Complete coastal coverage
 - Real-time data sharing
 - Integration with management systems
