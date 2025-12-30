@@ -111,7 +111,7 @@ This form requires a free Web3Forms access key to function. See [SERVERLESS_FORM
   <div class="mb-3 form-check">
     <input type="checkbox" class="form-check-input" id="consent" name="consent" required>
     <label class="form-check-label" for="consent">
-      I agree to be contacted about the training program and understand my information will be used according to the program's privacy policy. *
+      I agree to be contacted about the training program and understand my information will be used only for program coordination and will not be shared with third parties. *
     </label>
     <div class="invalid-feedback">
       You must agree before submitting.
@@ -166,8 +166,24 @@ This form requires a free Web3Forms access key to function. See [SERVERLESS_FORM
     });
     
     // Using Web3Forms API (free tier)
-    // Replace this access key with your own from https://web3forms.com
-    data.access_key = "YOUR_WEB3FORMS_ACCESS_KEY";
+    // IMPORTANT: Replace YOUR_WEB3FORMS_ACCESS_KEY with your actual access key from https://web3forms.com
+    // See SERVERLESS_FORM_SETUP.md for detailed setup instructions
+    const accessKey = "YOUR_WEB3FORMS_ACCESS_KEY";
+    
+    // Check if access key has been configured
+    if (accessKey === "YOUR_WEB3FORMS_ACCESS_KEY") {
+      formMessage.innerHTML = '<div class="alert alert-danger" role="alert"><strong>Configuration Required:</strong> The form has not been configured yet. Please contact us directly at <a href="mailto:contact@tafiri.go.tz">contact@tafiri.go.tz</a> or see <a href="SERVERLESS_FORM_SETUP.md">setup instructions</a>.</div>';
+      submitBtn.disabled = false;
+      btnText.classList.remove('d-none');
+      btnSpinner.classList.add('d-none');
+      return;
+    }
+    
+    data.access_key = accessKey;
+    
+    // Set timeout for fetch request (30 seconds)
+    const controller = new AbortController();
+    const timeoutId = setTimeout(() => controller.abort(), 30000);
     
     fetch('https://api.web3forms.com/submit', {
       method: 'POST',
@@ -175,21 +191,44 @@ This form requires a free Web3Forms access key to function. See [SERVERLESS_FORM
         'Content-Type': 'application/json',
         'Accept': 'application/json'
       },
-      body: JSON.stringify(data)
+      body: JSON.stringify(data),
+      signal: controller.signal
     })
-    .then(response => response.json())
+    .then(response => {
+      clearTimeout(timeoutId);
+      if (!response.ok) {
+        throw new Error(`Server responded with status ${response.status}`);
+      }
+      return response.json();
+    })
     .then(data => {
       if (data.success) {
         formMessage.innerHTML = '<div class="alert alert-success" role="alert"><strong>Success!</strong> Thank you for your registration. We will contact you soon with more details about the training program.</div>';
         form.reset();
         form.classList.remove('was-validated');
       } else {
-        throw new Error(data.message || 'Submission failed');
+        const errorMsg = data.message || 'Submission failed';
+        throw new Error(errorMsg);
       }
     })
     .catch(error => {
       console.error('Error:', error);
-      formMessage.innerHTML = '<div class="alert alert-warning" role="alert"><strong>Notice:</strong> Please send your registration directly to <a href="mailto:contact@tafiri.go.tz">contact@tafiri.go.tz</a> with the details from this form. We apologize for the inconvenience.</div>';
+      
+      // Provide specific error messages based on error type
+      let errorMessage = '<div class="alert alert-warning" role="alert">';
+      
+      if (error.name === 'AbortError') {
+        errorMessage += '<strong>Request Timeout:</strong> The request took too long. Please check your internet connection and try again, or contact us directly at <a href="mailto:contact@tafiri.go.tz">contact@tafiri.go.tz</a>.';
+      } else if (error.message.includes('status')) {
+        errorMessage += '<strong>Server Error:</strong> There was a problem with the server. Please try again in a few minutes, or contact us directly at <a href="mailto:contact@tafiri.go.tz">contact@tafiri.go.tz</a>.';
+      } else if (error.message.includes('Failed to fetch') || error.message.includes('NetworkError')) {
+        errorMessage += '<strong>Connection Error:</strong> Unable to connect to the server. Please check your internet connection and try again, or contact us directly at <a href="mailto:contact@tafiri.go.tz">contact@tafiri.go.tz</a>.';
+      } else {
+        errorMessage += '<strong>Submission Failed:</strong> ' + error.message + '. Please contact us directly at <a href="mailto:contact@tafiri.go.tz">contact@tafiri.go.tz</a> with your registration details.';
+      }
+      
+      errorMessage += '</div>';
+      formMessage.innerHTML = errorMessage;
     })
     .finally(() => {
       // Re-enable button and hide spinner
