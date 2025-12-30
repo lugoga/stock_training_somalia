@@ -1,0 +1,278 @@
+---
+title: "Contact & Registration"
+subtitle: "Get in touch or register for the training program"
+---
+
+## Contact Information
+
+For general inquiries about the Somali Fish Stock Training Program, please use the form below or reach out directly:
+
+- **Email:** [contact@tafiri.go.tz](mailto:contact@tafiri.go.tz)
+- **Program Coordination:** Tanzania Fisheries Research Institute (TAFIRI)
+- **Training Period:** 6-24 December 2025
+
+## Training Registration Form
+
+If you're interested in participating in the training program, please fill out the registration form below. We'll get back to you with more details about the program.
+
+```{=html}
+<form id="contact-form" class="needs-validation" novalidate>
+  <div class="mb-3">
+    <label for="name" class="form-label">Full Name *</label>
+    <input type="text" class="form-control" id="name" name="name" required>
+    <div class="invalid-feedback">
+      Please provide your full name.
+    </div>
+  </div>
+  
+  <div class="mb-3">
+    <label for="email" class="form-label">Email Address *</label>
+    <input type="email" class="form-control" id="email" name="email" required>
+    <div class="invalid-feedback">
+      Please provide a valid email address.
+    </div>
+  </div>
+  
+  <div class="mb-3">
+    <label for="phone" class="form-label">Phone Number</label>
+    <input type="tel" class="form-control" id="phone" name="phone">
+  </div>
+  
+  <div class="mb-3">
+    <label for="region" class="form-label">Region *</label>
+    <select class="form-select" id="region" name="region" required>
+      <option value="" selected disabled>Select your region...</option>
+      <option value="Berbera">Berbera</option>
+      <option value="Borama">Borama</option>
+      <option value="Mogadishu">Mogadishu</option>
+      <option value="Kismayo">Kismayo</option>
+      <option value="Baidoa">Baidoa</option>
+      <option value="Galkacyo">Galkacyo</option>
+      <option value="Other">Other</option>
+    </select>
+    <div class="invalid-feedback">
+      Please select your region.
+    </div>
+  </div>
+  
+  <div class="mb-3">
+    <label for="affiliation" class="form-label">Organization/Institution *</label>
+    <input type="text" class="form-control" id="affiliation" name="affiliation" required>
+    <div class="invalid-feedback">
+      Please provide your organization or institution.
+    </div>
+  </div>
+  
+  <div class="mb-3">
+    <label for="position" class="form-label">Position/Role</label>
+    <input type="text" class="form-control" id="position" name="position">
+  </div>
+  
+  <div class="mb-3">
+    <label for="experience" class="form-label">Fisheries Experience *</label>
+    <select class="form-select" id="experience" name="experience" required>
+      <option value="" selected disabled>Select your experience level...</option>
+      <option value="None">No experience</option>
+      <option value="Beginner">Beginner (0-2 years)</option>
+      <option value="Intermediate">Intermediate (2-5 years)</option>
+      <option value="Advanced">Advanced (5+ years)</option>
+    </select>
+    <div class="invalid-feedback">
+      Please select your experience level.
+    </div>
+  </div>
+  
+  <div class="mb-3">
+    <label for="interest" class="form-label">Module of Interest</label>
+    <select class="form-select" id="interest" name="interest">
+      <option value="All">All Modules</option>
+      <option value="Module 1">Module 1: Stock Assessment Fundamentals</option>
+      <option value="Module 2">Module 2: Data Collection Protocols</option>
+      <option value="Module 3">Module 3: Data-Limited Methods</option>
+      <option value="Module 4">Module 4: Data Processing & Storage</option>
+      <option value="Module 5">Module 5: Data Analysis Methods</option>
+      <option value="Module 6">Module 6: Practical Field Exercises</option>
+      <option value="Module 7">Module 7: Strategy Development</option>
+      <option value="Research Vessel">Research Vessel Exercises</option>
+    </select>
+  </div>
+  
+  <div class="mb-3">
+    <label for="message" class="form-label">Additional Information / Questions</label>
+    <textarea class="form-control" id="message" name="message" rows="4" placeholder="Please share any specific questions, requirements, or information you'd like us to know..."></textarea>
+  </div>
+  
+  <div class="mb-3 form-check">
+    <input type="checkbox" class="form-check-input" id="consent" name="consent" required>
+    <label class="form-check-label" for="consent">
+      I agree to be contacted about the training program and understand my information will be used according to the program's privacy policy. *
+    </label>
+    <div class="invalid-feedback">
+      You must agree before submitting.
+    </div>
+  </div>
+  
+  <input type="hidden" name="form-name" value="training-registration">
+  <input type="hidden" name="_subject" value="New Training Registration">
+  
+  <button type="submit" class="btn btn-primary" id="submit-btn">
+    <span id="btn-text">Submit Registration</span>
+    <span id="btn-spinner" class="spinner-border spinner-border-sm d-none" role="status" aria-hidden="true"></span>
+  </button>
+  
+  <div id="form-message" class="mt-3"></div>
+</form>
+
+<script>
+(function() {
+  'use strict';
+  
+  const form = document.getElementById('contact-form');
+  const submitBtn = document.getElementById('submit-btn');
+  const btnText = document.getElementById('btn-text');
+  const btnSpinner = document.getElementById('btn-spinner');
+  const formMessage = document.getElementById('form-message');
+  
+  // Form validation
+  form.addEventListener('submit', function(event) {
+    event.preventDefault();
+    event.stopPropagation();
+    
+    if (form.checkValidity()) {
+      submitForm();
+    }
+    
+    form.classList.add('was-validated');
+  }, false);
+  
+  function submitForm() {
+    // Disable button and show spinner
+    submitBtn.disabled = true;
+    btnText.classList.add('d-none');
+    btnSpinner.classList.remove('d-none');
+    formMessage.innerHTML = '';
+    
+    // Collect form data
+    const formData = new FormData(form);
+    const data = {};
+    formData.forEach((value, key) => {
+      data[key] = value;
+    });
+    
+    // Using Web3Forms API (free tier)
+    // Replace this access key with your own from https://web3forms.com
+    data.access_key = "YOUR_WEB3FORMS_ACCESS_KEY";
+    
+    fetch('https://api.web3forms.com/submit', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        'Accept': 'application/json'
+      },
+      body: JSON.stringify(data)
+    })
+    .then(response => response.json())
+    .then(data => {
+      if (data.success) {
+        formMessage.innerHTML = '<div class="alert alert-success" role="alert"><strong>Success!</strong> Thank you for your registration. We will contact you soon with more details about the training program.</div>';
+        form.reset();
+        form.classList.remove('was-validated');
+      } else {
+        throw new Error(data.message || 'Submission failed');
+      }
+    })
+    .catch(error => {
+      console.error('Error:', error);
+      formMessage.innerHTML = '<div class="alert alert-warning" role="alert"><strong>Notice:</strong> Please send your registration directly to <a href="mailto:contact@tafiri.go.tz">contact@tafiri.go.tz</a> with the details from this form. We apologize for the inconvenience.</div>';
+    })
+    .finally(() => {
+      // Re-enable button and hide spinner
+      submitBtn.disabled = false;
+      btnText.classList.remove('d-none');
+      btnSpinner.classList.add('d-none');
+    });
+  }
+})();
+</script>
+
+<style>
+  #contact-form {
+    max-width: 700px;
+    margin: 2rem auto;
+    padding: 2rem;
+    background-color: #f8f9fa;
+    border-radius: 10px;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+  }
+  
+  #contact-form label {
+    font-weight: 600;
+    color: #333;
+  }
+  
+  #contact-form .form-control,
+  #contact-form .form-select {
+    border: 1px solid #ced4da;
+    border-radius: 5px;
+    padding: 0.75rem;
+  }
+  
+  #contact-form .form-control:focus,
+  #contact-form .form-select:focus {
+    border-color: #0d6efd;
+    box-shadow: 0 0 0 0.2rem rgba(13, 110, 253, 0.25);
+  }
+  
+  #contact-form .btn-primary {
+    background-color: #0d6efd;
+    border-color: #0d6efd;
+    padding: 0.75rem 2rem;
+    font-weight: 600;
+    border-radius: 5px;
+  }
+  
+  #contact-form .btn-primary:hover {
+    background-color: #0b5ed7;
+    border-color: #0a58ca;
+  }
+</style>
+```
+
+## Regional Contacts
+
+If you prefer to contact your regional coordinator directly:
+
+| Region | Coordinator | Contact |
+|--------|-----------|---------|
+| Berbera | Regional Coordinator | berbera@fisheries.so |
+| Borama | Regional Coordinator | borama@fisheries.so |
+| Mogadishu | Regional Coordinator | mogadishu@fisheries.so |
+| Kismayo | Regional Coordinator | kismayo@fisheries.so |
+| Baidoa | Regional Coordinator | baidoa@fisheries.so |
+| Galkacyo | Regional Coordinator | galkacyo@fisheries.so |
+
+## Frequently Asked Questions
+
+### Who can participate?
+
+The training is designed for fisheries officers, researchers, data collectors, and managers from across Somalia's coastal regions.
+
+### What are the prerequisites?
+
+Basic understanding of fisheries and interest in stock assessment. No prior technical experience required for most modules.
+
+### Is there a cost to participate?
+
+Please contact us for information about program costs and potential support options.
+
+### What materials do I need?
+
+All training materials will be provided. Participants should bring a laptop if possible.
+
+### Will certificates be provided?
+
+Yes, participants who complete the training will receive a Certificate of Competency in Fisheries Stock Assessment.
+
+---
+
+*For urgent inquiries, please email: [contact@tafiri.go.tz](mailto:contact@tafiri.go.tz)*

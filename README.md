@@ -25,6 +25,7 @@ This repository hosts all training materials, presentations, code examples, and 
 ## 🎯 Quick Links
 
 - **[View Training Website](https://somaliafisheries.github.io)** - Quarto website with all 7 modules
+- **[Contact & Registration Form](contact.qmd)** - Register for training or get in touch
 - **[Full Schedule](docs/schedule.qmd)** - Complete 14-day program timeline (6-24 December 2025)
 - **[GitHub Repository](https://github.com/somaliafisheries/training-program)** - Source code
 - **[All Presentations](presentations/)** - RevealJS slide decks
@@ -168,6 +169,7 @@ With attribution to the original developers.
 ## 📞 Support
 
 ### For Questions & Support
+- **Contact Form:** Use our [online registration form](contact.qmd) to get in touch or register for training
 - **Email:** [contact@tafiri.go.tz](mailto:contact@tafiri.go.tz)
 - **GitHub Issues:** [Report bugs or request features](https://github.com/somaliafisheries/training-program/issues)
 - **Discussions:** [Join community discussions](https://github.com/somaliafisheries/training-program/discussions)
@@ -180,6 +182,12 @@ With attribution to the original developers.
 - Advanced training on demand
 - Joint research collaborations
 - Publication support
+
+### Serverless Form Setup
+The website includes a contact/registration form using Web3Forms (a free serverless form API). To configure:
+1. See [SERVERLESS_FORM_SETUP.md](SERVERLESS_FORM_SETUP.md) for detailed setup instructions
+2. Get your free access key from [Web3Forms](https://web3forms.com)
+3. Update the access key in `contact.qmd`
 
 ## 🤖 Contributing
 
