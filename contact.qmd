@@ -15,6 +15,12 @@ For general inquiries about the Somali Fish Stock Training Program, please use t
 
 If you're interested in participating in the training program, please fill out the registration form below. We'll get back to you with more details about the program.
 
+::: {.callout-note}
+## Setup Required
+
+This form requires a free Web3Forms access key to function. See [SERVERLESS_FORM_SETUP.md](SERVERLESS_FORM_SETUP.md) for setup instructions. Alternatively, you can email your registration details directly to [contact@tafiri.go.tz](mailto:contact@tafiri.go.tz).
+:::
+
 ```{=html}
 <form id="contact-form" class="needs-validation" novalidate>
   <div class="mb-3">
