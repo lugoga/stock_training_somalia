@@ -133,6 +133,20 @@ This form requires a free Web3Forms access key to function. See [SERVERLESS_FORM
 (function() {
   'use strict';
   
+  // Configuration - Update these values as needed
+  const CONFIG = {
+    // IMPORTANT: Replace YOUR_WEB3FORMS_ACCESS_KEY with your actual access key from https://web3forms.com
+    // See SERVERLESS_FORM_SETUP.md for detailed setup instructions
+    // NOTE: This key is safe to commit as it's meant for client-side use and only works for your registered domain
+    ACCESS_KEY: "YOUR_WEB3FORMS_ACCESS_KEY",
+    
+    // Request timeout in milliseconds (default: 30 seconds)
+    TIMEOUT_MS: 30000,
+    
+    // Contact email for fallback
+    CONTACT_EMAIL: "contact@tafiri.go.tz"
+  };
+  
   const form = document.getElementById('contact-form');
   const submitBtn = document.getElementById('submit-btn');
   const btnText = document.getElementById('btn-text');
@@ -165,25 +179,20 @@ This form requires a free Web3Forms access key to function. See [SERVERLESS_FORM
       data[key] = value;
     });
     
-    // Using Web3Forms API (free tier)
-    // IMPORTANT: Replace YOUR_WEB3FORMS_ACCESS_KEY with your actual access key from https://web3forms.com
-    // See SERVERLESS_FORM_SETUP.md for detailed setup instructions
-    const accessKey = "YOUR_WEB3FORMS_ACCESS_KEY";
-    
     // Check if access key has been configured
-    if (accessKey === "YOUR_WEB3FORMS_ACCESS_KEY") {
-      formMessage.innerHTML = '<div class="alert alert-danger" role="alert"><strong>Configuration Required:</strong> The form has not been configured yet. Please contact us directly at <a href="mailto:contact@tafiri.go.tz">contact@tafiri.go.tz</a> or see <a href="SERVERLESS_FORM_SETUP.md">setup instructions</a>.</div>';
+    if (CONFIG.ACCESS_KEY === "YOUR_WEB3FORMS_ACCESS_KEY") {
+      formMessage.innerHTML = `<div class="alert alert-danger" role="alert"><strong>Configuration Required:</strong> The form has not been configured yet. Please contact us directly at <a href="mailto:${CONFIG.CONTACT_EMAIL}">${CONFIG.CONTACT_EMAIL}</a> or see <a href="SERVERLESS_FORM_SETUP.md">setup instructions</a>.</div>`;
       submitBtn.disabled = false;
       btnText.classList.remove('d-none');
       btnSpinner.classList.add('d-none');
       return;
     }
     
-    data.access_key = accessKey;
+    data.access_key = CONFIG.ACCESS_KEY;
     
-    // Set timeout for fetch request (30 seconds)
+    // Set timeout for fetch request
     const controller = new AbortController();
-    const timeoutId = setTimeout(() => controller.abort(), 30000);
+    const timeoutId = setTimeout(() => controller.abort(), CONFIG.TIMEOUT_MS);
     
     fetch('https://api.web3forms.com/submit', {
       method: 'POST',
@@ -218,13 +227,13 @@ This form requires a free Web3Forms access key to function. See [SERVERLESS_FORM
       let errorMessage = '<div class="alert alert-warning" role="alert">';
       
       if (error.name === 'AbortError') {
-        errorMessage += '<strong>Request Timeout:</strong> The request took too long. Please check your internet connection and try again, or contact us directly at <a href="mailto:contact@tafiri.go.tz">contact@tafiri.go.tz</a>.';
+        errorMessage += `<strong>Request Timeout:</strong> The request took too long. Please check your internet connection and try again, or contact us directly at <a href="mailto:${CONFIG.CONTACT_EMAIL}">${CONFIG.CONTACT_EMAIL}</a>.`;
       } else if (error.message.includes('status')) {
-        errorMessage += '<strong>Server Error:</strong> There was a problem with the server. Please try again in a few minutes, or contact us directly at <a href="mailto:contact@tafiri.go.tz">contact@tafiri.go.tz</a>.';
+        errorMessage += `<strong>Server Error:</strong> There was a problem with the server. Please try again in a few minutes, or contact us directly at <a href="mailto:${CONFIG.CONTACT_EMAIL}">${CONFIG.CONTACT_EMAIL}</a>.`;
       } else if (error.message.includes('Failed to fetch') || error.message.includes('NetworkError')) {
-        errorMessage += '<strong>Connection Error:</strong> Unable to connect to the server. Please check your internet connection and try again, or contact us directly at <a href="mailto:contact@tafiri.go.tz">contact@tafiri.go.tz</a>.';
+        errorMessage += `<strong>Connection Error:</strong> Unable to connect to the server. Please check your internet connection and try again, or contact us directly at <a href="mailto:${CONFIG.CONTACT_EMAIL}">${CONFIG.CONTACT_EMAIL}</a>.`;
       } else {
-        errorMessage += '<strong>Submission Failed:</strong> ' + error.message + '. Please contact us directly at <a href="mailto:contact@tafiri.go.tz">contact@tafiri.go.tz</a> with your registration details.';
+        errorMessage += `<strong>Submission Failed:</strong> ${error.message}. Please contact us directly at <a href="mailto:${CONFIG.CONTACT_EMAIL}">${CONFIG.CONTACT_EMAIL}</a> with your registration details.`;
       }
       
       errorMessage += '</div>';
@@ -286,6 +295,10 @@ This form requires a free Web3Forms access key to function. See [SERVERLESS_FORM
 ## Regional Contacts
 
 If you prefer to contact your regional coordinator directly:
+
+::: {.callout-note}
+**Note**: The regional coordinator email addresses below are placeholders. Please update these with actual contact information before deployment, or contact the main program email at [contact@tafiri.go.tz](mailto:contact@tafiri.go.tz).
+:::
 
 | Region | Coordinator | Contact |
 |--------|-----------|---------|

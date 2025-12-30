@@ -32,13 +32,24 @@ We use [Web3Forms](https://web3forms.com) - a free serverless form API that work
 ### Step 2: Configure the Form
 
 1. Open `/contact.qmd` in your repository
-2. Find the line with: `data.access_key = "YOUR_WEB3FORMS_ACCESS_KEY";`
-3. Replace `YOUR_WEB3FORMS_ACCESS_KEY` with your actual access key from Web3Forms
+2. Find the CONFIG object at the top of the script section
+3. Update the `ACCESS_KEY` value with your actual access key from Web3Forms
 
 Example:
 ```javascript
-data.access_key = "a1b2c3d4-e5f6-7890-abcd-ef1234567890";
+const CONFIG = {
+  ACCESS_KEY: "a1b2c3d4-e5f6-7890-abcd-ef1234567890",
+  TIMEOUT_MS: 30000,
+  CONTACT_EMAIL: "contact@tafiri.go.tz"
+};
 ```
+
+**Important Notes**:
+- ✅ **Safe to commit**: Web3Forms access keys are designed for client-side use and are safe to commit to version control
+- ✅ **Domain restricted**: Keys only work on domains registered with Web3Forms
+- ✅ **Not a secret**: Unlike API secrets, these keys are meant to be visible in browser code
+- ⚠️ **Update contact email**: Change `CONTACT_EMAIL` if you use a different support address
+- ⚠️ **Update regional contacts**: The regional coordinator emails in the table are placeholders
 
 ### Step 3: Test the Form
 
