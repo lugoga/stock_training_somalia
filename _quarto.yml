@@ -23,6 +23,8 @@ website:
             href: resources/references.qmd
           - text: "Tools & Software"
             href: resources/tools.qmd
+      - text: "Contact"
+        href: contact.qmd
       - text: "About"
         href: about.qmd
     right:
